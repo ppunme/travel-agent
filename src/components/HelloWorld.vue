@@ -1,14 +1,12 @@
 <template>
   <h1 className="text-3xl font-bold underline text-red-500">{{ msg }}</h1>
+  <h2>props 2 ::{{ msg2 }}</h2>
 </template>
 
-<script>
-export default {
-  name: "HelloWorld",
-  props: {
-    msg: String,
-  },
-};
+<script setup>
+import { defineProps } from "vue";
+
+defineProps(["msg", "msg2"]);
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
