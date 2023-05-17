@@ -113,7 +113,9 @@ import {
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 
-library.add(faSquareFacebook, faInstagram, faTwitter);
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+
+library.add(faSquareFacebook, faInstagram, faTwitter, faMagnifyingGlass);
 
 const app = createApp(App);
 
