@@ -1,20 +1,28 @@
 <template>
-  <div class="grid grid-cols-4">
-    <div>1</div>
-    <div>2</div>
-    <div>3</div>
+  <div class="w-4/6 mx-auto">
+    <div class="grid grid-cols-3 gap-12">
+      <div
+        v-for="item in tours"
+        :key="item.index"
+        class="flex justify-center cursor-pointer hover:opacity-80"
+        @click="viewPackage(item.id)"
+      >
+        <img
+          :src="require(`@/assets/images/${item.image}`)"
+          :alt="item.name"
+          class="rounded-xl shadow-lg shadow-neutral-500"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import { ProductService } from "@/service/ProductService";
+import { defineProps } from "vue";
 
-onMounted(() => {
-  ProductService.getProducts().then(
-    (data) => (products.value = data.slice(0, 12))
-  );
-});
+defineProps(["tours"]);
 
-const products = ref();
+const viewPackage = (id) => {
+  console.log("view::", id);
+};
 </script>

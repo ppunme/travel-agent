@@ -9,17 +9,34 @@
       <img
         :src="require(`@/assets/images/${slotProps.data.image}`)"
         :alt="slotProps.data.name"
-        class="shadow-2"
+        class="object-cover h-[625px] w-full"
       />
     </template>
   </Carousel>
-  <div class="text-center"><p>รับจัดทัวร์ในประเทศและต่างประเทศ</p></div>
-  <TourGrid />
+  <div class="flex justify-center items-center py-12">
+    <font-awesome-icon
+      :icon="['fas', 'bus']"
+      size="2xl"
+      class="self-center pr-2"
+    />
+    <p>รับจัดทัวร์ในประเทศและต่างประเทศ</p>
+  </div>
+  <TourGrid :tours="tours" />
+  <div class="text-center py-12">
+    <Button
+      @click="$router.push('/tours')"
+      label="ดูทั้งหมด"
+      rounded
+      class="w-32 !bg-primary-blue !border-none"
+    />
+  </div>
+  <ContactCard :contacts="contacts" />
 </template>
 
 <script setup>
 import { ref } from "vue";
 import TourGrid from "@/components/TourGrid.vue";
+import ContactCard from "@/components/ContactCard.vue";
 
 const products = ref([
   {
@@ -36,6 +53,66 @@ const products = ref([
     image: "image3.png",
     name: "Image 3",
     text: "Let our travel experts plan your next gateway",
+  },
+]);
+
+const tours = ref([
+  {
+    id: 1,
+    image: "tour1.jpg",
+    name: "Tour 1",
+  },
+  {
+    id: 2,
+    image: "tour2.jpg",
+    name: "Tour 2",
+  },
+  {
+    id: 3,
+    image: "tour3.jpg",
+    name: "Tour 3",
+  },
+  {
+    id: 4,
+    image: "tour4.jpg",
+    name: "Tour 4",
+  },
+  {
+    id: 5,
+    image: "tour5.jpg",
+    name: "Tour 5",
+  },
+  {
+    id: 6,
+    image: "tour6.jpg",
+    name: "Tour 6",
+  },
+]);
+
+const contacts = ref([
+  {
+    id: 1,
+    name: "facebook",
+    link: "https://www.facebook.com/wellnesslifetravel",
+    icon: ["fab", "facebook"],
+  },
+  {
+    id: 2,
+    name: "instagram",
+    link: "https://www.instagram.com/wellnesslifetravel",
+    icon: ["fab", "instagram"],
+  },
+  {
+    id: 3,
+    name: "phone",
+    link: "093-249-2359",
+    icon: ["fas", "phone"],
+  },
+  {
+    id: 4,
+    name: "envelope",
+    link: "wellnesslifetravel@gmail.com",
+    icon: ["fas", "envelope"],
   },
 ]);
 
