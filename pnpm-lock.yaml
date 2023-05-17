@@ -31,6 +31,9 @@ dependencies:
   postcss-cli:
     specifier: ^10.1.0
     version: 10.1.0(postcss@8.4.23)
+  primeflex:
+    specifier: ^3.3.0
+    version: 3.3.0
   primevue:
     specifier: ^3.29.0
     version: 3.29.0(vue@3.2.47)
@@ -6247,6 +6250,10 @@ packages:
   /pretty-hrtime@1.0.3:
     resolution: {integrity: sha512-66hKPCr+72mlfiSjlEB1+45IjXSqvVAIy6mocupoww4tBFE9R9IhwwUGoI4G++Tc9Aq+2rxOt0RFU6gPcrte0A==}
     engines: {node: '>= 0.8'}
+    dev: false
+
+  /primeflex@3.3.0:
+    resolution: {integrity: sha512-4hvyIO7lERN5bnyURn67Qpozghins8Jq/GSXO6tymc3oa2ADHWuiYBti8ZptPwHu+uD/HTEisS26NEmeIGfPZQ==}
     dev: false
 
   /primevue@3.29.0(vue@3.2.47):

@@ -1,44 +1,43 @@
 <template>
-  <div>Home 3</div>
-  <HelloWorld msg="hello test props" msg2="test 2" />
-  <Button label="Submit" />
-
-  <div>
-    <button @click="increment1">click1</button>
-    {{ count }}
-  </div>
-  <div>
-    <button @click="increment2">click2</button>
-    {{ state2.count }}
-  </div>
-  <div>computed double::{{ double }}</div>
+  <Carousel
+    :value="products"
+    :numVisible="1"
+    :numScroll="1"
+    :responsiveOptions="responsiveOptions"
+  >
+    <template #item="slotProps">
+      <img
+        :src="require(`@/assets/images/${slotProps.data.image}`)"
+        :alt="slotProps.data.name"
+        class="shadow-2"
+      />
+    </template>
+  </Carousel>
+  <div class="text-center"><p>รับจัดทัวร์ในประเทศและต่างประเทศ</p></div>
+  <TourGrid />
 </template>
 
 <script setup>
-import { ref, reactive, watch, onMounted, computed } from "vue";
-import HelloWorld from "@/components/HelloWorld.vue";
-import Button from "primevue/button";
+import { ref } from "vue";
+import TourGrid from "@/components/TourGrid.vue";
 
-const count = ref(0);
-const state2 = reactive({ count: 0 });
+const products = ref([
+  {
+    image: "image1.png",
+    name: "Image 1",
+    text: "Wellness Life Travel",
+  },
+  {
+    image: "image2.png",
+    name: "Image 2",
+    text: "Discover your favourite tour with us",
+  },
+  {
+    image: "image3.png",
+    name: "Image 3",
+    text: "Let our travel experts plan your next gateway",
+  },
+]);
 
-const increment1 = () => {
-  count.value++;
-};
-
-const increment2 = () => {
-  state2.count++;
-};
-
-const double = computed(() => {
-  return count.value * 2;
-});
-
-onMounted(async () => {
-  console.log("on mounted!");
-});
-
-watch(count, (newValue, oldValue) => {
-  console.log(`Count changed from ${oldValue} to ${newValue}`);
-});
+//const imageSrc = require("@/assets/images/image1.png");
 </script>
