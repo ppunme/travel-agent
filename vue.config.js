@@ -11,4 +11,11 @@ module.exports = defineConfig({
       },
     },
   },
+  css: {
+    loaderOptions: {
+      sass: {
+        implementation: require("sass"),
+      },
+    },
+  },
 });

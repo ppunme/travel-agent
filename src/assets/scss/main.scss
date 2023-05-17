@@ -1,0 +1,9 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import "@/assets/scss/fonts.scss";
+@import "@/assets/scss/variables.scss";
+
+body {
+  font-family: $primaty-font;
+}
