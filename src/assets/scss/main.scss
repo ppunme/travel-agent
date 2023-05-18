@@ -6,5 +6,12 @@
 @import "@/assets/scss/variables.scss";
 
 body {
-  font-family: $primaty-font;
+  font-family: $primary-font;
+}
+
+.p-dropdown-panel.p-component,
+.country-dropdown .p-inputtext,
+.sort-dropdown .p-inputtext,
+.search .p-inputtext {
+  font-family: $primary-font;
 }

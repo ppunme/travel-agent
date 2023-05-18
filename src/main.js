@@ -116,6 +116,8 @@ import {
   faLine,
 } from "@fortawesome/free-brands-svg-icons";
 
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+
 library.add(
   faFacebook,
   faSquareFacebook,
@@ -124,7 +126,11 @@ library.add(
   faBus,
   faPhone,
   faEnvelope,
-  faLine
+  faLine,
+  faSquareFacebook,
+  faInstagram,
+  faTwitter,
+  faMagnifyingGlass
 );
 
 const app = createApp(App);
