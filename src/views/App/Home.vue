@@ -30,13 +30,14 @@
       class="w-32 !bg-primary-blue !border-none"
     />
   </div>
-  <ContactCard :contacts="contacts" />
+  <ContactCard :contacts="data.contacts" />
 </template>
 
 <script setup>
 import { ref } from "vue";
 import TourGrid from "@/components/TourGrid.vue";
 import ContactCard from "@/components/ContactCard.vue";
+import { data } from "@/service/ContactList";
 
 const products = ref([
   {
@@ -86,33 +87,6 @@ const tours = ref([
     id: 6,
     image: "tour6.jpg",
     name: "Tour 6",
-  },
-]);
-
-const contacts = ref([
-  {
-    id: 1,
-    name: "facebook",
-    link: "https://www.facebook.com/wellnesslifetravel",
-    icon: ["fab", "facebook"],
-  },
-  {
-    id: 2,
-    name: "instagram",
-    link: "https://www.instagram.com/wellnesslifetravel",
-    icon: ["fab", "instagram"],
-  },
-  {
-    id: 3,
-    name: "phone",
-    link: "093-249-2359",
-    icon: ["fas", "phone"],
-  },
-  {
-    id: 4,
-    name: "envelope",
-    link: "wellnesslifetravel@gmail.com",
-    icon: ["fas", "envelope"],
   },
 ]);
 

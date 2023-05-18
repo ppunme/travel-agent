@@ -5,7 +5,7 @@
     :selectedSort="selectedSort"
     :sort="sort"
     :value1="value1"
-  />>
+  />
 </template>
 
 <script setup>

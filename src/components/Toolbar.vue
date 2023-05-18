@@ -1,7 +1,7 @@
 <template>
   <div class="tool-bar py-12 text-center">
     <h2 class="mb-8">แพ็คเกจทัวร์</h2>
-    <div class="grid grid-cols-3">
+    <!-- <div class="grid grid-cols-3">
       <div class="justify-self-end">
         <Dropdown
           v-model:value="selectedCountry"
@@ -54,7 +54,7 @@
           </template>
         </Dropdown>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
