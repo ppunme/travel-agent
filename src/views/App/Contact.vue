@@ -1,47 +1,49 @@
 <template>
-  <div class="flex flex-row pt-12">
-    <div class="basis-5/12 pl-24 contact-form">
-      <h1 class="text-primary-blue">ติดต่อเรา</h1>
+  <div class="relative mt-12 mb-20">
+    <div class="container mx-auto">
+      <div class="w-5/12 h-[calc(100vh-21rem)] contact-form">
+        <h1 class="text-primary-blue">ติดต่อเรา</h1>
 
-      <h4 class="pt-4">บริษัท เวลเนส ไลฟ์ ทราเวล จำกัด</h4>
-      <h5 class="pt-2">รับจัดทัวร์ในประเทศและต่างประเทศ</h5>
+        <h4 class="pt-4">บริษัท เวลเนส ไลฟ์ ทราเวล จำกัด</h4>
+        <h5 class="pt-2">รับจัดทัวร์ในประเทศและต่างประเทศ</h5>
 
-      <div class="pt-12">
-        <Button
-          class="w-48 !bg-[#1492DE]"
-          rounded
-          @click="goToMessenger"
-          target="_blank"
-        >
-          <font-awesome-icon
-            :icon="['fab', 'facebook-messenger']"
-            size="2xl"
-          /><span class="mx-auto">ส่งข้อความ</span>
-        </Button>
-      </div>
-      <div class="pt-3">
-        <Button
-          class="w-48 !bg-[#D42E35]"
-          rounded
-          @click="sendEmail"
-          target="_blank"
-        >
-          <font-awesome-icon :icon="['fas', 'envelope']" size="2xl" /><span
-            class="mx-auto"
-            >ส่งอีเมล</span
+        <div class="pt-12">
+          <Button
+            class="w-48 !bg-[#1492DE]"
+            rounded
+            @click="goToMessenger"
+            target="_blank"
           >
-        </Button>
-      </div>
-      <div class="pt-3">
-        <Button class="w-48 !bg-[#06C755]" rounded @click="addLineID">
-          <font-awesome-icon :icon="['fab', 'line']" size="2xl" /><span
-            class="mx-auto"
-            >แอดไลน์</span
+            <font-awesome-icon
+              :icon="['fab', 'facebook-messenger']"
+              size="2xl"
+            /><span class="mx-auto">ส่งข้อความ</span>
+          </Button>
+        </div>
+        <div class="pt-3">
+          <Button
+            class="w-48 !bg-[#D42E35]"
+            rounded
+            @click="sendEmail"
+            target="_blank"
           >
-        </Button>
+            <font-awesome-icon :icon="['fas', 'envelope']" size="2xl" /><span
+              class="mx-auto"
+              >ส่งอีเมล</span
+            >
+          </Button>
+        </div>
+        <div class="pt-3">
+          <Button class="w-48 !bg-[#06C755]" rounded @click="addLineID">
+            <font-awesome-icon :icon="['fab', 'line']" size="2xl" /><span
+              class="mx-auto"
+              >แอดไลน์</span
+            >
+          </Button>
+        </div>
       </div>
     </div>
-    <div class="basis-7/12">
+    <div class="w-7/12 absolute right-0 top-0">
       <div class="bg-[#2890E3] px-20 py-40 rounded-s-xl relative">
         <div
           class="bg-[#F1C31E] w-28 h-20 absolute -top-7 rounded-xl shadow-md"
