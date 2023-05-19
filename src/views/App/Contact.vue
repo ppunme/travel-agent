@@ -49,6 +49,14 @@
         <div
           class="bg-[#F1C31E] w-28 h-20 absolute -top-7 rounded-xl shadow-md"
         ></div>
+        <div class="text-white py-3">
+          <font-awesome-icon
+            :icon="data.line.icon"
+            size="2xl"
+            class="self-center pr-2"
+          />
+          <span class="pl-3 text-lg">{{ data.line.link }}</span>
+        </div>
         <div
           v-for="item in data.contacts"
           :key="item.id"
@@ -78,10 +86,7 @@ const goToMessenger = () => {
 
 const sendEmail = () => {
   // window.open("mailto:example@example.com?subject=Inquiry", "_blank");
-  window.open(
-    "https://mail.google.com/mail/?view=cm&fs=1&to=example@gmail.com&su=Inquiry",
-    "_blank"
-  );
+  window.open("mailto:example@example.com?subject=Inquiry", "_blank");
 };
 
 const addLineID = () => {

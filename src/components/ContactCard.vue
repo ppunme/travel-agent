@@ -9,11 +9,11 @@
           <img :src="lineQrCode" class="self-center" />
           <p class="self-center pt-3">
             <font-awesome-icon
-              :icon="['fab', 'line']"
+              :icon="line.icon"
               size="2xl"
               class="text-line-green bg-white rounded-xl"
             />
-            <span class="pl-3 text-lg">Line id: wellnesstravel</span>
+            <span class="pl-3 text-lg">Line id: {{ line.link }}</span>
           </p>
         </div>
       </div>
@@ -37,7 +37,7 @@ import { defineProps } from "vue";
 import lineQrCode from "@/assets/images/line-qr-code.png";
 import bgImage from "@/assets/images/home-contact-bg.png";
 
-defineProps(["contacts"]);
+defineProps(["contacts", "line"]);
 </script>
 
 <style>

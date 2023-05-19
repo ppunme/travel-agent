@@ -23,21 +23,12 @@ const contacts = [
     link: "wellnesslifetravel@gmail.com",
     icon: ["fas", "envelope"],
   },
-  {
-    id: 4,
-    name: "envelope",
-    link: "wellnesslifetravel@gmail.com",
-    icon: ["fas", "envelope"],
-  },
 ];
 
-const line = [
-  {
-    id: 1,
-    name: "line",
-    link: "wellnesstravel",
-    icon: ["fab", "line"],
-  },
-];
-
+const line = {
+  id: 1,
+  name: "line",
+  link: "wellnesstravel",
+  icon: ["fab", "line"],
+};
 export const data = { contacts, line };
