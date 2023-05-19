@@ -13,7 +13,7 @@
     </div>
     <div class="flex justify-end">
       <div
-        class="social-media-bg w-60 h-20 pl-6 pr-2 self-center rounded-l-[5rem] flex justify-around"
+        class="social-media-bg w-60 h-20 pl-4 pr-2 self-center rounded-l-[5rem] flex justify-around"
       >
         <font-awesome-icon
           :icon="['fab', 'square-facebook']"

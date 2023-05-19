@@ -5,6 +5,71 @@
 @import "@/assets/scss/fonts.scss";
 @import "@/assets/scss/variables.scss";
 
-body {
-  font-family: $primaty-font;
+body,
+.p-dropdown-panel.p-component,
+.country-dropdown .p-inputtext,
+.sort-dropdown .p-inputtext,
+.search .p-inputtext,
+.p-button.p-component {
+  font-family: $primary-font;
+}
+
+.p-button.p-component {
+  .p-button-label {
+    font-weight: 400;
+  }
+}
+
+.contact-form {
+  .p-button {
+    border: none;
+  }
+
+  .p-button:hover {
+    opacity: 0.9;
+  }
+}
+
+.p-paginator {
+  .p-paginator-pages {
+    .p-paginator-page {
+      border: 1px solid $primary-border-color !important;
+      color: $secondary-font-color !important;
+      margin: 0.5rem !important;
+
+      &.p-highlight {
+        background: $secondary-color !important;
+        border-color: unset !important;
+        color: #ffffff !important;
+      }
+    }
+  }
+
+  .p-paginator-first,
+  .p-paginator-prev,
+  .p-paginator-next,
+  .p-paginator-last {
+    border: 1px solid $primary-border-color !important;
+    color: $secondary-font-color !important;
+  }
+
+  .p-paginator-prev {
+    margin-right: 2rem !important;
+    margin-left: 1rem !important;
+  }
+
+  .p-paginator-next {
+    margin-right: 1rem !important;
+    margin-left: 2rem !important;
+  }
+
+  .p-dropdown {
+    margin-left: 2rem !important;
+    border-radius: 10rem !important;
+    border: 1px solid $primary-border-color !important;
+
+    .p-dropdown-label.p-inputtext {
+      padding-left: 1rem !important;
+    }
+  }
 }
