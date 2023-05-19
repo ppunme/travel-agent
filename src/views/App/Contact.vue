@@ -1,7 +1,8 @@
 <template>
   <div class="relative mt-12 mb-20">
     <div class="container mx-auto">
-      <div class="w-5/12 h-[calc(100vh-21rem)] contact-form">
+      <!-- h-[calc(100vh - navbar - content margin top - content margin bottom - footer )] -->
+      <div class="w-5/12 h-[calc(100vh-9rem-3rem-5rem-4rem)] contact-form">
         <h1 class="text-primary-blue">ติดต่อเรา</h1>
 
         <h4 class="pt-4">บริษัท เวลเนส ไลฟ์ ทราเวล จำกัด</h4>
