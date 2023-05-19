@@ -1,17 +1,19 @@
 <template>
-  <nav class="h-36 grid grid-cols-3 content-center">
-    <div class="flex justify-start pl-24">
-      <img src="@/assets/img/logo.png" alt="" />
-      <h4 class="ml-4 self-center font-semibold w-40 logo-text">
-        Wellness Life Travel
-      </h4>
+  <nav class="relative">
+    <div class="container mx-auto h-36 grid grid-cols-3 content-center">
+      <div class="flex justify-start">
+        <img src="@/assets/img/logo.png" alt="" />
+        <h4 class="ml-4 self-center font-semibold w-40 logo-text">
+          Wellness Life Travel
+        </h4>
+      </div>
+      <div class="flex gap-28 justify-center">
+        <router-link class="self-center" to="/">หน้าแรก</router-link>
+        <router-link class="self-center" to="/tours">แพ็คเกจทัวร์</router-link>
+        <router-link class="self-center" to="/contact">ติดต่อเรา</router-link>
+      </div>
     </div>
-    <div class="flex gap-28 justify-center">
-      <router-link class="self-center" to="/">หน้าแรก</router-link>
-      <router-link class="self-center" to="/tours">แพ็คเกจทัวร์</router-link>
-      <router-link class="self-center" to="/contact">ติดต่อเรา</router-link>
-    </div>
-    <div class="flex justify-end">
+    <div class="flex absolute right-0 top-1/2 translate-y-[-50%]">
       <div
         class="social-media-bg w-60 h-20 pl-4 pr-2 self-center rounded-l-[5rem] flex justify-around"
       >

@@ -1,5 +1,5 @@
 <template>
-  <div class="px-24 py-12">
+  <div class="container mx-auto py-12">
     <div class="grid grid-cols-5 gap-16">
       <img
         src="@/assets/img/image_11.png"
