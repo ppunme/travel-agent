@@ -1,5 +1,5 @@
 <template>
-  <Tours
+  <Toolbar
     v-model:selectedCountry="selectedCountry"
     :countries="countries"
     v-model:selectedSort="selectedSort"
@@ -17,7 +17,7 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import Tours from "@/components/Toolbar.vue";
+import Toolbar from "@/components/Toolbar.vue";
 import TourPackagesList from "@/components/TourPackagesList.vue";
 
 const selectedCountry = ref();

@@ -107,7 +107,6 @@ import TreeTable from "primevue/treetable";
 import TriStateCheckbox from "primevue/tristatecheckbox";
 import VirtualScroller from "primevue/virtualscroller";
 
-import { faBus, faPhone, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import {
   faFacebook,
   faSquareFacebook,
@@ -120,6 +119,12 @@ import {
 import {
   faMagnifyingGlass,
   faCircleXmark,
+  faLocationDot,
+  faClock,
+  faPlane,
+  faBus,
+  faPhone,
+  faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -133,7 +138,10 @@ library.add(
   faTwitter,
   faMagnifyingGlass,
   faFacebookMessenger,
-  faCircleXmark
+  faCircleXmark,
+  faLocationDot,
+  faClock,
+  faPlane
 );
 
 const app = createApp(App);

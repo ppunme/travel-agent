@@ -37,7 +37,7 @@
 import { ref } from "vue";
 import TourGrid from "@/components/TourGrid.vue";
 import ContactCard from "@/components/ContactCard.vue";
-import { data } from "@/service/ContactList";
+import { data } from "@/services/ContactList";
 
 const products = ref([
   {
