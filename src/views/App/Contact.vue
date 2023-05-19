@@ -42,6 +42,16 @@
             >
           </Button>
         </div>
+        <div class="pt-3">
+          <Button
+            class="w-48 !bg-[#F77174] !mr-8"
+            rounded
+            @click="makePhoneCall"
+          >
+            <font-awesome-icon :icon="['fas', 'phone']" size="2xl" />
+            <span class="mx-auto">โทรจอง</span>
+          </Button>
+        </div>
       </div>
     </div>
     <div class="w-7/12 absolute right-0 top-0">
@@ -63,11 +73,13 @@
         </div>
       </div>
     </div>
+    <img :src="vector" class="absolute bottom-0 right-0 object-cover w-96" />
   </div>
 </template>
 
 <script setup>
 import { data } from "@/services/ContactList";
+import vector from "@/assets/images/vector-buildings.png";
 
 const goToMessenger = () => {
   window.open(
@@ -86,5 +98,9 @@ const sendEmail = () => {
 
 const addLineID = () => {
   window.open("line://ti/p/ppunme", "_blank");
+};
+
+const makePhoneCall = () => {
+  window.location.href = "tel:0932392359";
 };
 </script>

@@ -20,14 +20,12 @@ body,
   }
 }
 
-.contact-form {
-  .p-button {
-    border: none;
-  }
+.p-button {
+  border: none !important;
+}
 
-  .p-button:hover {
-    opacity: 0.9;
-  }
+.p-button:hover {
+  opacity: 0.8;
 }
 
 .p-paginator {
