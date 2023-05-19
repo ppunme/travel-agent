@@ -1,7 +1,7 @@
 <template>
   <nav class="relative">
     <div class="container mx-auto h-36 grid grid-cols-3 content-center">
-      <div class="flex justify-start">
+      <div class="flex">
         <img src="@/assets/img/logo.png" alt="" />
         <h4 class="ml-4 self-center font-semibold w-40 logo-text">
           Wellness Life Travel
