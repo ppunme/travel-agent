@@ -1,16 +1,18 @@
 <template>
   <Tours
-    :selectedCountry="selectedCountry"
+    v-model:selectedCountry="selectedCountry"
     :countries="countries"
-    :selectedSort="selectedSort"
+    v-model:selectedSort="selectedSort"
     :sort="sort"
-    :value1="value1"
-  />>
+    v-model:search="search"
+  />
+  <TourPackagesList />
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import Tours from "@/components/Toolbar.vue";
+import TourPackagesList from "@/components/TourPackagesList.vue";
 
 const selectedCountry = ref();
 const countries = ref([
@@ -27,12 +29,22 @@ const sort = ref([
   { name: "ตัวอักษร (ฮ-ก)", code: "ALPHABET" },
 ]);
 
-const value1 = ref(null);
+const search = ref("");
 
-// watch(selectedCountry, (newValue, oldValue) => {
-//   console.log(oldValue);
-//   console.log(newValue);
-// });
+watch(selectedCountry, (newValue, oldValue) => {
+  console.log(oldValue);
+  console.log(newValue);
+});
+
+watch(selectedSort, (newValue, oldValue) => {
+  console.log(oldValue);
+  console.log(newValue);
+});
+
+watch(search, (newValue, oldValue) => {
+  console.log(oldValue);
+  console.log(newValue);
+});
 </script>
 
 <style lang="scss" scoped></style>

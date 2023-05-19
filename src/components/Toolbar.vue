@@ -4,7 +4,7 @@
     <div class="grid grid-cols-3">
       <div class="justify-self-end">
         <Dropdown
-          v-model:value="selectedCountry"
+          v-model="selectedCountryValue"
           :options="countries"
           optionLabel="name"
           placeholder="ประเทศ"
@@ -27,13 +27,28 @@
       </div>
       <div>
         <span class="p-input-icon-right w-3/4 search">
-          <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
-          <InputText v-model="value1" placeholder="ค้นหา..." class="w-full" />
+          <font-awesome-icon
+            class="pointer-events-none"
+            :icon="['fas', 'magnifying-glass']"
+            v-if="!searchValue"
+          />
+          <font-awesome-icon
+            class="!top-[45%] cursor-pointer"
+            :icon="['fas', 'circle-xmark']"
+            size="lg"
+            @click="clearSearch"
+            v-if="searchValue"
+          />
+          <InputText
+            v-model="searchValue"
+            placeholder="ค้นหา..."
+            class="w-full"
+          />
         </span>
       </div>
       <div class="justify-self-start">
         <Dropdown
-          v-model="selectedSort"
+          v-model="selectedSortValue"
           :options="sort"
           optionLabel="name"
           placeholder="เรียงตาม"
@@ -59,9 +74,41 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, defineEmits, ref, watch } from "vue";
 
-defineProps(["selectedCountry", "countries", "selectedSort", "sort", "value1"]);
+const props = defineProps([
+  "selectedCountry",
+  "countries",
+  "selectedSort",
+  "sort",
+  "search",
+]);
+
+const selectedCountryValue = ref(props.selectedCountry);
+const selectedSortValue = ref(props.selectedSort);
+const searchValue = ref(props.search);
+
+const emit = defineEmits([
+  "update:selectedCountry",
+  "update:selectedSort",
+  "update:search",
+]);
+
+watch(selectedCountryValue, (newValue) => {
+  emit("update:selectedCountry", newValue);
+});
+
+watch(selectedSortValue, (newValue) => {
+  emit("update:selectedSort", newValue);
+});
+
+watch(searchValue, (newValue) => {
+  emit("update:search", newValue);
+});
+
+const clearSearch = () => {
+  searchValue.value = "";
+};
 </script>
 
 <style lang="scss" scoped>

@@ -113,114 +113,121 @@ import {
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMagnifyingGlass,
+  faCircleXmark,
+} from "@fortawesome/free-solid-svg-icons";
 
-library.add(faSquareFacebook, faInstagram, faTwitter, faMagnifyingGlass);
+library.add(
+  faSquareFacebook,
+  faInstagram,
+  faTwitter,
+  faMagnifyingGlass,
+  faCircleXmark
+);
 
 const app = createApp(App);
 
-app.use(PrimeVue, { ripple: true });
-app.use(ConfirmationService);
-app.use(ToastService);
-app.use(DialogService);
-
-app.directive("tooltip", Tooltip);
-app.directive("badge", BadgeDirective);
-app.directive("ripple", Ripple);
-app.directive("styleclass", StyleClass);
-app.directive("focustrap", FocusTrap);
-
-app.component("Accordion", Accordion);
-app.component("AccordionTab", AccordionTab);
-app.component("AutoComplete", AutoComplete);
-app.component("Avatar", Avatar);
-app.component("AvatarGroup", AvatarGroup);
-app.component("Badge", Badge);
-app.component("BlockUI", BlockUI);
-app.component("Breadcrumb", Breadcrumb);
-app.component("Button", Button);
-app.component("Calendar", Calendar);
-app.component("Card", Card);
-app.component("Carousel", Carousel);
-app.component("CascadeSelect", CascadeSelect);
-app.component("Checkbox", Checkbox);
-app.component("Chip", Chip);
-app.component("Chips", Chips);
-app.component("ColorPicker", ColorPicker);
-app.component("Column", Column);
-app.component("ColumnGroup", ColumnGroup);
-app.component("ConfirmDialog", ConfirmDialog);
-app.component("ConfirmPopup", ConfirmPopup);
-app.component("ContextMenu", ContextMenu);
-app.component("DataTable", DataTable);
-app.component("DataView", DataView);
-app.component("DataViewLayoutOptions", DataViewLayoutOptions);
-app.component("DeferredContent", DeferredContent);
-app.component("Dialog", Dialog);
-app.component("Divider", Divider);
-app.component("Dock", Dock);
-app.component("Dropdown", Dropdown);
-app.component("DynamicDialog", DynamicDialog);
-app.component("Fieldset", Fieldset);
-app.component("FileUpload", FileUpload);
-app.component("Galleria", Galleria);
-app.component("Image", Image);
-app.component("InlineMessage", InlineMessage);
-app.component("Inplace", Inplace);
-app.component("InputMask", InputMask);
-app.component("InputNumber", InputNumber);
-app.component("InputSwitch", InputSwitch);
-app.component("InputText", InputText);
-app.component("Knob", Knob);
-app.component("Listbox", Listbox);
-app.component("MegaMenu", MegaMenu);
-app.component("Menu", Menu);
-app.component("Menubar", Menubar);
-app.component("Message", Message);
-app.component("MultiSelect", MultiSelect);
-app.component("OrderList", OrderList);
-app.component("OrganizationChart", OrganizationChart);
-app.component("OverlayPanel", OverlayPanel);
-app.component("Paginator", Paginator);
-app.component("Panel", Panel);
-app.component("PanelMenu", PanelMenu);
-app.component("Password", Password);
-app.component("PickList", PickList);
-app.component("ProgressBar", ProgressBar);
-app.component("ProgressSpinner", ProgressSpinner);
-app.component("RadioButton", RadioButton);
-app.component("Rating", Rating);
-app.component("Row", Row);
-app.component("SelectButton", SelectButton);
-app.component("ScrollPanel", ScrollPanel);
-app.component("ScrollTop", ScrollTop);
-app.component("Slider", Slider);
-app.component("Sidebar", Sidebar);
-app.component("Skeleton", Skeleton);
-app.component("SpeedDial", SpeedDial);
-app.component("SplitButton", SplitButton);
-app.component("Splitter", Splitter);
-app.component("SplitterPanel", SplitterPanel);
-app.component("Steps", Steps);
-app.component("TabMenu", TabMenu);
-app.component("TabView", TabView);
-app.component("TabPanel", TabPanel);
-app.component("Tag", Tag);
-app.component("Textarea", Textarea);
-app.component("Terminal", Terminal);
-app.component("TieredMenu", TieredMenu);
-app.component("Timeline", Timeline);
-app.component("Toast", Toast);
-app.component("Toolbar", Toolbar);
-app.component("ToggleButton", ToggleButton);
-app.component("Tree", Tree);
-app.component("TreeSelect", TreeSelect);
-app.component("TreeTable", TreeTable);
-app.component("TriStateCheckbox", TriStateCheckbox);
-app.component("VirtualScroller", VirtualScroller);
-
 app
   .use(router)
-  .use(PrimeVue)
+  .use(PrimeVue, { ripple: true })
+  .use(ConfirmationService)
+  .use(ToastService)
+  .use(DialogService)
+  //Font Awesome components
   .component("font-awesome-icon", FontAwesomeIcon)
+  //PrimeVue components
+  .component("Accordion", Accordion)
+  .component("AccordionTab", AccordionTab)
+  .component("AutoComplete", AutoComplete)
+  .component("Avatar", Avatar)
+  .component("AvatarGroup", AvatarGroup)
+  .component("Badge", Badge)
+  .component("BlockUI", BlockUI)
+  .component("Breadcrumb", Breadcrumb)
+  .component("Button", Button)
+  .component("Calendar", Calendar)
+  .component("Card", Card)
+  .component("Carousel", Carousel)
+  .component("CascadeSelect", CascadeSelect)
+  .component("Checkbox", Checkbox)
+  .component("Chip", Chip)
+  .component("Chips", Chips)
+  .component("ColorPicker", ColorPicker)
+  .component("Column", Column)
+  .component("ColumnGroup", ColumnGroup)
+  .component("ConfirmDialog", ConfirmDialog)
+  .component("ConfirmPopup", ConfirmPopup)
+  .component("ContextMenu", ContextMenu)
+  .component("DataTable", DataTable)
+  .component("DataView", DataView)
+  .component("DataViewLayoutOptions", DataViewLayoutOptions)
+  .component("DeferredContent", DeferredContent)
+  .component("Dialog", Dialog)
+  .component("Divider", Divider)
+  .component("Dock", Dock)
+  .component("Dropdown", Dropdown)
+  .component("DynamicDialog", DynamicDialog)
+  .component("Fieldset", Fieldset)
+  .component("FileUpload", FileUpload)
+  .component("Galleria", Galleria)
+  .component("Image", Image)
+  .component("InlineMessage", InlineMessage)
+  .component("Inplace", Inplace)
+  .component("InputMask", InputMask)
+  .component("InputNumber", InputNumber)
+  .component("InputSwitch", InputSwitch)
+  .component("InputText", InputText)
+  .component("Knob", Knob)
+  .component("Listbox", Listbox)
+  .component("MegaMenu", MegaMenu)
+  .component("Menu", Menu)
+  .component("Menubar", Menubar)
+  .component("Message", Message)
+  .component("MultiSelect", MultiSelect)
+  .component("OrderList", OrderList)
+  .component("OrganizationChart", OrganizationChart)
+  .component("OverlayPanel", OverlayPanel)
+  .component("Paginator", Paginator)
+  .component("Panel", Panel)
+  .component("PanelMenu", PanelMenu)
+  .component("Password", Password)
+  .component("PickList", PickList)
+  .component("ProgressBar", ProgressBar)
+  .component("ProgressSpinner", ProgressSpinner)
+  .component("RadioButton", RadioButton)
+  .component("Rating", Rating)
+  .component("Row", Row)
+  .component("SelectButton", SelectButton)
+  .component("ScrollPanel", ScrollPanel)
+  .component("ScrollTop", ScrollTop)
+  .component("Slider", Slider)
+  .component("Sidebar", Sidebar)
+  .component("Skeleton", Skeleton)
+  .component("SpeedDial", SpeedDial)
+  .component("SplitButton", SplitButton)
+  .component("Splitter", Splitter)
+  .component("SplitterPanel", SplitterPanel)
+  .component("Steps", Steps)
+  .component("TabMenu", TabMenu)
+  .component("TabView", TabView)
+  .component("TabPanel", TabPanel)
+  .component("Tag", Tag)
+  .component("Textarea", Textarea)
+  .component("Terminal", Terminal)
+  .component("TieredMenu", TieredMenu)
+  .component("Timeline", Timeline)
+  .component("Toast", Toast)
+  .component("Toolbar", Toolbar)
+  .component("ToggleButton", ToggleButton)
+  .component("Tree", Tree)
+  .component("TreeSelect", TreeSelect)
+  .component("TreeTable", TreeTable)
+  .component("TriStateCheckbox", TriStateCheckbox)
+  .component("VirtualScroller", VirtualScroller)
+  .directive("tooltip", Tooltip)
+  .directive("badge", BadgeDirective)
+  .directive("ripple", Ripple)
+  .directive("styleclass", StyleClass)
+  .directive("focustrap", FocusTrap)
   .mount("#app");
