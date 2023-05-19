@@ -1,6 +1,6 @@
 <template>
-  <div class="w-4/6 mx-auto">
-    <div class="grid grid-cols-3 gap-12">
+  <div class="xl:px-36">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-12">
       <div
         v-for="item in tours"
         :key="item.index"

@@ -1,25 +1,35 @@
 <template>
   <Carousel
-    :value="products"
+    :value="items"
     :numVisible="1"
     :numScroll="1"
-    :responsiveOptions="responsiveOptions"
+    :autoplayInterval="5000"
+    circular
+    class="home-carousel"
   >
     <template #item="slotProps">
-      <img
-        :src="require(`@/assets/images/${slotProps.data.image}`)"
-        :alt="slotProps.data.name"
-        class="object-cover h-[625px] w-full"
-      />
+      <div class="relative">
+        <img
+          :src="require(`@/assets/images/${slotProps.data.image}`)"
+          :alt="slotProps.data.name"
+          class="object-cover h-[525px] w-full"
+        />
+        <div class="absolute inset-0 flex items-center pl-32 w-2/6">
+          <p class="text-white text-7xl font-semibold opacity-80 tracking-wide">
+            {{ slotProps.data.text }}
+          </p>
+        </div>
+      </div>
     </template>
   </Carousel>
+
   <div class="flex justify-center items-center py-12">
     <font-awesome-icon
       :icon="['fas', 'bus']"
       size="2xl"
-      class="self-center pr-2"
+      class="text-primary-blue self-center pr-2"
     />
-    <p>รับจัดทัวร์ในประเทศและต่างประเทศ</p>
+    <p class="text-primary-blue">รับจัดทัวร์ในประเทศและต่างประเทศ</p>
   </div>
   <TourGrid :tours="tours" />
   <div class="text-center py-12">
@@ -30,7 +40,7 @@
       class="w-32 !bg-primary-blue !border-none"
     />
   </div>
-  <ContactCard :contacts="data.contacts" />
+  <ContactCard :contacts="data.contacts" :line="data.line" />
 </template>
 
 <script setup>
@@ -39,7 +49,7 @@ import TourGrid from "@/components/TourGrid.vue";
 import ContactCard from "@/components/ContactCard.vue";
 import { data } from "@/services/ContactList";
 
-const products = ref([
+const items = ref([
   {
     image: "image1.png",
     name: "Image 1",
@@ -92,3 +102,46 @@ const tours = ref([
 
 //const imageSrc = require("@/assets/images/image1.png");
 </script>
+
+<style lang="scss">
+@import "@/assets/scss/variables.scss";
+
+.home-carousel {
+  .p-carousel-container {
+    position: relative;
+  }
+
+  .p-carousel-prev,
+  .p-carousel-next {
+    width: 3rem !important;
+    height: 3rem !important;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none !important;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.7) !important;
+    }
+
+    .p-icon {
+      color: rgba(255, 255, 255, 0.8);
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  .p-carousel-prev {
+    left: 0.5rem;
+    z-index: 999;
+  }
+
+  .p-carousel-next {
+    right: 0.5rem;
+  }
+
+  .p-carousel-indicator.p-highlight button {
+    background-color: $secondary-color !important;
+  }
+}
+</style>

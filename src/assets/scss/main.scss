@@ -71,3 +71,8 @@ body,
     }
   }
 }
+
+.p-button:focus {
+  box-shadow: 0 0 0 0.2rem rgb(191 219 254) !important;
+  border-color: $secondary-color;
+}
