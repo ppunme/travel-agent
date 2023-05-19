@@ -9,7 +9,7 @@
     <div class="flex gap-28 justify-center">
       <router-link class="self-center" to="/">หน้าแรก</router-link>
       <router-link class="self-center" to="/tours">แพ็คเกจทัวร์</router-link>
-      <router-link class="self-center" to="/tours">ติดต่อเรา</router-link>
+      <router-link class="self-center" to="/contact">ติดต่อเรา</router-link>
     </div>
     <div class="flex justify-end">
       <div
