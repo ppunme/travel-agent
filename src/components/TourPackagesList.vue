@@ -7,7 +7,7 @@
       :key="item.id"
       class="tour-card border rounded-[20px]"
     >
-      <img src="@/assets/img/image_11.png" alt="" class="w-full" />
+      <img :src="item.image" alt="" class="w-full" />
       <div class="px-6 py-4 font-medium">
         <h3 class="pb-1">{{ item.name }}</h3>
         <h6>{{ item.days }} วัน {{ item.nights }} คืน</h6>
@@ -15,7 +15,7 @@
           ฿{{ parseFloat(item.price).toLocaleString() }}
         </h5>
         <Button
-          @click="$router.push('/tours')"
+          @click="$router.push(`/tours/${item.id}`)"
           label="ดูรายละเอียด"
           rounded
           class="!bg-primary-blue !border-none !font-normal"
@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { data } from "@/service/TourPackageService";
+import { data } from "@/services/TourPackageService";
 </script>
 
 <style lang="scss" scoped>

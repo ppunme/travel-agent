@@ -29,16 +29,16 @@
           <font-awesome-icon :icon="['fas', 'envelope']" size="2xl" /><span
             class="mx-auto"
             >ส่งอีเมล</span
-          ></Button
-        >
+          >
+        </Button>
       </div>
       <div class="pt-3">
         <Button class="w-48 !bg-[#06C755]" rounded @click="addLineID">
           <font-awesome-icon :icon="['fab', 'line']" size="2xl" /><span
             class="mx-auto"
             >แอดไลน์</span
-          ></Button
-        >
+          >
+        </Button>
       </div>
     </div>
     <div class="basis-7/12">
@@ -64,7 +64,7 @@
 </template>
 
 <script setup>
-import { data } from "@/service/ContactList";
+import { data } from "@/services/ContactList";
 
 const goToMessenger = () => {
   window.open(
