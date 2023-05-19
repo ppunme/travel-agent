@@ -1,6 +1,6 @@
 <template>
   <div
-    class="px-24 py-16 grid grid-cols-1 grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-16"
+    class="py-16 grid grid-cols-1 grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-16"
   >
     <div
       v-for="item in data.tours"

@@ -6,13 +6,15 @@
     :sort="sort"
     v-model:search="search"
   />
-  <TourPackagesList />
-  <Paginator
-    :rows="10"
-    :totalRecords="120"
-    :rowsPerPageOptions="[10, 20, 30]"
-    class="pb-16"
-  ></Paginator>
+  <div class="container mx-auto">
+    <TourPackagesList />
+    <Paginator
+      :rows="10"
+      :totalRecords="120"
+      :rowsPerPageOptions="[10, 20, 30]"
+      class="pb-16"
+    ></Paginator>
+  </div>
 </template>
 
 <script setup>
