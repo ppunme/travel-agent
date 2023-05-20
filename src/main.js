@@ -44,6 +44,7 @@ import Divider from "primevue/divider";
 import Dock from "primevue/dock";
 import Dropdown from "primevue/dropdown";
 import DynamicDialog from "primevue/dynamicdialog";
+import Editor from "primevue/editor";
 import Fieldset from "primevue/fieldset";
 import FileUpload from "primevue/fileupload";
 import FocusTrap from "primevue/focustrap";
@@ -125,6 +126,7 @@ import {
   faBus,
   faPhone,
   faEnvelope,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -141,7 +143,8 @@ library.add(
   faCircleXmark,
   faLocationDot,
   faClock,
-  faPlane
+  faPlane,
+  faPlus
 );
 
 const app = createApp(App);
@@ -186,6 +189,7 @@ app
   .component("Dock", Dock)
   .component("Dropdown", Dropdown)
   .component("DynamicDialog", DynamicDialog)
+  .component("Editor", Editor)
   .component("Fieldset", Fieldset)
   .component("FileUpload", FileUpload)
   .component("Galleria", Galleria)
