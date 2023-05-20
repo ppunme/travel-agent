@@ -6,26 +6,29 @@
 @import "@/assets/scss/variables.scss";
 
 body,
-.p-dropdown-panel.p-component,
-.country-dropdown .p-inputtext,
-.sort-dropdown .p-inputtext,
-.search .p-inputtext,
-.p-button.p-component {
-  font-family: $primary-font;
-}
-
-.p-button.p-component {
-  .p-button-label {
-    font-weight: 400;
-  }
+.p-inputtext,
+.p-component,
+.ql-container {
+  font-family: $primary-font !important;
 }
 
 .p-button {
   border: none !important;
-}
 
-.p-button:hover {
-  opacity: 0.8;
+  &.p-component {
+    .p-button-label {
+      font-weight: 400;
+    }
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgb(191 219 254) !important;
+    border-color: $secondary-color;
+  }
 }
 
 .p-paginator {
@@ -37,7 +40,6 @@ body,
 
       &.p-highlight {
         background: $secondary-color !important;
-        border-color: unset !important;
         color: #ffffff !important;
       }
     }
@@ -66,13 +68,77 @@ body,
     border-radius: 10rem !important;
     border: 1px solid $primary-border-color !important;
 
-    .p-dropdown-label.p-inputtext {
-      padding-left: 1rem !important;
+    .p-dropdown-label {
+      &.p-inputtext {
+        padding-left: 1rem !important;
+      }
     }
   }
 }
 
-.p-button:focus {
-  box-shadow: 0 0 0 0.2rem rgb(191 219 254) !important;
-  border-color: $secondary-color;
+.p-editor-container {
+  .p-editor-toolbar {
+    border-color: $secondary-font-color !important;
+    border-top-right-radius: 20px !important;
+    border-top-left-radius: 20px !important;
+    padding-left: 12.5px !important;
+    padding-right: 12.5px !important;
+
+    .ql-image,
+    .ql-font {
+      display: none !important;
+    }
+  }
+
+  .p-editor-content {
+    border-color: $secondary-font-color !important;
+    border-bottom-right-radius: 20px !important;
+    border-bottom-left-radius: 20px !important;
+
+    .ql-editor {
+      border-bottom-right-radius: 20px !important;
+      border-bottom-left-radius: 20px !important;
+      padding-left: 20.5px !important;
+      padding-right: 20.5px !important;
+    }
+  }
+}
+
+.p-dropdown {
+  border: 1px solid $secondary-font-color !important;
+  border-radius: 10rem !important;
+
+  &:not(.p-disabled) {
+    &:hover {
+      border-color: $secondary-color !important;
+    }
+    &.p-focus {
+      box-shadow: 0 0 0 0.2rem rgb(191 219 254) !important;
+      border-color: $secondary-color !important;
+    }
+  }
+}
+
+.all-input {
+  &.p-inputtext {
+    border: 1px solid $secondary-font-color;
+    border-radius: 10rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+
+    &::placeholder {
+      color: $secondary-font-color;
+    }
+
+    &:enabled {
+      &:hover {
+        border-color: $secondary-color;
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 0.2rem rgb(191 219 254);
+        border-color: $secondary-color;
+      }
+    }
+  }
 }

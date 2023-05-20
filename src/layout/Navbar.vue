@@ -12,29 +12,29 @@
         <router-link class="self-center" to="/tours">แพ็คเกจทัวร์</router-link>
         <router-link class="self-center" to="/contact">ติดต่อเรา</router-link>
       </div>
-    </div>
-    <div class="flex absolute right-0 top-1/2 translate-y-[-50%]">
-      <div
-        class="social-media-bg w-60 h-20 pl-4 pr-2 self-center rounded-l-[5rem] flex justify-around"
-      >
-        <font-awesome-icon
-          :icon="['fab', 'square-facebook']"
-          size="2xl"
-          style="color: #ffffff"
-          class="self-center"
-        />
-        <font-awesome-icon
-          :icon="['fab', 'instagram']"
-          size="2xl"
-          style="color: #ffffff"
-          class="self-center"
-        />
-        <font-awesome-icon
-          :icon="['fab', 'twitter']"
-          size="2xl"
-          style="color: #ffffff"
-          class="self-center"
-        />
+      <div class="absolute right-0 top-1/2 translate-y-[-50%]">
+        <div
+          class="social-media-bg w-60 h-20 pl-4 pr-2 self-center rounded-l-[5rem] flex justify-around"
+        >
+          <font-awesome-icon
+            :icon="['fab', 'square-facebook']"
+            size="2xl"
+            style="color: #ffffff"
+            class="self-center"
+          />
+          <font-awesome-icon
+            :icon="['fab', 'instagram']"
+            size="2xl"
+            style="color: #ffffff"
+            class="self-center"
+          />
+          <font-awesome-icon
+            :icon="['fab', 'twitter']"
+            size="2xl"
+            style="color: #ffffff"
+            class="self-center"
+          />
+        </div>
       </div>
     </div>
   </nav>

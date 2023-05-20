@@ -1,0 +1,111 @@
+<template>
+  <div class="container mx-auto py-12">
+    <h2 class="text-center mb-8">เพิ่มแพ็คเกจใหม่</h2>
+    <h5 class="font-medium mb-6">Preview</h5>
+    <div class="grid grid-cols-3 gap-40">
+      <div>
+        <TourPackageCard :item="item" />
+      </div>
+      <div class="col-span-2">
+        <div class="grid grid-cols-8 gap-8 mb-12 items-center">
+          <div class="col-start-1">หัวข้อ</div>
+          <InputText
+            v-model="searchValue"
+            placeholder="หัวข้อ"
+            class="all-input col-span-7"
+          />
+
+          <div class="col-start-1">ประเทศ</div>
+          <Dropdown
+            v-model="selectedSortValue"
+            :options="sort"
+            optionLabel="name"
+            placeholder="เลือกประเทศ"
+            class="col-span-3 text-start pl-2"
+          >
+            <template #value="slotProps">
+              <div v-if="slotProps.value" class="flex align-items-center">
+                <div>{{ slotProps.value.name }}</div>
+              </div>
+              <span v-else>
+                {{ slotProps.placeholder }}
+              </span>
+            </template>
+            <template #option="slotProps">
+              <div class="flex align-items-center">
+                <div>{{ slotProps.option.name }}</div>
+              </div>
+            </template>
+          </Dropdown>
+          <div class="col-start-2 col-span-7 bg-red-500">
+            <div class="inline mr-4">ออสเตรเลีย</div>
+            <div class="inline mr-4">เชค</div>
+          </div>
+
+          <div class="col-start-1">ระยะเวลา</div>
+          <InputText
+            v-model="searchValue"
+            placeholder="5"
+            class="all-input text-center"
+          />
+          <div>วัน</div>
+          <InputText
+            v-model="searchValue"
+            placeholder="5"
+            class="all-input text-center"
+          />
+          <div>คืน</div>
+
+          <div class="col-start-1">ราคา</div>
+          <InputText
+            v-model="searchValue"
+            placeholder="10000"
+            class="all-input col-span-2"
+          />
+          <div>บาท</div>
+
+          <div class="col-start-1">สายการบิน</div>
+          <InputText
+            v-model="searchValue"
+            placeholder="สายการบิน"
+            class="all-input col-span-7"
+          />
+        </div>
+        <div class="mb-4">รายละเอียดการเดินทาง</div>
+        <Editor v-model="value" editorStyle="height: 320px" />
+        <div class="flex justify-end">
+          <Button class="w-48 !bg-[#06C755] !mt-12" rounded>
+            <font-awesome-icon :icon="['fas', 'plus']" size="2xl" /><span
+              class="mx-auto"
+              >เพิ่มแพ็คเกจใหม่</span
+            >
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script setup>
+import { ref, watch } from "vue";
+
+import TourPackageCard from "@/components/TourPackageCard.vue";
+
+const item = ref({
+  image: require("@/assets/img/image_11.png"),
+  name: "ยุโรป ตะวันออก",
+  days: 8,
+  nights: 5,
+  price: 49888,
+});
+
+const value = ref("");
+
+watch(value, (newValue, oldValue) => {
+  console.log(oldValue);
+  console.log(newValue);
+});
+</script>
+
+<style lang="scss" scoped>
+@import "@/assets/scss/variables.scss";
+</style>

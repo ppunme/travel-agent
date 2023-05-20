@@ -7,6 +7,19 @@
     v-model:search="search"
   />
   <div class="container mx-auto">
+    <div class="flex justify-end">
+      <Button
+        class="w-48 !bg-[#06C755] !my-8"
+        rounded
+        @click="$router.push(`/tours/create`)"
+      >
+        <font-awesome-icon :icon="['fas', 'plus']" size="2xl" /><span
+          class="mx-auto"
+          >เพิ่มแพ็คเกจใหม่</span
+        >
+      </Button>
+    </div>
+
     <TourPackagesList />
     <Paginator
       :rows="10"

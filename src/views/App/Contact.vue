@@ -2,9 +2,7 @@
   <div class="relative mt-12 mb-20">
     <div class="container mx-auto">
       <!-- h-[calc(100vh - navbar - content margin top - content margin bottom - footer )] -->
-      <div
-        class="w-full md:w-5/12 min-h-[calc(100vh-9rem-3rem-5rem-4rem)] contact-form"
-      >
+      <div class="w-full md:w-5/12 min-h-[40rem] contact-form">
         <h1 class="text-primary-blue">ติดต่อเรา</h1>
 
         <h4 class="pt-4">บริษัท เวลเนส ไลฟ์ ทราเวล จำกัด</h4>
@@ -56,7 +54,7 @@
         </div>
       </div>
 
-      <div class="w-full sm:w-7/12 absolute right-0 top-0">
+      <div class="sm:w-7/12 absolute right-0 top-0">
         <div
           class="bg-[#2890E3] h-144 px-20 rounded-s-xl relative flex items-center"
         >
