@@ -2,20 +2,35 @@
   <div class="container mx-auto py-12">
     <div class="grid grid-cols-5 gap-16">
       <img
+        v-if="route.params.tourId === 'preview'"
+        :src="route.query.image"
+        alt=""
+        class="col-span-2 w-full rounded-[20px]"
+      />
+      <img
+        v-else
         src="@/assets/img/image_11.png"
         alt=""
         class="col-span-2 w-full rounded-[20px]"
       />
       <div class="col-span-3 flex flex-col font-medium">
         <h1 class="pb-8">
-          ทัวร์ยุโรป ตะวันออก 8 วัน 5 คืน บิน EVA Air สุวรรณภูมิ - เวียนนา
+          {{
+            route.params.tourId === "preview"
+              ? route.query.name
+              : "ทัวร์ยุโรป ตะวันออก 8 วัน 5 คืน บิน EVA Air สุวรรณภูมิ - เวียนนา"
+          }}
         </h1>
         <div
           class="h-full border border-y-primary-border-color border-x-0 py-10 flex flex-col justify-between"
         >
           <div>
             <h2 class="text-primary-blue mb-10">
-              ฿{{ parseFloat("49888").toLocaleString() }}
+              ฿{{
+                route.params.tourId === "preview"
+                  ? parseFloat(route.query.price).toLocaleString()
+                  : parseFloat("49888").toLocaleString()
+              }}
             </h2>
             <div class="mb-4">
               <div class="inline-block w-10">
@@ -27,7 +42,13 @@
                   />
                 </div>
               </div>
-              <h5 class="inline">ออสเตรีย, เชค, สโลวัก, ฮังการี</h5>
+              <h5 class="inline">
+                {{
+                  route.params.tourId === "preview"
+                    ? route.query.countries
+                    : "ออสเตรีย, เชค, สโลวัก, ฮังการี"
+                }}
+              </h5>
             </div>
             <div class="mb-10">
               <div class="inline-block w-10">
@@ -39,9 +60,14 @@
                   />
                 </div>
               </div>
-              <h5 class="inline">5 วัน 3 คืน</h5>
+              <h5 class="inline">
+                {{ route.params.tourId === "preview" ? route.query.days : 5 }}
+                วัน
+                {{ route.params.tourId === "preview" ? route.query.nights : 5 }}
+                คืน
+              </h5>
             </div>
-            <div>
+            <div class="mb-10">
               <div class="inline-block w-10">
                 <div class="w-6 text-center">
                   <font-awesome-icon
@@ -51,7 +77,13 @@
                   />
                 </div>
               </div>
-              <h5 class="inline">EVA Air</h5>
+              <h5 class="inline">
+                {{
+                  route.params.tourId === "preview"
+                    ? route.query.airline
+                    : "EVA Air"
+                }}
+              </h5>
             </div>
           </div>
           <div>
@@ -79,7 +111,18 @@
     >
       <h2 class="mb-8">รายละเอียดการเดินทาง</h2>
       <h4>ไฮไลท์สถานที่ท่องเที่ยว</h4>
+      <div
+        v-if="route.params.tourId === 'preview'"
+        v-html="route.query.details"
+      ></div>
+      <div v-else>Test</div>
     </div>
   </div>
 </template>
-<script setup></script>
+<script setup>
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+console.log(route.params.tourId);
+console.log(route.query);
+</script>
