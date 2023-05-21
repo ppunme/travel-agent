@@ -7,7 +7,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import "./assets/scss/main.scss";
-import "primevue/resources/themes/lara-light-indigo/theme.css";
+import "primevue/resources/themes/lara-light-blue/theme.css";
 import "primevue/resources/primevue.min.css";
 
 import AutoComplete from "primevue/autocomplete";
@@ -127,6 +127,10 @@ import {
   faPhone,
   faEnvelope,
   faPlus,
+  faPen,
+  faTrash,
+  faChevronUp,
+  faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -144,7 +148,11 @@ library.add(
   faLocationDot,
   faClock,
   faPlane,
-  faPlus
+  faPlus,
+  faPen,
+  faTrash,
+  faChevronUp,
+  faChevronDown
 );
 
 const app = createApp(App);
