@@ -10,9 +10,9 @@
         <div class="grid grid-cols-8 gap-8 mb-12 items-center">
           <div class="col-start-1">รูปภาพ</div>
           <FileUpload
+            class="upload-package-image-button p-button-rounded !bg-primary-blue"
             mode="basic"
-            name="demo[]"
-            url="./upload.php"
+            name="image[]"
             accept="image/*"
             :maxFileSize="1000000"
             @select="onSelectedFiles"
@@ -22,7 +22,7 @@
           <InputText
             v-model="data.name"
             placeholder="หัวข้อ"
-            class="all-input col-span-7"
+            class="all-input col-span-7 !rounded-full"
           />
 
           <div class="col-start-1">ประเทศ</div>
@@ -31,7 +31,7 @@
             :options="countries"
             optionLabel="name"
             placeholder="เลือกประเทศ"
-            class="col-span-3 text-start pl-2"
+            class="col-span-3 text-start pl-2 !rounded-full"
           >
             <template #value="slotProps">
               <div v-if="slotProps.value" class="flex align-items-center">
@@ -56,13 +56,13 @@
           <InputText
             v-model="data.days"
             placeholder="5"
-            class="all-input text-center"
+            class="all-input text-center !rounded-full"
           />
           <div>วัน</div>
           <InputText
             v-model="data.nights"
             placeholder="5"
-            class="all-input text-center"
+            class="all-input text-center !rounded-full"
           />
           <div>คืน</div>
 
@@ -70,7 +70,7 @@
           <InputText
             v-model="data.price"
             placeholder="10000"
-            class="all-input col-span-2"
+            class="all-input col-span-2 !rounded-full"
           />
           <div>บาท</div>
 
@@ -78,7 +78,7 @@
           <InputText
             v-model="data.airline"
             placeholder="สายการบิน"
-            class="all-input col-span-7"
+            class="all-input col-span-7 !rounded-full"
           />
         </div>
         <div class="mb-4">รายละเอียดการเดินทาง</div>
@@ -127,7 +127,3 @@ watch(data.value, (newValue, oldValue) => {
   console.log(newValue);
 });
 </script>
-
-<style lang="scss" scoped>
-@import "@/assets/scss/variables.scss";
-</style>

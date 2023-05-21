@@ -65,7 +65,7 @@ body,
 
   .p-dropdown {
     margin-left: 2rem !important;
-    border-radius: 10rem !important;
+    border-radius: 9999px !important;
     border: 1px solid $primary-border-color !important;
 
     .p-dropdown-label {
@@ -106,7 +106,6 @@ body,
 
 .p-dropdown {
   border: 1px solid $secondary-font-color !important;
-  border-radius: 10rem !important;
 
   &:not(.p-disabled) {
     &:hover {
@@ -122,7 +121,6 @@ body,
 .all-input {
   &.p-inputtext {
     border: 1px solid $secondary-font-color;
-    border-radius: 10rem;
     padding-left: 1.25rem;
     padding-right: 1.25rem;
 
@@ -142,3 +140,9 @@ body,
     }
   }
 }
+
+// .upload-package-image-button {
+//   &.p-fileupload-choose-selected {
+//     pointer-events: none;
+//   }
+// }
