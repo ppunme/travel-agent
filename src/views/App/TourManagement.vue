@@ -4,16 +4,19 @@
     <h5 class="font-medium mb-6">Preview</h5>
     <div class="grid grid-cols-3 gap-40">
       <div>
-        <TourPackageCard :item="data" />
+        <TourPackageCard :item="tour" :management="true" />
       </div>
       <div class="col-span-2">
         <div class="grid grid-cols-8 gap-8 mb-12 items-center">
           <div class="col-start-1">รูปภาพ</div>
 
           <div class="col-span-7 flex">
+            <Chip v-if="clearButton" :label="tour.fileName" class="mr-2" />
+
             <FileUpload
               ref="fileUpload"
-              class="upload-package-image-button p-button-rounded !bg-primary-blue !mr-6"
+              class="upload-package-image-button p-button-rounded !bg-primary-blue"
+              :class="tour.fileName && '!hidden'"
               mode="basic"
               name="image[]"
               accept="image/*"
@@ -31,35 +34,15 @@
 
           <div class="col-start-1">หัวข้อ</div>
           <InputText
-            v-model="data.name"
+            v-model="tour.name"
             placeholder="หัวข้อ"
             class="all-input col-span-7 !rounded-full"
           />
 
           <div class="col-start-1">ประเทศ</div>
-          <!-- <Dropdown
-            v-model="data.countries"
-            :options="countries"
-            optionLabel="name"
-            placeholder="เลือกประเทศ"
-            class="col-span-3 text-start pl-2 !rounded-full"
-          >
-            <template #value="slotProps">
-              <div v-if="slotProps.value" class="flex align-items-center">
-                <div>{{ slotProps.value.name }}</div>
-              </div>
-              <span v-else>
-                {{ slotProps.placeholder }}
-              </span>
-            </template>
-            <template #option="slotProps">
-              <div class="flex align-items-center">
-                <div>{{ slotProps.option.name }}</div>
-              </div>
-            </template>
-          </Dropdown> -->
+
           <MultiSelect
-            v-model="data.countries"
+            v-model="tour.countries"
             :options="countries"
             optionLabel="name"
             placeholder="เลือกประเทศ"
@@ -69,18 +52,12 @@
           >
             <template #option="slotProps">
               <div class="flex align-items-center">
-                <img
-                  :alt="slotProps.option.name"
-                  src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png"
-                  :class="`flag flag-${slotProps.option.code.toLowerCase()} mr-2`"
-                  style="width: 18px"
-                />
                 <div>{{ slotProps.option.name }}</div>
               </div>
             </template>
             <template #footer>
               <div class="py-2 px-3">
-                <b>{{ data.countries ? data.countries.length : 0 }}</b>
+                <b>{{ tour.countries ? tour.countries.length : 0 }}</b>
                 ประเทศ
               </div>
             </template>
@@ -88,13 +65,13 @@
 
           <div class="col-start-1">ระยะเวลา</div>
           <InputText
-            v-model="data.days"
+            v-model="tour.days"
             placeholder="5"
             class="all-input text-center !rounded-full"
           />
           <div>วัน</div>
           <InputText
-            v-model="data.nights"
+            v-model="tour.nights"
             placeholder="5"
             class="all-input text-center !rounded-full"
           />
@@ -102,7 +79,7 @@
 
           <div class="col-start-1">ราคา</div>
           <InputText
-            v-model="data.price"
+            v-model="tour.price"
             placeholder="10000"
             class="all-input col-span-2 !rounded-full"
           />
@@ -110,13 +87,13 @@
 
           <div class="col-start-1">สายการบิน</div>
           <InputText
-            v-model="data.airline"
+            v-model="tour.airline"
             placeholder="สายการบิน"
             class="all-input col-span-7 !rounded-full"
           />
         </div>
         <div class="mb-4">รายละเอียดการเดินทาง</div>
-        <Editor v-model="data.details" editorStyle="height: 320px" />
+        <Editor v-model="tour.details" editorStyle="height: 320px" />
         <div class="flex justify-end">
           <Button class="w-48 !bg-[#06C755] !mt-12" rounded>
             <font-awesome-icon :icon="['fas', 'plus']" size="2xl" /><span
@@ -130,20 +107,27 @@
   </div>
 </template>
 <script setup>
-import { ref, watchEffect, watch } from "vue";
-
+import { ref, watchEffect, watch, onMounted } from "vue";
+import { useRoute } from "vue-router";
 import TourPackageCard from "@/components/TourPackageCard.vue";
+import { data } from "@/services/TourPackageService";
+
+const route = useRoute();
 
 const fileUpload = ref(null);
 const clearButton = ref(false);
 
 const countries = ref([
-  { name: "ออสเตรเลีย", code: "AU" },
-  { name: "บราซิล", code: "BR" },
-  { name: "จีน", code: "CN" },
+  { name: "ออสเตรเลีย" },
+  { name: "บราซิล" },
+  { name: "จีน" },
+  { name: "เชค" },
+  { name: "สโลวัก" },
+  { name: "ฮังการี" },
 ]);
 
-const data = ref({
+const tour = ref({
+  id: null,
   image: null,
   name: null,
   countries: null,
@@ -156,23 +140,47 @@ const data = ref({
 
 const onSelectedFiles = (event) => {
   const file = event.files[0];
-  data.value.image = file;
+  tour.value.image = file.objectURL;
+  tour.value.fileName = file.name;
 };
 
 const clearFile = () => {
   fileUpload.value.clear();
-  data.value.image = null;
+  tour.value.image = null;
+  tour.value.fileName = null;
 };
 
 watchEffect(() => {
-  if (data.value.image) {
+  if (tour.value.image) {
     clearButton.value = true;
   } else {
     clearButton.value = false;
   }
 });
 
-watch(data.value, (newValue) => {
+onMounted(async () => {
+  if (route.params.tourId) {
+    const mountedData = data.tours.find((item) => {
+      return item.id === parseInt(route.params.tourId);
+    });
+
+    mountedData.countries = mountedData.countries.map((item) => {
+      return { name: item };
+    });
+
+    const response = await fetch(mountedData.image);
+    const fileBlob = await response.blob();
+    const fileName = new URL(response.url).pathname.split("/").pop();
+
+    tour.value = mountedData;
+    tour.value.image = URL.createObjectURL(fileBlob);
+    tour.value.fileName = fileName;
+
+    console.log(tour.value);
+  }
+});
+
+watch(tour.value, (newValue) => {
   console.log(newValue);
 });
 </script>

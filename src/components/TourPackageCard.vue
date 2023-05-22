@@ -1,11 +1,6 @@
 <template>
   <div class="tour-card border rounded-[20px]">
-    <img
-      v-if="item.image"
-      :src="item.id ? item.image : item.image.objectURL"
-      alt=""
-      class="w-full"
-    />
+    <img v-if="item.image" :src="item.image" alt="" class="w-full" />
     <div class="px-6 py-4 font-medium">
       <h3 v-if="item.name" class="pb-3">{{ item.name }}</h3>
       <h6 v-if="item.days && item.nights">
@@ -28,12 +23,12 @@
 import { ref, defineProps } from "vue";
 import { useRouter } from "vue-router";
 
-const props = defineProps(["item"]);
+const props = defineProps(["item", "management"]);
 
 const router = useRouter();
 
 const openNewRoute = (id) => {
-  if (id) {
+  if (!props.management) {
     router.push(`/tours/${id}`);
   } else {
     const countries = props.item.countries.map((item) => item.name);
@@ -43,7 +38,7 @@ const openNewRoute = (id) => {
       countries: countries.join(", "),
       days: props.item.days,
       details: props.item.details,
-      image: props.item.image.objectURL,
+      image: props.item.image,
       name: props.item.name,
       nights: props.item.nights,
       price: props.item.price,

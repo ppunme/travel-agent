@@ -157,8 +157,7 @@ body,
   }
 }
 
-.upload-package-image-button {
-  &.p-fileupload-choose-selected {
-    pointer-events: none;
-  }
+.p-chip,
+.p-multiselect-token {
+  border-radius: 9999px !important;
 }

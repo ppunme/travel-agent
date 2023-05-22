@@ -3,13 +3,18 @@ import Home from "@/views/App/Home.vue";
 import Tours from "@/views/App/Tours.vue";
 import TourDetails from "@/views/App/TourDetails.vue";
 import Contact from "@/views/App/Contact.vue";
-import CreateTour from "@/views/App/CreateTour.vue";
+import TourManagement from "@/views/App/TourManagement.vue";
 
 const routes = [
   {
     path: "/",
     name: "Home",
     component: Home,
+  },
+  {
+    path: "/contact",
+    name: "Contact",
+    component: Contact,
   },
   {
     path: "/tours",
@@ -22,14 +27,14 @@ const routes = [
     component: TourDetails,
   },
   {
-    path: "/contact",
-    name: "Contact",
-    component: Contact,
-  },
-  {
     path: "/tours/create",
     name: "Create Tour",
-    component: CreateTour,
+    component: TourManagement,
+  },
+  {
+    path: "/tours/edit/:tourId",
+    name: "Edit Tour",
+    component: TourManagement,
   },
 ];
 
