@@ -36,9 +36,11 @@ const openNewRoute = (id) => {
   if (id) {
     router.push(`/tours/${id}`);
   } else {
+    const countries = props.item.countries.map((item) => item.name);
+
     const previewData = ref({
       airline: props.item.airline,
-      countries: props.item.countries.name,
+      countries: countries.join(", "),
       days: props.item.days,
       details: props.item.details,
       image: props.item.image.objectURL,

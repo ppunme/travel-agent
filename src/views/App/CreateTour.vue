@@ -9,14 +9,25 @@
       <div class="col-span-2">
         <div class="grid grid-cols-8 gap-8 mb-12 items-center">
           <div class="col-start-1">รูปภาพ</div>
-          <FileUpload
-            class="upload-package-image-button p-button-rounded !bg-primary-blue"
-            mode="basic"
-            name="image[]"
-            accept="image/*"
-            :maxFileSize="1000000"
-            @select="onSelectedFiles"
-          />
+
+          <div class="col-span-7 flex">
+            <FileUpload
+              ref="fileUpload"
+              class="upload-package-image-button p-button-rounded !bg-primary-blue !mr-6"
+              mode="basic"
+              name="image[]"
+              accept="image/*"
+              :maxFileSize="1000000"
+              @select="onSelectedFiles"
+            />
+            <button v-if="clearButton" @click="clearFile">
+              <font-awesome-icon
+                :icon="['far', 'circle-xmark']"
+                size="xl"
+                style="color: #d42e35"
+              />
+            </button>
+          </div>
 
           <div class="col-start-1">หัวข้อ</div>
           <InputText
@@ -26,7 +37,7 @@
           />
 
           <div class="col-start-1">ประเทศ</div>
-          <Dropdown
+          <!-- <Dropdown
             v-model="data.countries"
             :options="countries"
             optionLabel="name"
@@ -46,11 +57,34 @@
                 <div>{{ slotProps.option.name }}</div>
               </div>
             </template>
-          </Dropdown>
-          <div class="col-start-2 col-span-7 bg-red-500">
-            <div class="inline mr-4">ออสเตรเลีย</div>
-            <div class="inline mr-4">เชค</div>
-          </div>
+          </Dropdown> -->
+          <MultiSelect
+            v-model="data.countries"
+            :options="countries"
+            optionLabel="name"
+            placeholder="เลือกประเทศ"
+            display="chip"
+            class="col-start-2 col-span-7 pl-2 !rounded-full"
+            filter
+          >
+            <template #option="slotProps">
+              <div class="flex align-items-center">
+                <img
+                  :alt="slotProps.option.name"
+                  src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png"
+                  :class="`flag flag-${slotProps.option.code.toLowerCase()} mr-2`"
+                  style="width: 18px"
+                />
+                <div>{{ slotProps.option.name }}</div>
+              </div>
+            </template>
+            <template #footer>
+              <div class="py-2 px-3">
+                <b>{{ data.countries ? data.countries.length : 0 }}</b>
+                ประเทศ
+              </div>
+            </template>
+          </MultiSelect>
 
           <div class="col-start-1">ระยะเวลา</div>
           <InputText
@@ -96,9 +130,12 @@
   </div>
 </template>
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watchEffect, watch } from "vue";
 
 import TourPackageCard from "@/components/TourPackageCard.vue";
+
+const fileUpload = ref(null);
+const clearButton = ref(false);
 
 const countries = ref([
   { name: "ออสเตรเลีย", code: "AU" },
@@ -107,14 +144,14 @@ const countries = ref([
 ]);
 
 const data = ref({
-  image: "",
-  name: "",
+  image: null,
+  name: null,
   countries: null,
   days: null,
   nights: null,
   price: null,
-  airline: "",
-  details: "",
+  airline: null,
+  details: null,
 });
 
 const onSelectedFiles = (event) => {
@@ -122,8 +159,20 @@ const onSelectedFiles = (event) => {
   data.value.image = file;
 };
 
-watch(data.value, (newValue, oldValue) => {
-  console.log(oldValue);
+const clearFile = () => {
+  fileUpload.value.clear();
+  data.value.image = null;
+};
+
+watchEffect(() => {
+  if (data.value.image) {
+    clearButton.value = true;
+  } else {
+    clearButton.value = false;
+  }
+});
+
+watch(data.value, (newValue) => {
   console.log(newValue);
 });
 </script>

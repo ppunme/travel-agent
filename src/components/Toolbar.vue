@@ -4,6 +4,7 @@
     <div class="grid grid-cols-3">
       <div class="justify-self-end">
         <Dropdown
+          filter
           v-model="selectedCountryValue"
           :options="countries"
           optionLabel="name"

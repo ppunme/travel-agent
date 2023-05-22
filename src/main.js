@@ -119,7 +119,7 @@ import {
 
 import {
   faMagnifyingGlass,
-  faCircleXmark,
+  faCircleXmark as solidXmark,
   faLocationDot,
   faClock,
   faPlane,
@@ -127,7 +127,10 @@ import {
   faPhone,
   faEnvelope,
   faPlus,
+  faPen,
 } from "@fortawesome/free-solid-svg-icons";
+
+import { faCircleXmark as regularXmark } from "@fortawesome/free-regular-svg-icons";
 
 library.add(
   faFacebook,
@@ -140,11 +143,13 @@ library.add(
   faTwitter,
   faMagnifyingGlass,
   faFacebookMessenger,
-  faCircleXmark,
+  solidXmark,
   faLocationDot,
   faClock,
   faPlane,
-  faPlus
+  faPlus,
+  regularXmark,
+  faPen
 );
 
 const app = createApp(App);
