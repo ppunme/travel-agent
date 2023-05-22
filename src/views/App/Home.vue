@@ -1,4 +1,17 @@
 <template>
+  <div class="text-end pb-6 pr-6">
+    <Button
+      @click="visible = true"
+      rounded
+      class="w-32 !bg-amber-500 !border-none"
+    >
+      <font-awesome-icon :icon="['fas', 'pen']" size="xl" />
+      <span class="mx-auto">แก้ไข</span>
+    </Button>
+  </div>
+  <Modal :visible="visible" @update:visible="onDialogUpdate">
+    <EditCarousel />
+  </Modal>
   <Carousel
     :value="items"
     :numVisible="1"
@@ -47,7 +60,11 @@
 import { ref } from "vue";
 import TourGrid from "@/components/TourGrid.vue";
 import ContactCard from "@/components/ContactCard.vue";
+import Modal from "@/components/Modal.vue";
+import EditCarousel from "@/components/EditCarousel.vue";
 import { data } from "@/services/ContactList";
+
+const visible = ref(false);
 
 const items = ref([
   {
@@ -100,7 +117,9 @@ const tours = ref([
   },
 ]);
 
-//const imageSrc = require("@/assets/images/image1.png");
+const onDialogUpdate = (value) => {
+  visible.value = value;
+};
 </script>
 
 <style lang="scss">

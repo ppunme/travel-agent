@@ -13,7 +13,7 @@
         rounded
         @click="$router.push(`/tours/create`)"
       >
-        <font-awesome-icon :icon="['fas', 'plus']" size="2xl" /><span
+        <font-awesome-icon :icon="['fas', 'plus']" size="xl" /><span
           class="mx-auto"
           >เพิ่มแพ็คเกจใหม่</span
         >

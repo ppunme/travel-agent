@@ -7,7 +7,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import "./assets/scss/main.scss";
-import "primevue/resources/themes/lara-light-indigo/theme.css";
+import "primevue/resources/themes/lara-light-blue/theme.css";
 import "primevue/resources/primevue.min.css";
 
 import AutoComplete from "primevue/autocomplete";
@@ -119,7 +119,7 @@ import {
 
 import {
   faMagnifyingGlass,
-  faCircleXmark,
+  faCircleXmark as solidXmark,
   faLocationDot,
   faClock,
   faPlane,
@@ -127,7 +127,13 @@ import {
   faPhone,
   faEnvelope,
   faPlus,
+  faPen,
+  faTrash,
+  faChevronUp,
+  faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
+
+import { faCircleXmark as regularXmark } from "@fortawesome/free-regular-svg-icons";
 
 library.add(
   faFacebook,
@@ -140,11 +146,16 @@ library.add(
   faTwitter,
   faMagnifyingGlass,
   faFacebookMessenger,
-  faCircleXmark,
+  solidXmark,
   faLocationDot,
   faClock,
   faPlane,
-  faPlus
+  faPlus,
+  faPen,
+  faTrash,
+  faChevronUp,
+  faChevronDown,
+  regularXmark,
 );
 
 const app = createApp(App);
