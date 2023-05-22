@@ -131,6 +131,7 @@ import {
   faTrash,
   faChevronUp,
   faChevronDown,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -152,7 +153,8 @@ library.add(
   faPen,
   faTrash,
   faChevronUp,
-  faChevronDown
+  faChevronDown,
+  faTimes
 );
 
 const app = createApp(App);

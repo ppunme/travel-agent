@@ -2,7 +2,7 @@
   <Dialog
     v-model:visible="visibleValue"
     modal
-    header="แก้ไขภาพหน้าโฮมเพจ"
+    :header="header"
     :style="{ width: '50vw' }"
     :breakpoints="{ '1200px': '75vw', '641px': '95vw' }"
   >
@@ -10,6 +10,7 @@
     <template #footer>
       <Button
         @click="onCancel"
+        class="!w-28"
         label="ยกเลิก"
         severity="danger"
         rounded
@@ -19,7 +20,7 @@
         @click="onSave"
         label="บันทึก"
         rounded
-        class="!bg-primary-blue !border-primary-blue"
+        class="!w-28 !bg-primary-blue !border-primary-blue"
       />
     </template>
   </Dialog>
@@ -28,14 +29,10 @@
 <script setup>
 import { ref, watch, defineProps, defineEmits } from "vue";
 
-const props = defineProps(["visible"]);
+const props = defineProps(["visible", "header"]);
 const visibleValue = ref(props.visible);
 
 const emit = defineEmits(["update:visible"]);
-
-// const onUpload = () => {
-//   console.log("upload!");
-// };
 
 const onSave = () => {
   emit("update:visible", false);

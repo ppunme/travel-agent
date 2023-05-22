@@ -1,19 +1,4 @@
 <template>
-  <div class="flex justify-end">
-    <FileUpload
-      chooseLabel="Browse"
-      mode="basic"
-      name="demo[]"
-      url="./upload.php"
-      accept="image/*"
-      :maxFileSize="3140000"
-      @select="customBase64Uploader"
-      :auto="true"
-      invalid-file-size-message="file size should be smaller than 3.14 MB."
-    >
-    </FileUpload>
-  </div>
-
   <OrderList
     v-model="uploadedFile"
     listStyle="height:auto"
@@ -70,6 +55,20 @@
         class="text-white"
     /></template>
   </OrderList>
+  <div class="flex justify-end pt-6">
+    <FileUpload
+      chooseLabel="เพิ่มรูป"
+      mode="basic"
+      name="demo[]"
+      url="./upload.php"
+      accept="image/*"
+      :maxFileSize="3140000"
+      @select="customBase64Uploader"
+      :auto="true"
+      invalid-file-size-message="file size should be smaller than 3.14 MB."
+    >
+    </FileUpload>
+  </div>
 </template>
 
 <script setup>

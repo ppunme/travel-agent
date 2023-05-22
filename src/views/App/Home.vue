@@ -9,7 +9,11 @@
       <span class="mx-auto">แก้ไข</span>
     </Button>
   </div>
-  <Modal :visible="visible" @update:visible="onDialogUpdate">
+  <Modal
+    header="แก้ไขภาพหน้าโฮมเพจ"
+    :visible="visible"
+    @update:visible="onDialogUpdate"
+  >
     <EditCarousel />
   </Modal>
   <Carousel
