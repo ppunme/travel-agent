@@ -23,14 +23,57 @@
 import { ref, defineProps } from "vue";
 import { useRouter } from "vue-router";
 
-const props = defineProps(["item", "management"]);
+const props = defineProps([
+  "item",
+  "management",
+  "nameValidate",
+  "airlineValidate",
+  "daysValidate",
+  "nightsValidate",
+  "priceValidate",
+  "countriesValidate",
+  "detailsValidate",
+  "fileNameValidate",
+]);
 
 const router = useRouter();
 
-const openNewRoute = (id) => {
+const openNewRoute = async (id) => {
   if (!props.management) {
     router.push(`/tours/${id}`);
   } else {
+    const nameValidate = await props.nameValidate();
+    const airlineValidate = await props.airlineValidate();
+    const daysValidate = await props.daysValidate();
+    const nightsValidate = await props.nightsValidate();
+    const countriesValidate = await props.countriesValidate();
+    const priceValidate = await props.priceValidate();
+    const detailsValidate = await props.detailsValidate();
+    const fileNameValidate = await props.fileNameValidate();
+    console.log(
+      nameValidate,
+      airlineValidate,
+      daysValidate,
+      nightsValidate,
+      countriesValidate,
+      priceValidate,
+      detailsValidate,
+      fileNameValidate
+    );
+
+    if (
+      !nameValidate.valid ||
+      !airlineValidate.valid ||
+      !daysValidate.valid ||
+      !nightsValidate.valid ||
+      !countriesValidate.valid ||
+      !priceValidate.valid ||
+      !detailsValidate.valid ||
+      !fileNameValidate.valid
+    ) {
+      return;
+    }
+
     const countries = props.item.countries.map((item) => item.name);
 
     const previewData = ref({
