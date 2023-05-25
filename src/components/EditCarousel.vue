@@ -1,61 +1,5 @@
 <template>
-  <OrderList
-    v-model="uploadedFile"
-    listStyle="height:auto"
-    dataKey="id"
-    class="pt-3"
-    responsive="true"
-    breakpoint="960px"
-    :pt="{
-      header: {
-        root: { class: '!hidden' },
-      },
-      moveUpButton: {
-        root: { class: '!bg-primary-blue !border-primary-blue !rounded-full' },
-      },
-      moveDownButton: {
-        root: { class: '!bg-primary-blue !border-primary-blue !rounded-full' },
-      },
-      moveTopButton: {
-        root: { class: '!hidden' },
-      },
-      moveBottomButton: {
-        root: { class: '!hidden' },
-      },
-    }"
-  >
-    <template #item="slotProps">
-      <div class="flex flex-wrap p-2 items-center gap-5">
-        <img
-          v-if="slotProps.item"
-          :src="slotProps.item.objectURL"
-          :alt="slotProps.item.name"
-          class="w-24 shadow-2 flex-shrink-0 border-round"
-        />
-        <div class="flex-1 flex flex-col gap-2">
-          <span>{{ slotProps.item.name }}</span>
-          <InputText type="text" />
-        </div>
-
-        <Button icon="pi pi-times" severity="danger" rounded aria-label="Cancel"
-          ><font-awesome-icon :icon="['fas', 'trash']" class="text-white" />
-        </Button>
-      </div>
-    </template>
-    <template #moveupicon>
-      <font-awesome-icon
-        :icon="['fas', 'chevron-up']"
-        size="lg"
-        class="text-white"
-    /></template>
-    <template #movedownicon>
-      <font-awesome-icon
-        :icon="['fas', 'chevron-down']"
-        size="lg"
-        class="text-white"
-    /></template>
-  </OrderList>
-  <div class="flex justify-end pt-6">
+  <div class="flex justify-end pt-2">
     <FileUpload
       chooseLabel="เพิ่มรูป"
       mode="basic"
@@ -69,10 +13,51 @@
     >
     </FileUpload>
   </div>
+  <div class="bg-neutral-100 rounded-lg p-2 mt-2 min-h-[220px]">
+    <transition-group name="item-animation" tag="div">
+      <div
+        v-for="(item, index) in uploadedFile"
+        :key="item.id"
+        :class="['file-item', { 'mb-2': index !== uploadedFile.length - 1 }]"
+      >
+        <div class="flex flex-wrap items-center gap-5">
+          <img
+            v-if="item"
+            :src="item.objectURL"
+            :alt="item.name"
+            class="w-24 shadow-2 flex-shrink-0 border-round"
+          />
+          <div class="flex-1 flex flex-col gap-2">
+            <span>{{ item.name }}</span>
+          </div>
+          <button @click="moveItemUp(index)" type="button" class="btn-move-up">
+            up
+          </button>
+          <button
+            @click="moveItemDown(index)"
+            type="button"
+            class="btn-move-down"
+          >
+            down
+          </button>
+          <button @click="deleteItem" type="button" class="btn-delete">
+            <font-awesome-icon :icon="['fas', 'times']" class="text-red-500" />
+          </button>
+        </div>
+      </div>
+    </transition-group>
+  </div>
+  <Toast />
+  <ConfirmDialog></ConfirmDialog>
 </template>
 
 <script setup>
 import { ref, watch } from "vue";
+import { useToast } from "primevue/usetoast";
+import { useConfirm } from "primevue/useconfirm";
+
+const toast = useToast();
+const confirm = useConfirm();
 const uploadedFile = ref([]);
 
 const customBase64Uploader = async (event) => {
@@ -91,8 +76,56 @@ const customBase64Uploader = async (event) => {
   };
 };
 
+const moveItemUp = (index) => {
+  if (index > 0) {
+    const item = uploadedFile.value.splice(index, 1)[0];
+    uploadedFile.value.splice(index - 1, 0, item);
+  }
+};
+
+const moveItemDown = (index) => {
+  if (index < uploadedFile.value.length - 1) {
+    const item = uploadedFile.value.splice(index, 1)[0];
+    uploadedFile.value.splice(index + 1, 0, item);
+  }
+};
+
+const deleteItem = () => {
+  console.log("delete");
+  confirm.require({
+    message: "ยืนยันการลบข้อมูล",
+    header: "Delete",
+    acceptClass: "p-button-danger",
+    accept: () => {
+      toast.add({
+        severity: "error",
+        summary: "Confirmed",
+        detail: "รูปถูกลบแล้ว",
+        life: 3000,
+      });
+    },
+  });
+};
+
 watch(uploadedFile.value, (newValue, oldValue) => {
   console.log(oldValue);
   console.log("upload file name", newValue);
 });
 </script>
+
+<style>
+.item-animation-enter-active,
+.item-animation-leave-active {
+  transition: all 0.3s;
+}
+
+.item-animation-enter,
+.item-animation-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.item-animation-move {
+  transition: transform 0.3s;
+}
+</style>

@@ -10,9 +10,9 @@
     <template #footer>
       <Button
         @click="onCancel"
-        class="!w-28"
+        class="!w-28 custom-button"
         label="ยกเลิก"
-        severity="danger"
+        severity="secondary"
         rounded
         outlined
       />
@@ -50,4 +50,12 @@ watch(
 );
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.custom-button {
+  box-shadow: inset 0px 0px 0px 1px #64748b;
+}
+
+.button-text {
+  font-size: 14px;
+}
+</style>

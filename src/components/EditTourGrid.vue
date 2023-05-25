@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-end">
+  <div class="flex justify-end pt-2">
     <FileUpload
       chooseLabel="เพิ่มรูป"
       mode="basic"
@@ -9,97 +9,91 @@
       :maxFileSize="3140000"
       @select="customBase64Uploader"
       :auto="true"
-      invalid-file-size-message="file size should be smaller than 3.14 MB."
     >
     </FileUpload>
   </div>
-  <!-- <div class="w-80 mx-auto my-3">
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-      <div
-        v-for="(item, index) in uploadedFile.slice(0, 6)"
-        :key="item.id"
-        :draggable="true"
-        @dragstart="handleDragStart($event, index)"
-        @dragover="handleDragOver($event)"
-        @drop="handleDrop($event, index)"
-        class="draggable-img rounded-lg hover:opacity-90"
-      >
-        {{ uploadedFile.length }}
-        <div class="square-image">
-          {{ index }}
-          <img
-            v-if="index < uploadedFile.length"
-            :src="item.objectURL"
-            :alt="item.name"
-            class="rounded-xl"
-          />
-          <img
-            v-else
-            :src="require('@/assets/images/no-img.png')"
-            alt="no image"
-            class="object-cover h-[525px] w-full"
-          />
-        </div>
-      </div>
-    </div>
-  </div> -->
-  <div class="w-80 mx-auto my-3">
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-      <div
-        v-for="(item, index) in Array.from(
-          { length: 6 },
-          (_, i) => uploadedFile[i] || i
-        )"
-        :key="item.id"
-        :draggable="true"
-        @dragstart="handleDragStart($event, index)"
-        @dragover="handleDragOver($event)"
-        @drop="handleDrop($event, index)"
-        class="draggable-img rounded-lg hover:opacity-90"
-      >
-        <div class="square-image">
-          <img
-            v-if="index < uploadedFile.length"
-            :src="item.objectURL"
-            :alt="item.name"
-            class="rounded-xl"
-          />
-          <img
-            v-else
-            :src="require('@/assets/images/no-img.png')"
-            alt="no image"
-            class="object-cover h-[525px] w-full"
-          />
-        </div>
-      </div>
-    </div>
+
+  <div id="list-complete-demo" class="demo">
+    <button v-on:click="shuffle">Shuffle</button>
+    <button v-on:click="add">Add</button>
+    <button v-on:click="remove">Remove</button>
+    <transition-group name="list-complete" tag="p">
+      <span v-for="item in items" v-bind:key="item" class="list-complete-item">
+        {{ item }}
+      </span>
+    </transition-group>
   </div>
 
-  <div
-    v-for="(item, index) in uploadedFile"
-    :key="item.id"
-    :draggable="true"
-    @dragstart="handleDragStart($event, index)"
-    @dragover="handleDragOver($event)"
-    @drop="handleDrop($event, index)"
-    class="draggable-item rounded-lg hover:bg-blue-100"
-  >
-    <div class="flex flex-wrap items-center gap-5">
-      <div class="flex-1 flex flex-col gap-2">
-        <span>{{ item.name }}</span>
+  <div class="flex flex-col lg:flex-row p-3">
+    <div class="basis-1/3">
+      <h5 class="font-bold text-primary-blue text-center">Preview</h5>
+      <div class="w-80 mx-auto pr-4">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+          <div
+            v-for="(item, index) in Array.from(
+              { length: 6 },
+              (_, i) => uploadedFile[i] || i
+            )"
+            :key="item.id"
+            :draggable="true"
+            @dragstart="handleDragStart($event, index)"
+            @dragover="handleDragOver($event)"
+            @drop="handleDrop($event, index)"
+            class="draggable-img rounded-lg hover:opacity-80"
+          >
+            <div class="square-image">
+              <img
+                v-if="index < uploadedFile.length"
+                :src="item.objectURL"
+                :alt="item.name"
+                class="rounded-xl"
+              />
+              <img
+                v-else
+                :src="require('@/assets/images/no-img.png')"
+                alt="no image"
+                class="object-cover h-[525px] w-full"
+              />
+            </div>
+          </div>
+        </div>
       </div>
-      <button @click="deleteItem" type="button" class="w-8">
-        <font-awesome-icon :icon="['fas', 'times']" class="text-red-500" />
-      </button>
+    </div>
+    <div class="basis-2/3 bg-neutral-100 rounded-lg p-2">
+      <div
+        v-for="(item, index) in uploadedFile"
+        :key="item.id"
+        :draggable="true"
+        @dragstart="handleDragStart($event, index)"
+        @dragover="handleDragOver($event)"
+        @drop="handleDrop($event, index)"
+        :class="[
+          'draggable-item file-item',
+          { 'mb-2': index !== uploadedFile.length - 1 },
+        ]"
+      >
+        <div class="flex flex-wrap items-center gap-5">
+          <div class="flex-1 flex flex-col gap-2">
+            <span>{{ item.name }}</span>
+          </div>
+          <button @click="deleteItem" type="button" class="btn-delete">
+            <font-awesome-icon :icon="['fas', 'times']" class="text-red-500" />
+          </button>
+        </div>
+      </div>
     </div>
   </div>
+  <Toast />
+  <ConfirmDialog></ConfirmDialog>
 </template>
 
 <script setup>
 import { ref, watch } from "vue";
 import { useToast } from "primevue/usetoast";
+import { useConfirm } from "primevue/useconfirm";
 
 const toast = useToast();
+const confirm = useConfirm();
 const uploadedFile = ref([]);
 
 const customBase64Uploader = async (event) => {
@@ -134,7 +128,22 @@ const handleDrop = (event, newIndex) => {
   toast.add({ severity: "success", summary: "Rows Reordered", life: 3000 });
 };
 
-const deleteItem = () => {};
+const deleteItem = () => {
+  console.log("delete");
+  confirm.require({
+    message: "ยืนยันการลบข้อมูล",
+    header: "Delete",
+    acceptClass: "p-button-danger",
+    accept: () => {
+      toast.add({
+        severity: "error",
+        summary: "Confirmed",
+        detail: "Record deleted",
+        life: 3000,
+      });
+    },
+  });
+};
 
 watch(uploadedFile.value, (newValue, oldValue) => {
   console.log(oldValue);
@@ -144,9 +153,6 @@ watch(uploadedFile.value, (newValue, oldValue) => {
 
 <style scoped>
 .draggable-item {
-  padding: 10px;
-  margin-bottom: 5px;
-  background-color: #f5f5f5;
   cursor: move;
 }
 
@@ -163,8 +169,5 @@ watch(uploadedFile.value, (newValue, oldValue) => {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.p-button-sm {
 }
 </style>

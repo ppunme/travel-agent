@@ -13,7 +13,7 @@ body,
 }
 
 .p-button {
-  //border: none !important;
+  border: none !important;
 
   &.p-component {
     .p-button-label {
@@ -161,4 +161,12 @@ body,
   &.p-fileupload-choose-selected {
     pointer-events: none;
   }
+}
+
+.btn-delete {
+  @apply w-8 h-8 bg-neutral-100 hover:bg-neutral-200 rounded-full;
+}
+
+.file-item {
+  @apply rounded-lg px-2 py-1 border border-neutral-100 bg-white hover:shadow-md hover:border hover:border-neutral-100;
 }
