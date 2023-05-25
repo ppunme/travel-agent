@@ -13,17 +13,6 @@
     </FileUpload>
   </div>
 
-  <div id="list-complete-demo" class="demo">
-    <button v-on:click="shuffle">Shuffle</button>
-    <button v-on:click="add">Add</button>
-    <button v-on:click="remove">Remove</button>
-    <transition-group name="list-complete" tag="p">
-      <span v-for="item in items" v-bind:key="item" class="list-complete-item">
-        {{ item }}
-      </span>
-    </transition-group>
-  </div>
-
   <div class="flex flex-col lg:flex-row p-3">
     <div class="basis-1/3">
       <h5 class="font-bold text-primary-blue text-center">Preview</h5>
