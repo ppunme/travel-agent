@@ -4,11 +4,12 @@
     <div class="grid grid-cols-3">
       <div class="justify-self-end">
         <Dropdown
+          filter
           v-model="selectedCountryValue"
           :options="countries"
           optionLabel="name"
           placeholder="ประเทศ"
-          class="min-w-[225px] text-start pl-2"
+          class="min-w-[225px] text-start pl-2 !rounded-full"
         >
           <template #value="slotProps">
             <div v-if="slotProps.value" class="flex align-items-center">
@@ -42,7 +43,7 @@
           <InputText
             v-model="searchValue"
             placeholder="ค้นหา..."
-            class="all-input w-full"
+            class="all-input w-full !rounded-full"
           />
         </span>
       </div>
@@ -52,7 +53,7 @@
           :options="sort"
           optionLabel="name"
           placeholder="เรียงตาม"
-          class="min-w-[225px] text-start pl-2"
+          class="min-w-[225px] text-start pl-2 !rounded-full"
         >
           <template #value="slotProps">
             <div v-if="slotProps.value" class="flex align-items-center">

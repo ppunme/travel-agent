@@ -1,5 +1,18 @@
 <template>
   <div class="container mx-auto py-12">
+    <div class="flex justify-end">
+      <Button
+        v-if="route.params.tourId !== 'preview' && tour"
+        class="w-32 !bg-[#F5A327] !mb-12"
+        rounded
+        @click="$router.push(`/tours/edit/${tour.id}`)"
+      >
+        <font-awesome-icon :icon="['fas', 'pen']" size="lg" /><span
+          class="mx-auto"
+          >แก้ไข</span
+        >
+      </Button>
+    </div>
     <div class="grid grid-cols-5 gap-16">
       <img
         v-if="route.params.tourId === 'preview'"
@@ -8,17 +21,17 @@
         class="col-span-2 w-full rounded-[20px]"
       />
       <img
-        v-else
-        src="@/assets/img/image_11.png"
+        v-if="route.params.tourId !== 'preview' && tour"
+        :src="tour.image"
         alt=""
         class="col-span-2 w-full rounded-[20px]"
       />
       <div class="col-span-3 flex flex-col font-medium">
         <h1 class="pb-8">
           {{
-            route.params.tourId === "preview"
-              ? route.query.name
-              : "ทัวร์ยุโรป ตะวันออก 8 วัน 5 คืน บิน EVA Air สุวรรณภูมิ - เวียนนา"
+            route.params.tourId !== "preview" && tour
+              ? tour.name
+              : route.query.name
           }}
         </h1>
         <div
@@ -27,9 +40,9 @@
           <div>
             <h2 class="text-primary-blue mb-10">
               ฿{{
-                route.params.tourId === "preview"
-                  ? parseFloat(route.query.price).toLocaleString()
-                  : parseFloat("49888").toLocaleString()
+                route.params.tourId !== "preview" && tour
+                  ? parseFloat(tour.price).toLocaleString()
+                  : parseFloat(route.query.price).toLocaleString()
               }}
             </h2>
             <div class="mb-4">
@@ -44,9 +57,9 @@
               </div>
               <h5 class="inline">
                 {{
-                  route.params.tourId === "preview"
-                    ? route.query.countries
-                    : "ออสเตรีย, เชค, สโลวัก, ฮังการี"
+                  route.params.tourId !== "preview" && tour
+                    ? tour.countries.join(", ")
+                    : route.query.countries
                 }}
               </h5>
             </div>
@@ -61,9 +74,17 @@
                 </div>
               </div>
               <h5 class="inline">
-                {{ route.params.tourId === "preview" ? route.query.days : 5 }}
+                {{
+                  route.params.tourId !== "preview" && tour
+                    ? tour.days
+                    : route.query.days
+                }}
                 วัน
-                {{ route.params.tourId === "preview" ? route.query.nights : 5 }}
+                {{
+                  route.params.tourId !== "preview" && tour
+                    ? tour.nights
+                    : route.query.nights
+                }}
                 คืน
               </h5>
             </div>
@@ -79,9 +100,9 @@
               </div>
               <h5 class="inline">
                 {{
-                  route.params.tourId === "preview"
-                    ? route.query.airline
-                    : "EVA Air"
+                  route.params.tourId !== "preview" && tour
+                    ? tour.airline
+                    : route.query.airline
                 }}
               </h5>
             </div>
@@ -109,20 +130,28 @@
     <div
       class="py-14 border border-y-primary-border-color border-x-0 border-t-0 font-medium"
     >
-      <h2 class="mb-8">รายละเอียดการเดินทาง</h2>
-      <h4>ไฮไลท์สถานที่ท่องเที่ยว</h4>
+      <h1 class="mb-8">รายละเอียดการเดินทาง</h1>
       <div
-        v-if="route.params.tourId === 'preview'"
-        v-html="route.query.details"
+        v-html="
+          route.params.tourId !== 'preview' && tour
+            ? tour.details
+            : route.query.details
+        "
       ></div>
-      <div v-else>Test</div>
     </div>
   </div>
 </template>
 <script setup>
+import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { data } from "@/services/TourPackageService";
 
+const tour = ref();
 const route = useRoute();
-console.log(route.params.tourId);
-console.log(route.query);
+
+onMounted(() => {
+  tour.value = data.tours.find((item) => {
+    return item.id === parseInt(route.params.tourId);
+  });
+});
 </script>
