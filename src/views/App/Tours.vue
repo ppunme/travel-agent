@@ -37,17 +37,20 @@ import TourPackagesList from "@/components/TourPackagesList.vue";
 
 const selectedCountry = ref();
 const countries = ref([
-  { name: "ออสเตรเลีย", code: "AU" },
-  { name: "บราซิล", code: "BR" },
-  { name: "จีน", code: "CN" },
+  { name: "ออสเตรเลีย" },
+  { name: "บราซิล" },
+  { name: "จีน" },
+  { name: "เชค" },
+  { name: "สโลวัก" },
+  { name: "ฮังการี" },
 ]);
 
 const selectedSort = ref();
 const sort = ref([
-  { name: "ราคา ต่ำ-สูง", code: "PRICE" },
-  { name: "ราคา สูง-ต่ำ", code: "PRICE" },
-  { name: "ตัวอักษร (ก-ฮ)", code: "ALPHABET" },
-  { name: "ตัวอักษร (ฮ-ก)", code: "ALPHABET" },
+  { name: "ราคา ต่ำ-สูง" },
+  { name: "ราคา สูง-ต่ำ" },
+  { name: "ตัวอักษร (ก-ฮ)" },
+  { name: "ตัวอักษร (ฮ-ก)" },
 ]);
 
 const search = ref("");
