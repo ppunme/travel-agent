@@ -160,7 +160,7 @@ const onDialogUpdate = (value) => {
 
   .p-carousel-prev {
     left: 0.5rem;
-    z-index: 999;
+    z-index: 1;
   }
 
   .p-carousel-next {
