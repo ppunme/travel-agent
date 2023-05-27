@@ -48,7 +48,7 @@
         </div>
       </div>
     </div>
-    <div class="basis-2/3 bg-neutral-100 rounded-lg p-2">
+    <div class="basis-2/3 bg-neutral-100 min-h-[220px] rounded-lg p-2">
       <div
         v-for="(item, index) in uploadedFile"
         :key="item.id"
@@ -63,7 +63,7 @@
       >
         <div class="flex flex-wrap items-center gap-5">
           <div class="flex-1 flex flex-col gap-2">
-            <span>{{ item.name }}</span>
+            <span class="ellipsis">{{ item.name }}</span>
           </div>
           <button @click="deleteItem" type="button" class="btn-delete">
             <font-awesome-icon :icon="['fas', 'times']" class="text-red-500" />

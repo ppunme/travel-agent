@@ -14,38 +14,58 @@
     </FileUpload>
   </div>
   <div class="bg-neutral-100 rounded-lg p-2 mt-2 min-h-[220px]">
-    <transition-group name="item-animation" tag="div">
-      <div
-        v-for="(item, index) in uploadedFile"
-        :key="item.id"
-        :class="['file-item', { 'mb-2': index !== uploadedFile.length - 1 }]"
-      >
-        <div class="flex flex-wrap items-center gap-5">
+    <div
+      v-for="(item, index) in uploadedFile"
+      :key="item.id"
+      :class="['file-item', { 'mb-2': index !== uploadedFile.length - 1 }]"
+    >
+      <div class="flex gap-2 lg:gap-6">
+        <div class="flex-none flex items-center">
           <img
             v-if="item"
             :src="item.objectURL"
             :alt="item.name"
             class="w-24 shadow-2 flex-shrink-0 border-round"
           />
-          <div class="flex-1 flex flex-col gap-2">
-            <span>{{ item.name }}</span>
-          </div>
-          <button @click="moveItemUp(index)" type="button" class="btn-move-up">
-            up
+        </div>
+        <div class="grow flex items-center">
+          <span class="ellipsis">{{ item.name }}</span>
+        </div>
+        <div class="flex-none flex items-center pr-6">
+          <button
+            @click="moveItemUp(index)"
+            type="button"
+            class="hover:opacity-90 pr-2"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'chevron-circle-up']"
+              size="xl"
+              class="text-primary-blue"
+            />
           </button>
           <button
             @click="moveItemDown(index)"
             type="button"
-            class="btn-move-down"
+            class="hover:opacity-90"
           >
-            down
+            <font-awesome-icon
+              :icon="['fas', 'chevron-circle-down']"
+              size="xl"
+              class="text-primary-blue"
+            />
           </button>
+        </div>
+        <div class="flex-none flex items-center">
           <button @click="deleteItem" type="button" class="btn-delete">
-            <font-awesome-icon :icon="['fas', 'times']" class="text-red-500" />
+            <font-awesome-icon
+              :icon="['fas', 'xmark']"
+              size="lg"
+              class="text-red-500"
+            />
           </button>
         </div>
       </div>
-    </transition-group>
+    </div>
   </div>
   <Toast />
   <ConfirmDialog></ConfirmDialog>
@@ -113,19 +133,4 @@ watch(uploadedFile.value, (newValue, oldValue) => {
 });
 </script>
 
-<style>
-.item-animation-enter-active,
-.item-animation-leave-active {
-  transition: all 0.3s;
-}
-
-.item-animation-enter,
-.item-animation-leave-to {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.item-animation-move {
-  transition: transform 0.3s;
-}
-</style>
+<style></style>

@@ -22,7 +22,7 @@ body,
   }
 
   &:hover {
-    opacity: 0.8;
+    opacity: 0.9;
   }
 
   &:focus {
@@ -225,10 +225,30 @@ body,
   }
 }
 
+.p-fileupload {
+  .p-button {
+    background-color: $secondary-color;
+    border-radius: 50px;
+
+    &:hover {
+      background-color: $secondary-color !important;
+      opacity: 0.9;
+    }
+  }
+}
+
+.p-dialog .p-dialog-header .p-dialog-header-icon:focus {
+  box-shadow: none !important;
+}
+
 .btn-delete {
   @apply w-8 h-8 bg-neutral-100 hover:bg-neutral-200 rounded-full;
 }
 
 .file-item {
   @apply rounded-lg px-2 py-1 border border-neutral-100 bg-white hover:shadow-md hover:border hover:border-neutral-100;
+}
+
+.ellipsis {
+  @apply w-20 sm:w-36 md:w-60 lg:w-96 overflow-hidden whitespace-nowrap overflow-ellipsis;
 }
