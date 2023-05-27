@@ -1,12 +1,6 @@
 <template>
   <div class="container mx-auto py-12">
-    <h2 class="text-center mb-8">
-      {{
-        route.path.includes("create")
-          ? "เพิ่มแพ็คเกจใหม่"
-          : route.path.includes("edit") && "แก้ไขแพ็คเกจ"
-      }}
-    </h2>
+    <h2 class="text-center mb-8">แก้ไขแพ็คเกจ</h2>
     <h5 class="font-medium mb-6">Preview</h5>
     <div class="grid grid-cols-3 gap-40">
       <div>
@@ -30,11 +24,11 @@
 
             <div class="col-span-7">
               <div class="flex">
-                <Chip v-if="clearButton" :label="tour.fileName" class="mr-2" />
+                <Chip v-if="clearButton" :label="fileName" class="mr-2" />
                 <FileUpload
                   ref="fileUpload"
                   class="upload-package-image-button p-button-rounded !bg-primary-blue"
-                  :class="tour.fileName && '!hidden'"
+                  :class="fileName && '!hidden'"
                   mode="basic"
                   name="image[]"
                   accept="image/*"
@@ -49,75 +43,113 @@
                   />
                 </button>
               </div>
-              <Input
-                inputType="fileUpload"
-                v-model:value="fileName"
-                v-model:error="fileNameError"
-              />
+              <InputText v-model="fileName" class="hidden" />
+              <small v-if="fileNameError" class="p-error">{{
+                fileNameError
+              }}</small>
             </div>
 
             <div class="col-start-1">หัวข้อ</div>
             <div class="col-span-7">
-              <Input
-                inputType="inputText"
-                v-model:value="name"
+              <InputText
+                v-model="name"
                 placeholder="หัวข้อ"
-                v-model:error="nameError"
+                class="all-input !rounded-full w-full"
+                :class="nameError && 'p-invalid'"
               />
+              <small v-if="nameError" class="p-error">{{ nameError }}</small>
             </div>
 
             <div class="col-start-1">ประเทศ</div>
-            <Input
-              inputType="multiSelect"
-              v-model:value="countries"
-              placeholder="เลือกประเทศ"
-              v-model:error="countriesError"
-            />
+            <div class="col-span-7">
+              <MultiSelect
+                v-model="countries"
+                :options="options"
+                optionLabel="name"
+                placeholder="เลือกประเทศ"
+                display="chip"
+                class="pl-2 w-full !rounded-full col-span-7"
+                :class="countriesError && 'p-invalid'"
+                filter
+              >
+                <template #option="slotProps">
+                  <div class="flex align-items-center">
+                    <div>{{ slotProps.option.name }}</div>
+                  </div>
+                </template>
+                <template #footer>
+                  <div class="py-2 px-3">
+                    <b>{{ countries ? countries.length : 0 }}</b>
+                    ประเทศ
+                  </div>
+                </template>
+              </MultiSelect>
+              <small v-if="countriesError" class="p-error">{{
+                countriesError
+              }}</small>
+            </div>
 
             <div class="col-start-1">ระยะเวลา</div>
-            <Input
-              inputType="inputNumber"
-              v-model:value="days"
-              v-model:error="daysError"
-              placeholder="วัน"
-            />
+            <div>
+              <InputNumber
+                v-model="days"
+                placeholder="วัน"
+                :class="`input-number ${daysError && 'p-invalid'}`"
+              />
+              <small v-if="daysError" class="block w-28 p-error">{{
+                daysError
+              }}</small>
+            </div>
             <div>วัน</div>
-            <Input
-              inputType="inputNumber"
-              v-model:value="nights"
-              v-model:error="nightsError"
-              placeholder="คืน"
-            />
+            <div>
+              <InputNumber
+                v-model="nights"
+                placeholder="คืน"
+                :class="`input-number ${nightsError && 'p-invalid'}`"
+              />
+              <small v-if="nightsError" class="block w-28 p-error">{{
+                nightsError
+              }}</small>
+            </div>
             <div>คืน</div>
 
             <div class="col-start-1">ราคา</div>
-            <Input
-              inputType="inputNumber"
-              :price="true"
-              v-model:value="price"
-              placeholder="ราคา"
-              v-model:error="priceError"
-            />
+            <div class="col-span-2">
+              <InputNumber
+                v-model="price"
+                placeholder="ราคา"
+                :class="`input-price ${priceError && 'p-invalid'}`"
+              />
+              <small v-if="priceError" class="block w-28 p-error">{{
+                priceError
+              }}</small>
+            </div>
 
             <div>บาท</div>
 
             <div class="col-start-1">สายการบิน</div>
             <div class="col-span-7">
-              <Input
-                inputType="inputText"
-                v-model:value="airline"
+              <InputText
+                v-model="airline"
                 placeholder="สายการบิน"
-                v-model:error="airlineError"
+                class="all-input !rounded-full w-full"
+                :class="airlineError && 'p-invalid'"
               />
+              <small v-if="airlineError" class="p-error">{{
+                airlineError
+              }}</small>
             </div>
           </div>
 
           <div class="mb-4">รายละเอียดการเดินทาง</div>
-          <Input
-            inputType="editor"
-            v-model:value="details"
-            v-model:error="detailsError"
+          <Editor
+            v-model="details"
+            editorStyle="height: 320px"
+            :class="detailsError && 'p-invalid'"
           />
+          <small v-if="detailsError" class="block w-28 p-error">{{
+            detailsError
+          }}</small>
 
           <div class="flex justify-end pt-12">
             <Button
@@ -152,13 +184,21 @@ import { useField, useForm } from "vee-validate";
 
 import TourPackageCard from "@/components/TourPackageCard.vue";
 import { data } from "@/services/TourPackageService";
-import Input from "@/components/Input.vue";
 
 const route = useRoute();
 const { handleSubmit } = useForm();
 
 const fileUpload = ref(null);
 const clearButton = ref(false);
+
+const options = ref([
+  { name: "ออสเตรเลีย" },
+  { name: "บราซิล" },
+  { name: "จีน" },
+  { name: "เชค" },
+  { name: "สโลวัก" },
+  { name: "ฮังการี" },
+]);
 
 const tour = ref({
   image: null,
@@ -183,8 +223,6 @@ const clearFile = async () => {
   tour.value.image = null;
   tour.value.fileName = null;
   fileName.value = null;
-  const aa = await fileNameValidate();
-  console.log(aa);
 };
 
 watchEffect(() => {
@@ -286,7 +324,17 @@ watch(countries, (newValue) => {
 });
 
 const validateDetails = (value) => {
-  if (!value || value.length < 1) return "Details is required.";
+  if (!value) return "Details is required.";
+
+  const htmlToString = (html) => {
+    const tempElement = document.createElement("div");
+    tempElement.innerHTML = html;
+    return tempElement.textContent || tempElement.innerText || "";
+  };
+
+  const plainString = htmlToString(value);
+  if (!plainString) return "Details is required.";
+
   return true;
 };
 
@@ -301,7 +349,7 @@ watch(details, (newValue) => {
 });
 
 const validateFileName = (value) => {
-  if (!value || value.length < 1) return "File is required.";
+  if (!value) return "File is required.";
   return true;
 };
 
@@ -321,34 +369,30 @@ const onSubmit = handleSubmit((values) => {
 });
 
 onMounted(async () => {
-  if (route.path.includes("edit")) {
-    const mountedData = data.tours.find((item) => {
-      return item.id === parseInt(route.params.tourId);
-    });
+  const mountedData = data.tours.find((item) => {
+    return item.id === parseInt(route.params.tourId);
+  });
 
-    mountedData.countries = mountedData.countries.map((item) => {
-      return { name: item };
-    });
+  mountedData.countries = mountedData.countries.map((item) => {
+    return { name: item };
+  });
 
-    const response = await fetch(mountedData.image);
-    const fileBlob = await response.blob();
-    const image = URL.createObjectURL(fileBlob);
-    const imageName = new URL(response.url).pathname.split("/").pop();
+  const response = await fetch(mountedData.image);
+  const fileBlob = await response.blob();
+  const image = URL.createObjectURL(fileBlob);
+  const imageName = new URL(response.url).pathname.split("/").pop();
 
-    tour.value = mountedData;
-    tour.value.image = image;
-    tour.value.fileName = imageName;
+  tour.value = mountedData;
+  tour.value.image = image;
+  tour.value.fileName = imageName;
 
-    name.value = mountedData.name;
-    countries.value = mountedData.countries;
-    days.value = mountedData.days;
-    nights.value = mountedData.nights;
-    price.value = mountedData.price;
-    airline.value = mountedData.airline;
-    details.value = mountedData.details;
-    fileName.value = mountedData.fileName;
-
-    console.log(mountedData);
-  }
+  name.value = mountedData.name;
+  countries.value = mountedData.countries;
+  days.value = mountedData.days;
+  nights.value = mountedData.nights;
+  price.value = mountedData.price;
+  airline.value = mountedData.airline;
+  details.value = mountedData.details;
+  fileName.value = mountedData.fileName;
 });
 </script>

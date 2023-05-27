@@ -3,7 +3,8 @@ import Home from "@/views/App/Home.vue";
 import Tours from "@/views/App/Tours.vue";
 import TourDetails from "@/views/App/TourDetails.vue";
 import Contact from "@/views/App/Contact.vue";
-import TourManagement from "@/views/App/TourManagement.vue";
+import CreateTour from "@/views/App/CreateTour.vue";
+import EditTour from "@/views/App/EditTour.vue";
 
 const routes = [
   {
@@ -29,12 +30,12 @@ const routes = [
   {
     path: "/tours/create",
     name: "Create Tour",
-    component: TourManagement,
+    component: CreateTour,
   },
   {
     path: "/tours/edit/:tourId",
     name: "Edit Tour",
-    component: TourManagement,
+    component: EditTour,
   },
 ];
 
