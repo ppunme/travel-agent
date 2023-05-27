@@ -5,6 +5,7 @@ import TourDetails from "@/views/App/TourDetails.vue";
 import Contact from "@/views/App/Contact.vue";
 import CreateTour from "@/views/App/CreateTour.vue";
 import EditTour from "@/views/App/EditTour.vue";
+import Login from "@/views/Admin/Login.vue";
 
 const routes = [
   {
@@ -36,6 +37,11 @@ const routes = [
     path: "/tours/edit/:tourId",
     name: "Edit Tour",
     component: EditTour,
+  },
+  {
+    path: "/admin/login",
+    name: "Admin Login",
+    component: Login,
   },
 ];
 

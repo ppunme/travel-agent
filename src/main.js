@@ -133,6 +133,7 @@ import {
   faChevronDown,
   faCheck,
   faXmark,
+  faLock,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faCircleXmark as regularCircleXmark } from "@fortawesome/free-regular-svg-icons";
@@ -159,7 +160,8 @@ library.add(
   faChevronDown,
   regularCircleXmark,
   faCheck,
-  faXmark
+  faXmark,
+  faLock
 );
 
 const app = createApp(App);
