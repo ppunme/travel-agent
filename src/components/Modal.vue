@@ -5,11 +5,12 @@
     :style="{ width: '50vw' }"
     :breakpoints="{ '1200px': '75vw', '641px': '95vw' }"
     :draggable="false"
+    :pt="{
+      closeButton: { class: '!hidden' },
+    }"
   >
     <template #header>
       <h5 class="mx-auto">{{ header }}</h5>
-    </template>
-    <template #closeicon>
       <Button @click="onCancel" text class="!p-0 !text-neutral-400"
         ><font-awesome-icon :icon="['fas', 'times']" size="lg"
       /></Button>
