@@ -1,7 +1,7 @@
 const tours = [
   {
     id: 1,
-    image: require("@/assets/img/image_11.png"),
+    image: "http://localhost:8080/image_11.png",
     name: "ยุโรป ตะวันออก",
     days: 8,
     nights: 5,
@@ -13,7 +13,7 @@ const tours = [
   },
   {
     id: 2,
-    image: require("@/assets/img/image_11.png"),
+    image: "http://localhost:8080/image_11.png",
     name: "ยุโรป ตะวันออก",
     days: 8,
     nights: 5,
@@ -25,7 +25,7 @@ const tours = [
   },
   {
     id: 3,
-    image: require("@/assets/img/image_11.png"),
+    image: "http://localhost:8080/image_11.png",
     name: "ยุโรป ตะวันออก",
     days: 8,
     nights: 5,
@@ -37,7 +37,7 @@ const tours = [
   },
   {
     id: 4,
-    image: require("@/assets/img/image_11.png"),
+    image: "http://localhost:8080/image_11.png",
     name: "ยุโรป ตะวันออก",
     days: 8,
     nights: 5,
@@ -49,7 +49,7 @@ const tours = [
   },
   {
     id: 5,
-    image: require("@/assets/img/image_11.png"),
+    image: "http://localhost:8080/image_11.png",
     name: "ยุโรป ตะวันออก",
     days: 8,
     nights: 5,
@@ -61,7 +61,7 @@ const tours = [
   },
   {
     id: 6,
-    image: require("@/assets/img/image_11.png"),
+    image: "http://localhost:8080/image_11.png",
     name: "ยุโรป ตะวันออก",
     days: 8,
     nights: 5,
@@ -73,7 +73,7 @@ const tours = [
   },
   {
     id: 7,
-    image: require("@/assets/img/image_11.png"),
+    image: "http://localhost:8080/image_11.png",
     name: "ยุโรป ตะวันออก",
     days: 8,
     nights: 5,
@@ -85,7 +85,7 @@ const tours = [
   },
   {
     id: 8,
-    image: require("@/assets/img/image_11.png"),
+    image: "http://localhost:8080/image_11.png",
     name: "ยุโรป ตะวันออก",
     days: 8,
     nights: 5,
@@ -97,7 +97,7 @@ const tours = [
   },
   {
     id: 9,
-    image: require("@/assets/img/image_11.png"),
+    image: "http://localhost:8080/image_11.png",
     name: "ยุโรป ตะวันออก",
     days: 8,
     nights: 5,
@@ -109,7 +109,7 @@ const tours = [
   },
   {
     id: 10,
-    image: require("@/assets/img/image_11.png"),
+    image: "http://localhost:8080/image_11.png",
     name: "ยุโรป ตะวันออก",
     days: 8,
     nights: 5,
@@ -121,7 +121,7 @@ const tours = [
   },
   {
     id: 11,
-    image: require("@/assets/img/image_11.png"),
+    image: "http://localhost:8080/image_11.png",
     name: "ยุโรป ตะวันออก",
     days: 8,
     nights: 5,
@@ -133,7 +133,7 @@ const tours = [
   },
   {
     id: 12,
-    image: require("@/assets/img/image_11.png"),
+    image: "http://localhost:8080/image_11.png",
     name: "ยุโรป ตะวันออก",
     days: 8,
     nights: 5,

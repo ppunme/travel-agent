@@ -1,11 +1,6 @@
 <template>
   <div class="tour-card border rounded-[20px]">
-    <img
-      v-if="item.image"
-      :src="item.id ? item.image : item.image.objectURL"
-      alt=""
-      class="w-full"
-    />
+    <img v-if="item.image" :src="item.image" alt="" class="w-full" />
     <div class="px-6 py-4 font-medium">
       <h3 v-if="item.name" class="pb-3">{{ item.name }}</h3>
       <h6 v-if="item.days && item.nights">
@@ -28,14 +23,57 @@
 import { ref, defineProps } from "vue";
 import { useRouter } from "vue-router";
 
-const props = defineProps(["item"]);
+const props = defineProps([
+  "item",
+  "management",
+  "nameValidate",
+  "airlineValidate",
+  "daysValidate",
+  "nightsValidate",
+  "priceValidate",
+  "countriesValidate",
+  "detailsValidate",
+  "fileNameValidate",
+]);
 
 const router = useRouter();
 
-const openNewRoute = (id) => {
-  if (id) {
+const openNewRoute = async (id) => {
+  if (!props.management) {
     router.push(`/tours/${id}`);
   } else {
+    const nameValidate = await props.nameValidate();
+    const airlineValidate = await props.airlineValidate();
+    const daysValidate = await props.daysValidate();
+    const nightsValidate = await props.nightsValidate();
+    const countriesValidate = await props.countriesValidate();
+    const priceValidate = await props.priceValidate();
+    const detailsValidate = await props.detailsValidate();
+    const fileNameValidate = await props.fileNameValidate();
+    console.log(
+      nameValidate,
+      airlineValidate,
+      daysValidate,
+      nightsValidate,
+      countriesValidate,
+      priceValidate,
+      detailsValidate,
+      fileNameValidate
+    );
+
+    if (
+      !nameValidate.valid ||
+      !airlineValidate.valid ||
+      !daysValidate.valid ||
+      !nightsValidate.valid ||
+      !countriesValidate.valid ||
+      !priceValidate.valid ||
+      !detailsValidate.valid ||
+      !fileNameValidate.valid
+    ) {
+      return;
+    }
+
     const countries = props.item.countries.map((item) => item.name);
 
     const previewData = ref({
@@ -43,7 +81,7 @@ const openNewRoute = (id) => {
       countries: countries.join(", "),
       days: props.item.days,
       details: props.item.details,
-      image: props.item.image.objectURL,
+      image: props.item.image,
       name: props.item.name,
       nights: props.item.nights,
       price: props.item.price,

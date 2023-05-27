@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto py-12">
-    <h2 class="text-center mb-8">เพิ่มแพ็คเกจใหม่</h2>
+    <h2 class="text-center mb-8">แก้ไขแพ็คเกจ</h2>
     <h5 class="font-medium mb-6">Preview</h5>
     <div class="grid grid-cols-3 gap-40">
       <div>
@@ -178,11 +178,14 @@
   </div>
 </template>
 <script setup>
-import { watch, ref, watchEffect } from "vue";
+import { watch, ref, watchEffect, onMounted } from "vue";
+import { useRoute } from "vue-router";
 import { useField, useForm } from "vee-validate";
 
 import TourPackageCard from "@/components/TourPackageCard.vue";
+import { data } from "@/services/TourPackageService";
 
+const route = useRoute();
 const { handleSubmit } = useForm();
 
 const fileUpload = ref(null);
@@ -363,5 +366,33 @@ watch(fileName, (newValue) => {
 const onSubmit = handleSubmit((values) => {
   console.log(values);
   console.log(tour.value);
+});
+
+onMounted(async () => {
+  const mountedData = data.tours.find((item) => {
+    return item.id === parseInt(route.params.tourId);
+  });
+
+  mountedData.countries = mountedData.countries.map((item) => {
+    return { name: item };
+  });
+
+  const response = await fetch(mountedData.image);
+  const fileBlob = await response.blob();
+  const image = URL.createObjectURL(fileBlob);
+  const imageName = new URL(response.url).pathname.split("/").pop();
+
+  tour.value = mountedData;
+  tour.value.image = image;
+  tour.value.fileName = imageName;
+
+  name.value = mountedData.name;
+  countries.value = mountedData.countries;
+  days.value = mountedData.days;
+  nights.value = mountedData.nights;
+  price.value = mountedData.price;
+  airline.value = mountedData.airline;
+  details.value = mountedData.details;
+  fileName.value = mountedData.fileName;
 });
 </script>
