@@ -131,6 +131,9 @@ import {
   faTrash,
   faChevronUp,
   faChevronDown,
+  faChevronCircleUp,
+  faChevronCircleDown,
+  faTimes,
   faCheck,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
@@ -157,6 +160,9 @@ library.add(
   faTrash,
   faChevronUp,
   faChevronDown,
+  faChevronCircleUp,
+  faChevronCircleDown,
+  faTimes,
   regularCircleXmark,
   faCheck,
   faXmark

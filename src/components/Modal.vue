@@ -2,16 +2,25 @@
   <Dialog
     v-model:visible="visibleValue"
     modal
-    header="แก้ไขภาพหน้าโฮมเพจ"
     :style="{ width: '50vw' }"
     :breakpoints="{ '1200px': '75vw', '641px': '95vw' }"
+    :draggable="false"
   >
+    <template #header>
+      <h5 class="mx-auto">{{ header }}</h5>
+    </template>
+    <template #closeicon>
+      <Button @click="onCancel" text class="!p-0 !text-neutral-400"
+        ><font-awesome-icon :icon="['fas', 'times']" size="lg"
+      /></Button>
+    </template>
     <slot></slot>
     <template #footer>
       <Button
         @click="onCancel"
+        class="!w-28 custom-button"
         label="ยกเลิก"
-        severity="danger"
+        severity="secondary"
         rounded
         outlined
       />
@@ -19,7 +28,8 @@
         @click="onSave"
         label="บันทึก"
         rounded
-        class="!bg-primary-blue !border-primary-blue"
+        class="!w-28 !bg-primary-blue !border-primary-blue"
+        :loading="loading"
       />
     </template>
   </Dialog>
@@ -28,17 +38,18 @@
 <script setup>
 import { ref, watch, defineProps, defineEmits } from "vue";
 
-const props = defineProps(["visible"]);
-const visibleValue = ref(props.visible);
-
+const props = defineProps(["visible", "header"]);
 const emit = defineEmits(["update:visible"]);
 
-// const onUpload = () => {
-//   console.log("upload!");
-// };
+const visibleValue = ref(props.visible);
+const loading = ref(false);
 
 const onSave = () => {
-  emit("update:visible", false);
+  loading.value = true;
+  setTimeout(() => {
+    loading.value = false;
+    emit("update:visible", false);
+  }, 1000);
 };
 
 const onCancel = () => {
@@ -53,4 +64,12 @@ watch(
 );
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.custom-button {
+  box-shadow: inset 0px 0px 0px 1px #64748b;
+}
+
+.button-text {
+  font-size: 14px;
+}
+</style>

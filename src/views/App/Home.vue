@@ -9,7 +9,11 @@
       <span class="mx-auto">แก้ไข</span>
     </Button>
   </div>
-  <Modal :visible="visible" @update:visible="onDialogUpdate">
+  <Modal
+    header="แก้ไขภาพหน้าโฮมเพจ"
+    :visible="visible"
+    @update:visible="onDialogUpdate"
+  >
     <EditCarousel />
   </Modal>
   <Carousel
@@ -25,13 +29,17 @@
         <img
           :src="require(`@/assets/images/${slotProps.data.image}`)"
           :alt="slotProps.data.name"
-          class="object-cover h-[525px] w-full"
+          class="object-cover h-[300] lg:h-[525px] xl:h-[700] w-full"
         />
-        <div class="absolute inset-0 flex items-center pl-32 w-2/6">
-          <p class="text-white text-7xl font-semibold opacity-80 tracking-wide">
+        <!-- <div
+          class="absolute inset-0 flex items-center pl-32 w-1/2 lg:w-1/3 xl:w-1/2"
+        >
+          <p
+            class="text-white text-5xl lg:text-7xl font-semibold opacity-80 tracking-wide"
+          >
             {{ slotProps.data.text }}
           </p>
-        </div>
+        </div> -->
       </div>
     </template>
   </Carousel>
