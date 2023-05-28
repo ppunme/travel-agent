@@ -136,6 +136,7 @@ import {
   faTimes,
   faCheck,
   faXmark,
+  faBars,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faCircleXmark as regularCircleXmark } from "@fortawesome/free-regular-svg-icons";
@@ -165,7 +166,8 @@ library.add(
   faTimes,
   regularCircleXmark,
   faCheck,
-  faXmark
+  faXmark,
+  faBars
 );
 
 const app = createApp(App);

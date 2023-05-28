@@ -1,143 +1,119 @@
 <template>
-  <div class="flex justify-end pt-2">
-    <FileUpload
-      chooseLabel="เพิ่มรูป"
-      mode="basic"
-      name="demo[]"
-      url="./upload.php"
-      accept="image/*"
-      :maxFileSize="3140000"
-      @select="customBase64Uploader"
-      :auto="true"
-    >
-    </FileUpload>
-  </div>
-
-  <div class="flex flex-col lg:flex-row p-3">
-    <div class="basis-1/3">
-      <h5 class="font-bold text-primary-blue text-center">Preview</h5>
-      <div class="w-80 mx-auto pr-4">
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-          <div
-            v-for="(item, index) in Array.from(
-              { length: 6 },
-              (_, i) => uploadedFile[i] || i
-            )"
-            :key="item.id"
-            :draggable="true"
-            @dragstart="handleDragStart($event, index)"
-            @dragover="handleDragOver($event)"
-            @drop="handleDrop($event, index)"
-            class="draggable-img rounded-lg hover:opacity-80"
-          >
-            <div class="square-image">
-              <img
-                v-if="index < uploadedFile.length"
-                :src="item.objectURL"
-                :alt="item.name"
-                class="rounded-xl"
-              />
-              <img
-                v-else
-                :src="require('@/assets/images/no-img.png')"
-                alt="no image"
-                class="object-cover h-[525px] w-full"
-              />
-            </div>
+  <div>
+    <div class="w-80 mx-auto pr-4">
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+        <div
+          v-for="(item, index) in Array.from(
+            { length: 6 },
+            (_, i) => selectedTours[i] || i
+          )"
+          :key="item.id"
+          :draggable="true"
+          @dragstart="handleDragStart($event, index)"
+          @dragover="handleDragOver($event)"
+          @drop="handleDrop($event, index)"
+          class="draggable-img rounded-lg hover:opacity-80"
+        >
+          <div class="square-image">
+            <img
+              v-if="item.image"
+              :src="require(`@/assets/images/${item.image}`)"
+              :alt="item.name"
+              class="rounded-xl"
+            />
+            <img
+              v-else
+              :src="require('@/assets/images/no-img.png')"
+              alt="no image"
+              class="object-cover h-[525px] w-full"
+            />
           </div>
         </div>
       </div>
     </div>
-    <div class="basis-2/3 bg-neutral-100 min-h-[220px] rounded-lg p-2">
+  </div>
+  <div class="flex justify-center">
+    <div class="w-3/4">
       <div
-        v-for="(item, index) in uploadedFile"
+        v-for="(item, idx) in selectedTours"
         :key="item.id"
-        :draggable="true"
-        @dragstart="handleDragStart($event, index)"
-        @dragover="handleDragOver($event)"
-        @drop="handleDrop($event, index)"
-        :class="[
-          'draggable-item file-item',
-          { 'mb-2': index !== uploadedFile.length - 1 },
-        ]"
+        class="flex items-center mt-4"
       >
-        <div class="flex flex-wrap items-center gap-5">
-          <div class="flex-1 flex flex-col gap-2">
-            <span class="ellipsis">{{ item.name }}</span>
-          </div>
-          <button @click="deleteItem" type="button" class="btn-delete">
+        <label class="w-32 pr-4">ภาพที่ {{ idx + 1 }}</label>
+        <div class="w-full flex items-center">
+          <Dropdown
+            :modelValue="item"
+            :options="tours"
+            filter
+            optionLabel="name"
+            placeholder="Select a tour"
+            class="p-dropdown-sm w-full sm:w-14rem"
+            @change="updateTour(idx, $event)"
+          >
+            <template #option="slotProps">
+              <div class="flex align-items-center">
+                {{ slotProps.option.name }}
+              </div>
+            </template>
+          </Dropdown>
+          <button
+            @click="onDelete(idx, item)"
+            type="button"
+            class="btn-delete ml-2"
+          >
             <font-awesome-icon :icon="['fas', 'times']" class="text-red-500" />
           </button>
         </div>
       </div>
+      <div class="mt-6">
+        <Button
+          @click="addRow"
+          label="เพิ่ม"
+          class="w-32 !bg-green-400 !border-none"
+          rounded
+        />
+      </div>
     </div>
   </div>
-  <Toast />
-  <ConfirmDialog></ConfirmDialog>
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
-import { useToast } from "primevue/usetoast";
-import { useConfirm } from "primevue/useconfirm";
+/* eslint-disable */
+import { ref, watch, defineProps, defineEmits } from "vue";
 
-const toast = useToast();
-const confirm = useConfirm();
-const uploadedFile = ref([]);
+const props = defineProps(["tours", "selectedTours"]);
+const emit = defineEmits([
+  "onAddRow",
+  "updateSelectedTours",
+  "handleDelete",
+  "handleDrop",
+]);
 
-const customBase64Uploader = async (event) => {
-  const file = event.files[0];
-  console.log("file", file);
-  const reader = new FileReader();
-  let blob = await fetch(file.objectURL).then((r) => r.blob()); //blob:url
-
-  reader.readAsDataURL(blob);
-
-  reader.onloadend = function () {
-    //const base64data = reader.result;
-    //console.log("base64data: " + base64data);
-    console.log("file", file);
-    uploadedFile.value.push(file);
-  };
+const addRow = () => {
+  emit("onAddRow");
 };
 
-const handleDragStart = (event, index) => {
-  event.dataTransfer.setData("text/plain", index);
+const updateTour = (index, e) => {
+  emit("updateSelectedTours", index, e.value);
 };
 
-const handleDragOver = (event) => {
-  event.preventDefault();
+const onDelete = (index, item) => {
+  //e.preventDefault();
+  emit("handleDelete", index, item);
 };
 
-const handleDrop = (event, newIndex) => {
-  event.preventDefault();
-  const oldIndex = event.dataTransfer.getData("text/plain");
-  const item = uploadedFile.value.splice(oldIndex, 1)[0];
-  uploadedFile.value.splice(newIndex, 0, item);
-  toast.add({ severity: "success", summary: "Rows Reordered", life: 3000 });
+const handleDragStart = (e, index) => {
+  e.dataTransfer.setData("text/plain", index);
 };
 
-const deleteItem = () => {
-  console.log("delete");
-  confirm.require({
-    message: "ยืนยันการลบข้อมูล",
-    header: "Delete",
-    acceptClass: "p-button-danger",
-    accept: () => {
-      toast.add({
-        severity: "error",
-        summary: "Confirmed",
-        detail: "Record deleted",
-        life: 3000,
-      });
-    },
-  });
+const handleDragOver = (e) => {
+  e.preventDefault();
 };
 
-watch(uploadedFile.value, (newValue, oldValue) => {
-  console.log(oldValue);
-  console.log("upload file name", newValue);
-});
+const handleDrop = (e, newIndex) => {
+  e.preventDefault();
+  emit("handleDrop", e, newIndex);
+};
 </script>
 
 <style scoped>

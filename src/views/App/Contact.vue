@@ -54,7 +54,7 @@
         </div>
       </div>
 
-      <div class="sm:w-7/12 absolute right-0 top-0">
+      <div class="w-full sm:w-7/12 absolute right-0 top-0">
         <div
           class="bg-[#2890E3] h-144 px-20 rounded-s-xl relative flex items-center"
         >
