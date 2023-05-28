@@ -42,10 +42,12 @@
   <nav class="navbar text-primary-blue relative z-10">
     <div class="flex justify-between items-center py-4 px-3 md:px-0">
       <div class="flex items-center">
-        <img src="@/assets/images/logo.png" alt="" />
-        <h4 class="ml-4 self-center font-semibold w-40 text-primary-blue">
+        <img src="@/assets/images/logo.png" alt="logo" class="w-20 sm:w-full" />
+        <h5
+          class="sm:text-3xl ml-4 self-center font-semibold w-40 text-primary-blue"
+        >
           Wellness Life Travel
-        </h4>
+        </h5>
       </div>
       <div
         class="hidden md:flex md:justify-center md:items-center sm:gap-8 lg:gap-16 xl:gap-28"
@@ -72,9 +74,6 @@
         </a>
       </div>
       <div class="md:hidden">
-        <!-- <button @click="showMenu = !showMenu" class="focus:outline-none">
-          <font-awesome-icon :icon="['fas', 'bars']" size="2xl" />
-        </button> -->
         <button
           @click="showMenu = !showMenu"
           class="flex items-center space-x-2 focus:outline-none"
@@ -98,10 +97,10 @@
         </button>
       </div>
     </div>
-    <transition name="fade">
+    <Transition name="slide-fade">
       <div
         v-if="showMenu"
-        class="md:hidden absolute inset-x-0 top-[129px] bg-[#333] z-20"
+        class="md:hidden absolute inset-x-0 top-[115px] bg-[#333] z-20"
         style="height: calc(100vh - 50px)"
       >
         <div class="px-6">
@@ -116,7 +115,7 @@
           </div>
         </div>
       </div>
-    </transition>
+    </Transition>
   </nav>
 </template>
 
@@ -150,13 +149,14 @@ const socialLinks = ref([
 <style lang="scss" scoped>
 @import "@/assets/scss/variables.scss";
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
+.slide-fade-leave-active,
+.slide-fade-enter-active {
+  transition: all 0.2s ease-out;
 }
 
-.fade-enter,
-.fade-leave-to {
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateY(-20px);
   opacity: 0;
 }
 

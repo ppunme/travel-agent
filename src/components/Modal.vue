@@ -34,12 +34,47 @@
       />
     </template>
   </Dialog>
+  <Dialog
+    v-model:visible="visibleValue"
+    modal
+    :style="{ width: '50vw' }"
+    :breakpoints="{ '1200px': '75vw', '641px': '95vw' }"
+    :draggable="false"
+    :pt="{
+      closeButton: { class: '!hidden' },
+    }"
+  >
+    <template #header>
+      <h5 class="mx-auto">{{ header }}</h5>
+      <Button @click="onCancel" text class="!p-0 !text-neutral-400"
+        ><font-awesome-icon :icon="['fas', 'times']" size="lg"
+      /></Button>
+    </template>
+    <slot></slot>
+    <template #footer>
+      <Button
+        @click="onCancel"
+        class="!w-28 custom-button"
+        label="ยกเลิก"
+        severity="secondary"
+        rounded
+        outlined
+      />
+      <Button
+        @click="onSave"
+        label="บันทึก"
+        rounded
+        class="!w-28 !bg-primary-blue !border-primary-blue"
+        :loading="loading"
+      />
+    </template>
+  </Dialog>
 </template>
 
 <script setup>
 import { ref, watch, defineProps, defineEmits } from "vue";
 
-const props = defineProps(["visible", "header"]);
+const props = defineProps(["visible", "header", "selectedTours"]);
 const emit = defineEmits(["update:visible"]);
 
 const visibleValue = ref(props.visible);

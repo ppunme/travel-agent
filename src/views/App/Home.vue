@@ -52,7 +52,7 @@
     />
     <p class="text-primary-blue">รับจัดทัวร์ในประเทศและต่างประเทศ</p>
   </div>
-  <TourGrid :tours="tours" />
+  <TourGrid />
   <div class="text-center py-12">
     <Button
       @click="$router.push('/tours')"
@@ -92,38 +92,38 @@ const items = ref([
   },
 ]);
 
-const tours = ref([
-  {
-    id: 1,
-    image: "tour1.jpg",
-    name: "Tour 1",
-  },
-  {
-    id: 2,
-    image: "tour2.jpg",
-    name: "Tour 2",
-  },
-  {
-    id: 3,
-    image: "tour3.jpg",
-    name: "Tour 3",
-  },
-  {
-    id: 4,
-    image: "tour4.jpg",
-    name: "Tour 4",
-  },
-  {
-    id: 5,
-    image: "tour5.jpg",
-    name: "Tour 5",
-  },
-  {
-    id: 6,
-    image: "tour6.jpg",
-    name: "Tour 6",
-  },
-]);
+// const tours = ref([
+//   {
+//     id: 1,
+//     image: "tour1.jpg",
+//     name: "Tour 1",
+//   },
+//   {
+//     id: 2,
+//     image: "tour2.jpg",
+//     name: "Tour 2",
+//   },
+//   {
+//     id: 3,
+//     image: "tour3.jpg",
+//     name: "Tour 3",
+//   },
+//   {
+//     id: 4,
+//     image: "tour4.jpg",
+//     name: "Tour 4",
+//   },
+//   {
+//     id: 5,
+//     image: "tour5.jpg",
+//     name: "Tour 5",
+//   },
+//   {
+//     id: 6,
+//     image: "tour6.jpg",
+//     name: "Tour 6",
+//   },
+// ]);
 
 const onDialogUpdate = (value) => {
   visible.value = value;
