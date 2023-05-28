@@ -14,7 +14,13 @@
     :visible="visible"
     @update:visible="onDialogUpdate"
   >
-    <EditCarousel />
+    <EditCarousel
+      :items="items"
+      @handleAddImg="handleAddImg"
+      @handleDelete="handleDelete"
+      @moveItemUp="moveItemUp"
+      @moveItemDown="moveItemDown"
+    />
   </Modal>
   <Carousel
     :value="items"
@@ -62,72 +68,106 @@
     />
   </div>
   <ContactCard :contacts="data.contacts" :line="data.line" />
+  <ModalDelete
+    header="Delete"
+    :visible="visibleDelete"
+    @handleCancel="handleCancel"
+    @confirmDelete="confirmDelete"
+  />
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import TourGrid from "@/components/TourGrid.vue";
 import ContactCard from "@/components/ContactCard.vue";
 import Modal from "@/components/Modal.vue";
 import EditCarousel from "@/components/EditCarousel.vue";
+import ModalDelete from "@/components/ModalDelete.vue";
 import { data } from "@/services/ContactList";
+import { useToast } from "primevue/usetoast";
 
+const toast = useToast();
 const visible = ref(false);
+const visibleDelete = ref(false);
+const deleteIndex = ref(null);
+const deleteItem = ref(null);
 
 const items = ref([
   {
+    id: 1,
     image: "image1.png",
     name: "Image 1",
     text: "Wellness Life Travel",
   },
   {
+    id: 2,
     image: "image2.png",
     name: "Image 2",
     text: "Discover your favourite tour with us",
   },
   {
+    id: 3,
     image: "image3.png",
     name: "Image 3",
     text: "Let our travel experts plan your next gateway",
   },
 ]);
 
-// const tours = ref([
-//   {
-//     id: 1,
-//     image: "tour1.jpg",
-//     name: "Tour 1",
-//   },
-//   {
-//     id: 2,
-//     image: "tour2.jpg",
-//     name: "Tour 2",
-//   },
-//   {
-//     id: 3,
-//     image: "tour3.jpg",
-//     name: "Tour 3",
-//   },
-//   {
-//     id: 4,
-//     image: "tour4.jpg",
-//     name: "Tour 4",
-//   },
-//   {
-//     id: 5,
-//     image: "tour5.jpg",
-//     name: "Tour 5",
-//   },
-//   {
-//     id: 6,
-//     image: "tour6.jpg",
-//     name: "Tour 6",
-//   },
-// ]);
-
 const onDialogUpdate = (value) => {
   visible.value = value;
 };
+
+const handleAddImg = (file) => {
+  console.log("add file: " + file);
+  items.value.push(file);
+};
+
+const handleCancel = (value) => {
+  visibleDelete.value = value;
+};
+
+const handleDelete = (index, item) => {
+  if (item.id) {
+    visibleDelete.value = true;
+    deleteIndex.value = index;
+    deleteItem.value = item.id;
+  } else {
+    items.value.splice(index, 1);
+  }
+};
+
+const confirmDelete = () => {
+  visibleDelete.value = false;
+
+  if (deleteItem.value) {
+    items.value = items.value.filter((tour) => tour.id !== deleteItem.value);
+    toast.add({
+      severity: "error",
+      summary: "Confirmed",
+      detail: "รูปถูกลบแล้ว",
+      life: 3000,
+    });
+  }
+};
+
+const moveItemUp = (index) => {
+  if (index > 0) {
+    const item = items.value.splice(index, 1)[0];
+    items.value.splice(index - 1, 0, item);
+  }
+};
+
+const moveItemDown = (index) => {
+  if (index < items.value.length - 1) {
+    const item = items.value.splice(index, 1)[0];
+    items.value.splice(index + 1, 0, item);
+  }
+};
+
+watch(items.value, (newValue, oldValue) => {
+  console.log("watch:", oldValue);
+  console.log("upload file name", newValue);
+});
 </script>
 
 <style lang="scss">

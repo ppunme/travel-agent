@@ -39,6 +39,12 @@
       </div>
     </div>
   </div>
+  <ModalDelete
+    header="Delete"
+    :visible="visibleDelete"
+    @handleCancel="handleCancel"
+    @confirmDelete="confirmDelete"
+  />
   <Toast />
 </template>
 
@@ -46,12 +52,17 @@
 /* eslint-disable */
 import { ref } from "vue";
 import Modal from "@/components/Modal.vue";
+import ModalDelete from "@/components/ModalDelete.vue";
 import EditTourGrid from "@/components/EditTourGrid.vue";
 //import { data } from "@/services/TourPackageService";
 import { useToast } from "primevue/usetoast";
 
 const toast = useToast();
 const visible = ref(false);
+const visibleDelete = ref(false);
+const deleteIndex = ref(null);
+const deleteItem = ref(null);
+
 const selectedTours = ref([
   {
     id: 4,
@@ -137,29 +148,29 @@ const updateSelectedTours = (index, tour) => {
   selectedTours.value.splice(index, 1, tour);
 };
 
-const handleDelete = (index, deleteItem) => {
-  console.log("delete", deleteItem.id);
-  if (deleteItem.id !== null) {
-    selectedTours.value = selectedTours.value.filter(
-      (tour) => tour.id !== deleteItem.id
-    );
+const handleCancel = (value) => {
+  visibleDelete.value = value;
+};
+
+const handleDelete = (index, item) => {
+  if (item.id) {
+    visibleDelete.value = true;
+    deleteIndex.value = index;
+    deleteItem.value = item.id;
   } else {
     selectedTours.value.splice(index, 1);
   }
+};
 
-  // confirm.require({
-  //   message: "ยืนยันการลบข้อมูล",
-  //   header: "Delete",
-  //   acceptClass: "p-button-danger",
-  //   accept: () => {
-  //     toast.add({
-  //       severity: "error",
-  //       summary: "Confirmed",
-  //       detail: "Record deleted",
-  //       life: 3000,
-  //     });
-  //   },
-  // });
+const confirmDelete = () => {
+  visibleDelete.value = false;
+
+  if (deleteItem.value) {
+    selectedTours.value = selectedTours.value.filter(
+      (tour) => tour.id !== deleteItem.value
+    );
+    toast.add({ severity: "error", summary: "Item deleted", life: 2000 });
+  }
 };
 
 const handleDrop = (e, newIndex) => {
@@ -167,6 +178,6 @@ const handleDrop = (e, newIndex) => {
   const oldIndex = e.dataTransfer.getData("text/plain");
   const item = selectedTours.value.splice(oldIndex, 1)[0];
   selectedTours.value.splice(newIndex, 0, item);
-  toast.add({ severity: "success", summary: "Rows Reordered", life: 3000 });
+  toast.add({ severity: "success", summary: "Rows Reordered", life: 2000 });
 };
 </script>
