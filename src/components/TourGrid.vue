@@ -14,6 +14,7 @@
       header="แก้ไขการแสดงผลแพ็คเกจทัวร์หน้าโฮมเพจ"
       :visible="visible"
       @update:visible="onDialogUpdate"
+      :tourGrid="true"
     >
       <EditTourGrid
         :tours="tours"

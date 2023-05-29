@@ -28,14 +28,36 @@
         rounded
         class="!bg-primary-blue !border-none !text-[1.25rem] w-full !mt-4"
       />
-      <h5 class="text-end font-light mt-4 text-primary-blue">ลืมรหัสผ่าน?</h5>
+      <h5
+        class="text-end font-light mt-4 text-primary-blue cursor-pointer hover:opacity-70"
+        @click="visible = true"
+      >
+        ลืมรหัสผ่าน?
+      </h5>
     </div>
+    <Modal
+      header="ลืมรหัสผ่าน"
+      :hideButton="true"
+      width="30vw"
+      :visible="visible"
+      @update:visible="onDialogUpdate"
+    >
+      <ForgetPassword />
+    </Modal>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
+import Modal from "@/components/Modal.vue";
+import ForgetPassword from "@/components/ForgetPassword.vue";
 
 const email = ref();
 const password = ref();
+
+const visible = ref(false);
+
+const onDialogUpdate = (value) => {
+  visible.value = value;
+};
 </script>

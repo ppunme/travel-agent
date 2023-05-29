@@ -39,7 +39,7 @@ const routes = [
     component: EditTour,
   },
   {
-    path: "/admin/login",
+    path: "/admin",
     name: "Admin Login",
     component: Login,
   },

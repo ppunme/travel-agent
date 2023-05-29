@@ -170,7 +170,7 @@ library.add(
   faCheck,
   faXmark,
   faBars,
-  faExclamationCircle
+  faExclamationCircle,
   faLock
 );
 
