@@ -252,3 +252,7 @@ body,
 .ellipsis {
   @apply w-20 sm:w-36 md:w-60 lg:w-96 overflow-hidden whitespace-nowrap overflow-ellipsis;
 }
+
+.hamburger-bar {
+  @apply transform transition w-full h-[4px] bg-primary-blue absolute rounded-full;
+}

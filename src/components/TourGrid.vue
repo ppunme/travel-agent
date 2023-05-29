@@ -15,7 +15,14 @@
       :visible="visible"
       @update:visible="onDialogUpdate"
     >
-      <EditTourGrid />
+      <EditTourGrid
+        :tours="tours"
+        :selectedTours="selectedTours"
+        @onAddRow="onAddRow"
+        @updateSelectedTours="updateSelectedTours"
+        @handleDelete="handleDelete"
+        @handleDrop="handleDrop"
+      />
     </Modal>
     <div class="grid grid-cols-2 md:grid-cols-3 gap-12">
       <div
@@ -32,16 +39,91 @@
       </div>
     </div>
   </div>
+  <ModalDelete
+    header="Delete"
+    :visible="visibleDelete"
+    @handleCancel="handleCancel"
+    @confirmDelete="confirmDelete"
+  />
+  <Toast />
 </template>
 
 <script setup>
-import { ref, defineProps } from "vue";
+/* eslint-disable */
+import { ref } from "vue";
 import Modal from "@/components/Modal.vue";
+import ModalDelete from "@/components/ModalDelete.vue";
 import EditTourGrid from "@/components/EditTourGrid.vue";
+//import { data } from "@/services/TourPackageService";
+import { useToast } from "primevue/usetoast";
 
-defineProps(["tours"]);
-
+const toast = useToast();
 const visible = ref(false);
+const visibleDelete = ref(false);
+const deleteIndex = ref(null);
+const deleteItem = ref(null);
+
+const selectedTours = ref([
+  {
+    id: 4,
+    image: "tour4.jpg",
+    name: "Tour 4",
+    label: "Tour 4",
+    value: 24,
+  },
+  {
+    id: 5,
+    image: "tour5.jpg",
+    name: "Tour 5",
+    label: "Tour 5",
+    value: 5,
+  },
+]);
+
+const tours = ref([
+  {
+    id: 1,
+    image: "tour1.jpg",
+    name: "Tour 1",
+    label: "Tour 1",
+    value: 1,
+  },
+  {
+    id: 2,
+    image: "tour2.jpg",
+    name: "Tour 2",
+    label: "Tour 2",
+    value: 2,
+  },
+  {
+    id: 3,
+    image: "tour3.jpg",
+    name: "Tour 3",
+    label: "Tour 3",
+    value: 3,
+  },
+  {
+    id: 4,
+    image: "tour4.jpg",
+    name: "Tour 4",
+    label: "Tour 4",
+    value: 24,
+  },
+  {
+    id: 5,
+    image: "tour5.jpg",
+    name: "Tour 5",
+    label: "Tour 5",
+    value: 5,
+  },
+  {
+    id: 6,
+    image: "tour6.jpg",
+    name: "Tour 6",
+    label: "Tour 6",
+    value: 6,
+  },
+]);
 
 const viewPackage = (id) => {
   console.log("view::", id);
@@ -49,5 +131,53 @@ const viewPackage = (id) => {
 
 const onDialogUpdate = (value) => {
   visible.value = value;
+};
+
+const onAddRow = () => {
+  console.log("onadd", selectedTours.value);
+  selectedTours.value.push({
+    id: null,
+    image: null,
+    name: null,
+    label: null,
+    value: null,
+  });
+};
+
+const updateSelectedTours = (index, tour) => {
+  selectedTours.value.splice(index, 1, tour);
+};
+
+const handleCancel = (value) => {
+  visibleDelete.value = value;
+};
+
+const handleDelete = (index, item) => {
+  if (item.id) {
+    visibleDelete.value = true;
+    deleteIndex.value = index;
+    deleteItem.value = item.id;
+  } else {
+    selectedTours.value.splice(index, 1);
+  }
+};
+
+const confirmDelete = () => {
+  visibleDelete.value = false;
+
+  if (deleteItem.value) {
+    selectedTours.value = selectedTours.value.filter(
+      (tour) => tour.id !== deleteItem.value
+    );
+    toast.add({ severity: "error", summary: "Item deleted", life: 2000 });
+  }
+};
+
+const handleDrop = (e, newIndex) => {
+  e.preventDefault();
+  const oldIndex = e.dataTransfer.getData("text/plain");
+  const item = selectedTours.value.splice(oldIndex, 1)[0];
+  selectedTours.value.splice(newIndex, 0, item);
+  toast.add({ severity: "success", summary: "Rows Reordered", life: 2000 });
 };
 </script>

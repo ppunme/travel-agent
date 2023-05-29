@@ -2,7 +2,7 @@ const tours = [
   {
     id: 1,
     image: "http://localhost:8080/image_11.png",
-    name: "ยุโรป ตะวันออก",
+    name: "ญี่ปุ่น",
     days: 8,
     nights: 5,
     price: 49888,
@@ -14,10 +14,10 @@ const tours = [
   {
     id: 2,
     image: "http://localhost:8080/image_11.png",
-    name: "ยุโรป ตะวันออก",
+    name: "เวียดนาม",
     days: 8,
     nights: 5,
-    price: 49888,
+    price: 29888,
     countries: ["ออสเตรเลีย", "เชค", "สโลวัก", "ฮังการี"],
     airline: "EVA Air",
     details:
@@ -26,7 +26,7 @@ const tours = [
   {
     id: 3,
     image: "http://localhost:8080/image_11.png",
-    name: "ยุโรป ตะวันออก",
+    name: "ไต้หวัน",
     days: 8,
     nights: 5,
     price: 49888,
@@ -38,7 +38,7 @@ const tours = [
   {
     id: 4,
     image: "http://localhost:8080/image_11.png",
-    name: "ยุโรป ตะวันออก",
+    name: "ฮ่องกง",
     days: 8,
     nights: 5,
     price: 49888,

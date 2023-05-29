@@ -3,9 +3,11 @@
     <img :src="bgImage" class="absolute top-0 object-cover h-[480px] w-full" />
     <div class="overlay"></div>
 
-    <div class="flex flex-row text items-center">
+    <div
+      class="flex flex-col lg:flex-row text-center lg:text-left text items-center"
+    >
       <div class="basis-1/2">
-        <div class="flex flex-col">
+        <div class="flex flex-col items-center lg:items-start">
           <img :src="lineQrCode" class="self-center" />
           <p class="self-center pt-3">
             <font-awesome-icon
@@ -25,7 +27,7 @@
             size="2xl"
             class="self-center pr-2"
           />
-          <span class="pl-3 text-lg">{{ item.link }}</span>
+          <span class="pl-3 lg:text-lg">{{ item.link }}</span>
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 <template>
+  {{ items.length }}
   <div class="flex justify-end pt-2">
     <FileUpload
       chooseLabel="เพิ่มรูป"
@@ -15,9 +16,9 @@
   </div>
   <div class="bg-neutral-100 rounded-lg p-2 mt-2 min-h-[220px]">
     <div
-      v-for="(item, index) in uploadedFile"
+      v-for="(item, idx) in items"
       :key="item.id"
-      :class="['file-item', { 'mb-2': index !== uploadedFile.length - 1 }]"
+      :class="['file-item', { 'mb-2': idx !== items.length - 1 }]"
     >
       <div class="flex gap-2 lg:gap-6">
         <div class="flex-none flex items-center">
@@ -33,7 +34,7 @@
         </div>
         <div class="flex-none flex items-center pr-6">
           <button
-            @click="moveItemUp(index)"
+            @click="moveItemUp(idx)"
             type="button"
             class="hover:opacity-90 pr-2"
           >
@@ -44,7 +45,7 @@
             />
           </button>
           <button
-            @click="moveItemDown(index)"
+            @click="moveItemDown(idx)"
             type="button"
             class="hover:opacity-90"
           >
@@ -56,7 +57,7 @@
           </button>
         </div>
         <div class="flex-none flex items-center">
-          <button @click="deleteItem" type="button" class="btn-delete">
+          <button @click="onDelete(idx, item)" type="button" class="btn-delete">
             <font-awesome-icon
               :icon="['fas', 'xmark']"
               size="lg"
@@ -72,17 +73,22 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
-import { useToast } from "primevue/usetoast";
-import { useConfirm } from "primevue/useconfirm";
+/* eslint-disable */
+import { ref, watch, defineProps, defineEmits } from "vue";
 
-const toast = useToast();
-const confirm = useConfirm();
+const props = defineProps(["items"]);
+const emit = defineEmits([
+  "handleAddImg",
+  "handleDelete",
+  "moveItemUp",
+  "moveItemDown",
+]);
+
 const uploadedFile = ref([]);
 
 const customBase64Uploader = async (event) => {
   const file = event.files[0];
-  console.log("file", file);
+  //console.log("file", file);
   const reader = new FileReader();
   let blob = await fetch(file.objectURL).then((r) => r.blob()); //blob:url
 
@@ -92,43 +98,30 @@ const customBase64Uploader = async (event) => {
     //const base64data = reader.result;
     //console.log("base64data: " + base64data);
     console.log("file", file);
-    uploadedFile.value.push(file);
+    //uploadedFile.value.push(file);
+    emit("handleAddImg", file);
   };
 };
 
 const moveItemUp = (index) => {
   if (index > 0) {
-    const item = uploadedFile.value.splice(index, 1)[0];
-    uploadedFile.value.splice(index - 1, 0, item);
+    emit("moveItemUp", index);
   }
 };
 
 const moveItemDown = (index) => {
-  if (index < uploadedFile.value.length - 1) {
-    const item = uploadedFile.value.splice(index, 1)[0];
-    uploadedFile.value.splice(index + 1, 0, item);
+  console.log("props", props.items);
+  if (index < props.items.length - 1) {
+    emit("moveItemDown", index);
   }
 };
 
-const deleteItem = () => {
-  console.log("delete");
-  confirm.require({
-    message: "ยืนยันการลบข้อมูล",
-    header: "Delete",
-    acceptClass: "p-button-danger",
-    accept: () => {
-      toast.add({
-        severity: "error",
-        summary: "Confirmed",
-        detail: "รูปถูกลบแล้ว",
-        life: 3000,
-      });
-    },
-  });
+const onDelete = (index, item) => {
+  emit("handleDelete", index, item);
 };
 
-watch(uploadedFile.value, (newValue, oldValue) => {
-  console.log(oldValue);
+watch(props.items.length, (newValue, oldValue) => {
+  console.log("watch:", oldValue);
   console.log("upload file name", newValue);
 });
 </script>
