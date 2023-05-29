@@ -2,21 +2,25 @@
   <Dialog
     v-model:visible="visibleValue"
     modal
-    :style="{ width: '50vw' }"
+    :style="{ width: width ? width : '50vw' }"
     :breakpoints="{ '1200px': '75vw', '641px': '95vw' }"
     :draggable="false"
     :pt="{
       closeButton: { class: '!hidden' },
     }"
+    :class="[hideButton && 'reset-password', tourGrid && 'tour-grid']"
   >
     <template #header>
       <h5 class="mx-auto">{{ header }}</h5>
-      <Button @click="onCancel" text class="!p-0 !text-neutral-400"
+      <Button
+        @click="onCancel"
+        text
+        class="!p-0 !text-neutral-400 !absolute right-0 !mr-[1.5rem]"
         ><font-awesome-icon :icon="['fas', 'times']" size="lg"
       /></Button>
     </template>
     <slot></slot>
-    <template #footer>
+    <template #footer v-if="!hideButton">
       <Button
         @click="onCancel"
         class="!w-28 custom-button"
@@ -39,7 +43,13 @@
 <script setup>
 import { ref, watch, defineProps, defineEmits } from "vue";
 
-const props = defineProps(["visible", "header"]);
+const props = defineProps([
+  "visible",
+  "header",
+  "hideButton",
+  "width",
+  "tourGrid",
+]);
 const emit = defineEmits(["update:visible"]);
 
 const visibleValue = ref(props.visible);

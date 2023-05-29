@@ -136,6 +136,7 @@ import {
   faTimes,
   faCheck,
   faXmark,
+  faLock,
   faBars,
   faExclamationCircle,
 } from "@fortawesome/free-solid-svg-icons";
@@ -169,7 +170,8 @@ library.add(
   faCheck,
   faXmark,
   faBars,
-  faExclamationCircle
+  faExclamationCircle,
+  faLock
 );
 
 const app = createApp(App);

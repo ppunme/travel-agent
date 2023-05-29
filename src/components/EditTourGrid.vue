@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="w-80 mx-auto pr-4">
+    <div class="w-80 mx-auto">
       <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
         <div
           v-for="(item, index) in Array.from(

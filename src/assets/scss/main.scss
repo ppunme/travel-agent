@@ -237,8 +237,42 @@ body,
   }
 }
 
-.p-dialog .p-dialog-header .p-dialog-header-icon:focus {
-  box-shadow: none !important;
+.p-dialog {
+  &.p-component {
+    border-radius: 20px;
+
+    .p-dialog-header {
+      border-top-right-radius: 20px;
+      border-top-left-radius: 20px;
+
+      .p-dialog-header-icon {
+        &:focus {
+          box-shadow: none !important;
+        }
+      }
+    }
+
+    .p-dialog-content {
+    }
+
+    .p-dialog-footer {
+      border-bottom-right-radius: 20px;
+      border-bottom-left-radius: 20px;
+    }
+
+    &.tour-grid {
+      .p-dialog-content {
+        padding: 0 0.5rem 2rem 1.5rem;
+      }
+    }
+
+    &.reset-password {
+      .p-dialog-content {
+        border-bottom-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+      }
+    }
+  }
 }
 
 .btn-delete {
