@@ -144,14 +144,27 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { data } from "@/services/TourPackageService";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "@/firebase";
+
+// import { data } from "@/services/TourPackageService";
 
 const tour = ref();
 const route = useRoute();
 
-onMounted(() => {
-  tour.value = data.tours.find((item) => {
-    return item.id === parseInt(route.params.tourId);
+onMounted(async () => {
+  // tour.value = data.tours.find((item) => {
+  //   return item.id === parseInt(route.params.tourId);
+  // });
+
+  const docRef = doc(db, "tours", route.params.tourId);
+
+  onSnapshot(docRef, (docSnapshot) => {
+    if (docSnapshot.exists()) {
+      tour.value = docSnapshot.data();
+    } else {
+      console.log("Document does not exist");
+    }
   });
 });
 </script>

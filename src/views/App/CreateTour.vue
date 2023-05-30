@@ -180,10 +180,11 @@
 <script setup>
 import { watch, ref, watchEffect } from "vue";
 import { useField, useForm } from "vee-validate";
-
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "@/firebase";
 import TourPackageCard from "@/components/TourPackageCard.vue";
 
-const { handleSubmit } = useForm();
+const { handleSubmit, resetForm } = useForm();
 
 const fileUpload = ref(null);
 const clearButton = ref(false);
@@ -208,9 +209,22 @@ const tour = ref({
   details: null,
 });
 
-const onSelectedFiles = (event) => {
+const blobToBase64 = (blob) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+};
+
+const onSelectedFiles = async (event) => {
   const file = event.files[0];
-  tour.value.image = file.objectURL;
+
+  const blobImage = new Blob([file]);
+  const base64Image = await blobToBase64(blobImage);
+
+  tour.value.image = base64Image;
   tour.value.fileName = file.name;
   fileName.value = file.name;
 };
@@ -360,8 +374,24 @@ watch(fileName, (newValue) => {
   tour.value.fileName = newValue;
 });
 
-const onSubmit = handleSubmit((values) => {
-  console.log(values);
-  console.log(tour.value);
+const onSubmit = handleSubmit(async (values) => {
+  values.countries = values.countries.map((item) => item.name);
+  values.image = tour.value.image;
+
+  const docRef = await addDoc(collection(db, "tours"), values);
+  console.log(docRef);
+  console.log("Document written with ID: ", docRef.id);
+
+  tour.value = {
+    image: null,
+    name: null,
+    countries: null,
+    days: null,
+    nights: null,
+    price: null,
+    airline: null,
+    details: null,
+  };
+  resetForm();
 });
 </script>

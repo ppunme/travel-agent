@@ -1,6 +1,11 @@
 <template>
   <div class="tour-card border rounded-[20px]">
-    <img v-if="item.image" :src="item.image" alt="" class="w-full" />
+    <img
+      v-if="item.image"
+      :src="item.image"
+      alt=""
+      class="w-full h-[21rem] object-cover"
+    />
     <div class="px-6 py-4 font-medium">
       <h3 v-if="item.name" class="pb-3">{{ item.name }}</h3>
       <h6 v-if="item.days && item.nights">

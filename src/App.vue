@@ -20,7 +20,6 @@ const route = useRoute();
 const admin = ref(false);
 
 watch(route, (newRoute) => {
-  console.log(newRoute.path);
   if (newRoute.path.includes("admin")) {
     admin.value = true;
   } else {
