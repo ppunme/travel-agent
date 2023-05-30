@@ -11,14 +11,17 @@
     class="text-center"
   >
     <template #header>
-      <h5 class="mr-auto text-red-500 font-bold">
+      <h5
+        class="mr-auto font-bold"
+        :class="header === 'Delete' ? 'text-[#D42E35]' : 'text-[#F5A327]'"
+      >
         <font-awesome-icon :icon="['fas', 'exclamation-circle']" /> {{ header }}
       </h5>
       <Button @click="onCancel" text class="!p-0 !text-neutral-400"
         ><font-awesome-icon :icon="['fas', 'times']" size="lg"
       /></Button>
     </template>
-    <p>ยืนยันการลบข้อมูล?</p>
+    <p>{{ `ยืนยันการ${header === "Delete" ? "ลบ" : "แก้ไข"}ข้อมูล?` }}</p>
     <template #footer>
       <div class="text-center">
         <Button
@@ -31,6 +34,7 @@
         />
         <Button
           @click="onSave"
+          :type="header === 'Delete' ? 'button' : 'submit'"
           label="ยืนยัน"
           rounded
           class="!w-28 !bg-primary-blue !border-primary-blue"
@@ -45,7 +49,7 @@
 import { ref, watch, defineProps, defineEmits } from "vue";
 
 const props = defineProps(["visible", "header"]);
-const emit = defineEmits(["handleCancel", "confirmDelete"]);
+const emit = defineEmits(["handleCancel", "confirmAction"]);
 
 const visibleValue = ref(props.visible);
 const loading = ref(false);
@@ -54,7 +58,7 @@ const onSave = () => {
   loading.value = true;
   setTimeout(() => {
     loading.value = false;
-    emit("confirmDelete");
+    emit("confirmAction");
   }, 1000);
 };
 

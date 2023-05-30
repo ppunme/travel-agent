@@ -40,11 +40,11 @@
       </div>
     </div>
   </div>
-  <ModalDelete
+  <ConfirmModal
     header="Delete"
     :visible="visibleDelete"
     @handleCancel="handleCancel"
-    @confirmDelete="confirmDelete"
+    @confirmAction="confirmAction"
   />
   <Toast />
 </template>
@@ -53,7 +53,7 @@
 /* eslint-disable */
 import { ref } from "vue";
 import Modal from "@/components/Modal.vue";
-import ModalDelete from "@/components/ModalDelete.vue";
+import ConfirmModal from "@/components/ConfirmModal.vue";
 import EditTourGrid from "@/components/EditTourGrid.vue";
 //import { data } from "@/services/TourPackageService";
 import { useToast } from "primevue/usetoast";
@@ -163,7 +163,7 @@ const handleDelete = (index, item) => {
   }
 };
 
-const confirmDelete = () => {
+const confirmAction = () => {
   visibleDelete.value = false;
 
   if (deleteItem.value) {

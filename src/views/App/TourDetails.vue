@@ -5,11 +5,22 @@
         v-if="route.params.tourId !== 'preview' && tour"
         class="w-32 !bg-[#F5A327] !mb-12"
         rounded
-        @click="$router.push(`/tours/edit/${tour.id}`)"
+        @click="$router.push(`/tours/edit/${$route.params.tourId}`)"
       >
         <font-awesome-icon :icon="['fas', 'pen']" size="lg" /><span
           class="mx-auto"
           >แก้ไข</span
+        >
+      </Button>
+      <Button
+        v-if="route.params.tourId !== 'preview' && tour"
+        class="w-32 !bg-[#D42E35] !mb-12 !ml-4"
+        rounded
+        @click="handleDelete($route.params.tourId)"
+      >
+        <font-awesome-icon :icon="['fas', 'trash']" size="lg" /><span
+          class="mx-auto"
+          >ลบ</span
         >
       </Button>
     </div>
@@ -140,18 +151,49 @@
       ></div>
     </div>
   </div>
+  <ConfirmModal
+    header="Delete"
+    :visible="visibleDelete"
+    @handleCancel="handleCancel"
+    @confirmAction="confirmAction"
+  />
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
-import { data } from "@/services/TourPackageService";
+import { useRoute, useRouter } from "vue-router";
+import { doc, onSnapshot, deleteDoc } from "firebase/firestore";
+import { db } from "@/firebase";
+import ConfirmModal from "@/components/ConfirmModal.vue";
+
+const route = useRoute();
+const router = useRouter();
 
 const tour = ref();
-const route = useRoute();
+const visibleDelete = ref(false);
 
-onMounted(() => {
-  tour.value = data.tours.find((item) => {
-    return item.id === parseInt(route.params.tourId);
+const handleCancel = (value) => {
+  visibleDelete.value = value;
+};
+
+const handleDelete = () => {
+  visibleDelete.value = true;
+};
+
+const confirmAction = async () => {
+  await deleteDoc(doc(db, "tours", route.params.tourId));
+  visibleDelete.value = false;
+  router.push("/tours");
+};
+
+onMounted(async () => {
+  const docRef = doc(db, "tours", route.params.tourId);
+
+  onSnapshot(docRef, (docSnapshot) => {
+    if (docSnapshot.exists()) {
+      tour.value = docSnapshot.data();
+    } else {
+      console.log("Document does not exist");
+    }
   });
 });
 </script>

@@ -68,11 +68,11 @@
     />
   </div>
   <ContactCard :contacts="data.contacts" :line="data.line" />
-  <ModalDelete
+  <ConfirmModal
     header="Delete"
     :visible="visibleDelete"
     @handleCancel="handleCancel"
-    @confirmDelete="confirmDelete"
+    @confirmAction="confirmAction"
   />
 </template>
 
@@ -82,7 +82,7 @@ import TourGrid from "@/components/TourGrid.vue";
 import ContactCard from "@/components/ContactCard.vue";
 import Modal from "@/components/Modal.vue";
 import EditCarousel from "@/components/EditCarousel.vue";
-import ModalDelete from "@/components/ModalDelete.vue";
+import ConfirmModal from "@/components/ConfirmModal.vue";
 import { data } from "@/services/ContactList";
 import { useToast } from "primevue/usetoast";
 
@@ -136,7 +136,7 @@ const handleDelete = (index, item) => {
   }
 };
 
-const confirmDelete = () => {
+const confirmAction = () => {
   visibleDelete.value = false;
 
   if (deleteItem.value) {
