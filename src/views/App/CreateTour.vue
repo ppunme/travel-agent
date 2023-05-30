@@ -153,6 +153,7 @@
 
           <div class="flex justify-end pt-12">
             <Button
+              @click="onCancel"
               class="w-36 !bg-[#FFFFFF] !text-[#D42E35] !border-[#D42E35] !mr-6"
               rounded
             >
@@ -179,11 +180,13 @@
 </template>
 <script setup>
 import { watch, ref, watchEffect } from "vue";
+import { useRouter } from "vue-router";
 import { useField, useForm } from "vee-validate";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import TourPackageCard from "@/components/TourPackageCard.vue";
 
+const router = useRouter();
 const { handleSubmit, resetForm } = useForm();
 
 const fileUpload = ref(null);
@@ -394,4 +397,19 @@ const onSubmit = handleSubmit(async (values) => {
   };
   resetForm();
 });
+
+const onCancel = () => {
+  tour.value = {
+    image: null,
+    name: null,
+    countries: null,
+    days: null,
+    nights: null,
+    price: null,
+    airline: null,
+    details: null,
+  };
+  resetForm();
+  router.push("/tours");
+};
 </script>

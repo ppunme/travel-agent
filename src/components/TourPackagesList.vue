@@ -5,9 +5,6 @@
     <div v-for="item in tours" :key="item.id">
       <TourPackageCard :item="item" />
     </div>
-    <!-- <div v-for="item in data.tours" :key="item.id">
-      <TourPackageCard :item="item" />
-    </div> -->
   </div>
 </template>
 
@@ -15,7 +12,6 @@
 import { ref, onMounted } from "vue";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase";
-// import { data } from "@/services/TourPackageService";
 import TourPackageCard from "./TourPackageCard.vue";
 
 const tours = ref([]);

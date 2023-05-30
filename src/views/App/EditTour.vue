@@ -32,7 +32,7 @@
                   mode="basic"
                   name="image[]"
                   accept="image/*"
-                  :maxFileSize="1000000"
+                  :maxFileSize="10000000"
                   @select="onSelectedFiles"
                 />
                 <button v-if="clearButton" @click="clearFile">
@@ -153,6 +153,7 @@
 
           <div class="flex justify-end pt-12">
             <Button
+              @click="onCancel"
               class="w-36 !bg-[#FFFFFF] !text-[#D42E35] !border-[#D42E35] !mr-6"
               rounded
             >
@@ -162,7 +163,7 @@
               >
             </Button>
             <Button
-              type="submit"
+              @click="handleEdit"
               class="w-36 !bg-[#06C755] !border-[#06C755]"
               rounded
             >
@@ -172,6 +173,12 @@
               >
             </Button>
           </div>
+          <ConfirmModal
+            header="Edit"
+            :visible="visibleEdit"
+            @handleCancel="handleCancel"
+            @confirmAction="onSubmit"
+          />
         </form>
       </div>
     </div>
@@ -179,17 +186,21 @@
 </template>
 <script setup>
 import { watch, ref, watchEffect, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useField, useForm } from "vee-validate";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
+import { db } from "@/firebase";
 
 import TourPackageCard from "@/components/TourPackageCard.vue";
-import { data } from "@/services/TourPackageService";
+import ConfirmModal from "@/components/ConfirmModal.vue";
 
 const route = useRoute();
-const { handleSubmit } = useForm();
+const router = useRouter();
+const { handleSubmit, resetForm } = useForm();
 
 const fileUpload = ref(null);
 const clearButton = ref(false);
+const visibleEdit = ref(false);
 
 const options = ref([
   { name: "ออสเตรเลีย" },
@@ -211,9 +222,30 @@ const tour = ref({
   details: null,
 });
 
-const onSelectedFiles = (event) => {
+const handleCancel = (value) => {
+  visibleEdit.value = value;
+};
+
+const handleEdit = () => {
+  visibleEdit.value = true;
+};
+
+const blobToBase64 = (blob) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+};
+
+const onSelectedFiles = async (event) => {
   const file = event.files[0];
-  tour.value.image = file.objectURL;
+
+  const blobImage = new Blob([file]);
+  const base64Image = await blobToBase64(blobImage);
+
+  tour.value.image = base64Image;
   tour.value.fileName = file.name;
   fileName.value = file.name;
 };
@@ -363,36 +395,53 @@ watch(fileName, (newValue) => {
   tour.value.fileName = newValue;
 });
 
-const onSubmit = handleSubmit((values) => {
-  console.log(values);
-  console.log(tour.value);
+const onSubmit = handleSubmit(async (values) => {
+  values.countries = values.countries.map((item) => item.name);
+  values.image = tour.value.image;
+
+  await updateDoc(doc(db, "tours", route.params.tourId), values);
+
+  tour.value = {
+    image: null,
+    name: null,
+    countries: null,
+    days: null,
+    nights: null,
+    price: null,
+    airline: null,
+    details: null,
+  };
+  resetForm();
+
+  router.push(`/tours/${route.params.tourId}`);
 });
 
+const onCancel = () => {
+  router.push(`/tours/${route.params.tourId}`);
+};
+
 onMounted(async () => {
-  const mountedData = data.tours.find((item) => {
-    return item.id === parseInt(route.params.tourId);
+  const docRef = doc(db, "tours", route.params.tourId);
+
+  onSnapshot(docRef, (docSnapshot) => {
+    if (docSnapshot.exists()) {
+      const tourData = docSnapshot.data();
+      tourData.countries = tourData.countries.map((item) => {
+        return { name: item };
+      });
+
+      tour.value = tourData;
+      name.value = tourData.name;
+      countries.value = tourData.countries;
+      days.value = tourData.days;
+      nights.value = tourData.nights;
+      price.value = tourData.price;
+      airline.value = tourData.airline;
+      details.value = tourData.details;
+      fileName.value = tourData.fileName;
+    } else {
+      console.log("Document does not exist");
+    }
   });
-
-  mountedData.countries = mountedData.countries.map((item) => {
-    return { name: item };
-  });
-
-  const response = await fetch(mountedData.image);
-  const fileBlob = await response.blob();
-  const image = URL.createObjectURL(fileBlob);
-  const imageName = new URL(response.url).pathname.split("/").pop();
-
-  tour.value = mountedData;
-  tour.value.image = image;
-  tour.value.fileName = imageName;
-
-  name.value = mountedData.name;
-  countries.value = mountedData.countries;
-  days.value = mountedData.days;
-  nights.value = mountedData.nights;
-  price.value = mountedData.price;
-  airline.value = mountedData.airline;
-  details.value = mountedData.details;
-  fileName.value = mountedData.fileName;
 });
 </script>
