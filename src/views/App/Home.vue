@@ -32,12 +32,8 @@
     class="home-carousel"
   >
     <template #item="slotProps">
-      <div class="relative">
-        <img
-          :src="slotProps.data.img"
-          :alt="slotProps.data.name"
-          class="object-cover h-[300] lg:h-[525px] xl:h-[700] w-full"
-        />
+      <div class="img-container w-full">
+        <img :src="slotProps.data.img" :alt="slotProps.data.name" />
         <!-- <div
           class="absolute inset-0 flex items-center pl-32 w-1/2 lg:w-1/3 xl:w-1/2"
         >
@@ -51,22 +47,24 @@
     </template>
   </Carousel>
 
-  <div class="flex justify-center items-center py-12">
-    <font-awesome-icon
-      :icon="['fas', 'bus']"
-      size="2xl"
-      class="text-primary-blue self-center pr-2"
-    />
-    <p class="text-primary-blue">รับจัดทัวร์ในประเทศและต่างประเทศ</p>
-  </div>
-  <TourGrid />
-  <div class="text-center py-12">
-    <Button
-      @click="$router.push('/tours')"
-      label="ดูทั้งหมด"
-      rounded
-      class="w-32 !bg-primary-blue !border-none"
-    />
+  <div class="container mx-auto">
+    <div class="flex justify-center items-center py-12">
+      <font-awesome-icon
+        :icon="['fas', 'bus']"
+        size="2xl"
+        class="text-primary-blue self-center pr-2"
+      />
+      <p class="text-primary-blue">รับจัดทัวร์ในประเทศและต่างประเทศ</p>
+    </div>
+    <TourGrid />
+    <div class="text-center py-12">
+      <Button
+        @click="$router.push('/tours')"
+        label="ดูทั้งหมด"
+        rounded
+        class="w-32 !bg-primary-blue !border-none"
+      />
+    </div>
   </div>
   <ContactCard :contacts="data.contacts" :line="data.line" />
   <ModalDelete
@@ -108,27 +106,6 @@ const loading = ref(false);
 const carouselArray = ref([]);
 const items = ref([]);
 
-// const items = ref([
-//   {
-//     id: 1,
-//     image: "image1.png",
-//     name: "Image 1",
-//     text: "Wellness Life Travel",
-//   },
-//   {
-//     id: 2,
-//     image: "image2.png",
-//     name: "Image 2",
-//     text: "Discover your favourite tour with us",
-//   },
-//   {
-//     id: 3,
-//     image: "image3.png",
-//     name: "Image 3",
-//     text: "Let our travel experts plan your next gateway",
-//   },
-// ]);
-
 const handleCancel = (value) => {
   visibleDelete.value = value;
 };
@@ -155,7 +132,6 @@ const clearCollection = async () => {
   snapshot.forEach((item) => {
     deleteDoc(item.ref);
   });
-  //await deleteDoc(doc(db, "carousel", "5fAvHa7aq3c6WAssUtQu"));
 };
 
 const onSubmit = async () => {
@@ -229,7 +205,7 @@ onMounted(async () => {
       };
       carouselList.push(list);
     });
-    items.value = carouselList;
+    items.value = carouselList.sort((a, b) => a.seq - b.seq);
   });
 });
 </script>
