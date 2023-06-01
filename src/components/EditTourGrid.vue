@@ -17,7 +17,7 @@
           <div class="square-image">
             <img
               v-if="item.image"
-              :src="require(`@/assets/images/${item.image}`)"
+              :src="item.image"
               :alt="item.name"
               class="rounded-xl"
             />
@@ -43,7 +43,7 @@
         <div class="w-full flex items-center">
           <Dropdown
             :modelValue="item"
-            :options="tours"
+            :options="tours2"
             filter
             optionLabel="name"
             placeholder="Select a tour"
@@ -81,7 +81,7 @@
 /* eslint-disable */
 import { ref, watch, defineProps, defineEmits } from "vue";
 
-const props = defineProps(["tours", "selectedTours"]);
+const props = defineProps(["tours", "selectedTours", "tours2"]);
 const emit = defineEmits([
   "onAddRow",
   "updateSelectedTours",
@@ -94,6 +94,7 @@ const addRow = () => {
 };
 
 const updateTour = (index, e) => {
+  // console.log("updateTour", index, e.value.id);
   emit("updateSelectedTours", index, e.value);
 };
 

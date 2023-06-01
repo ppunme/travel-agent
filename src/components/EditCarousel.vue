@@ -177,18 +177,6 @@ watch(props.items.length, (newValue, oldValue) => {
   console.log("watch:", oldValue);
   console.log("upload file name", newValue);
 });
-
-onMounted(async () => {
-  const docRef = doc(db, "tours", route.params.tourId);
-
-  onSnapshot(docRef, (docSnapshot) => {
-    if (docSnapshot.exists()) {
-      tour.value = docSnapshot.data();
-    } else {
-      console.log("Document does not exist");
-    }
-  });
-});
 </script>
 
 <style></style>
