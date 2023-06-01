@@ -395,6 +395,7 @@ const onSubmit = handleSubmit(async (values) => {
     airline: null,
     details: null,
   };
+  clearFile();
   resetForm();
 });
 
@@ -409,6 +410,7 @@ const onCancel = () => {
     airline: null,
     details: null,
   };
+  clearFile();
   resetForm();
   router.push("/tours");
 };
