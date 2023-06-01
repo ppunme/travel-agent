@@ -49,18 +49,14 @@ const props = defineProps([
   "hideButton",
   "width",
   "tourGrid",
+  "loading",
 ]);
-const emit = defineEmits(["update:visible"]);
+const emit = defineEmits(["update:visible", "onSubmit"]);
 
 const visibleValue = ref(props.visible);
-const loading = ref(false);
 
 const onSave = () => {
-  loading.value = true;
-  setTimeout(() => {
-    loading.value = false;
-    emit("update:visible", false);
-  }, 1000);
+  emit("onSubmit");
 };
 
 const onCancel = () => {
