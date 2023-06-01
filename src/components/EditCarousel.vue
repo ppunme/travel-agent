@@ -1,5 +1,4 @@
 <template>
-  {{ items.length }}
   <div class="flex justify-end pt-2">
     <FileUpload
       chooseLabel="เพิ่มรูป"
@@ -24,7 +23,7 @@
         <div class="flex-none flex items-center">
           <img
             v-if="item"
-            :src="item.objectURL"
+            :src="item.objectURL || item.img"
             :alt="item.name"
             class="w-24 shadow-2 flex-shrink-0 border-round"
           />
@@ -74,7 +73,7 @@
 
 <script setup>
 /* eslint-disable */
-import { ref, watch, defineProps, defineEmits } from "vue";
+import { ref, watch, defineProps, defineEmits, onMounted } from "vue";
 
 const props = defineProps(["items"]);
 const emit = defineEmits([
@@ -87,6 +86,7 @@ const emit = defineEmits([
 const uploadedFile = ref([]);
 
 const customBase64Uploader = async (event) => {
+  console.log("event", event);
   const file = event.files[0];
   //console.log("file", file);
   const reader = new FileReader();
@@ -95,11 +95,11 @@ const customBase64Uploader = async (event) => {
   reader.readAsDataURL(blob);
 
   reader.onloadend = function () {
-    //const base64data = reader.result;
-    //console.log("base64data: " + base64data);
-    console.log("file", file);
-    //uploadedFile.value.push(file);
-    emit("handleAddImg", file);
+    const base64data = reader.result;
+    // console.log("base64data: " + base64data);
+    // console.log("file", file);
+    uploadedFile.value.push(file);
+    emit("handleAddImg", file, base64data);
   };
 };
 
@@ -123,6 +123,18 @@ const onDelete = (index, item) => {
 watch(props.items.length, (newValue, oldValue) => {
   console.log("watch:", oldValue);
   console.log("upload file name", newValue);
+});
+
+onMounted(async () => {
+  const docRef = doc(db, "tours", route.params.tourId);
+
+  onSnapshot(docRef, (docSnapshot) => {
+    if (docSnapshot.exists()) {
+      tour.value = docSnapshot.data();
+    } else {
+      console.log("Document does not exist");
+    }
+  });
 });
 </script>
 

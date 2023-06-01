@@ -13,6 +13,7 @@
     header="แก้ไขภาพหน้าโฮมเพจ"
     :visible="visible"
     @update:visible="onDialogUpdate"
+    @onSubmit="onSubmit"
   >
     <EditCarousel
       :items="items"
@@ -33,7 +34,7 @@
     <template #item="slotProps">
       <div class="relative">
         <img
-          :src="require(`@/assets/images/${slotProps.data.image}`)"
+          :src="slotProps.data.img"
           :alt="slotProps.data.name"
           class="object-cover h-[300] lg:h-[525px] xl:h-[700] w-full"
         />
@@ -77,7 +78,8 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+/* eslint-disable */
+import { ref, watch, onMounted } from "vue";
 import TourGrid from "@/components/TourGrid.vue";
 import ContactCard from "@/components/ContactCard.vue";
 import Modal from "@/components/Modal.vue";
@@ -85,6 +87,15 @@ import EditCarousel from "@/components/EditCarousel.vue";
 import ModalDelete from "@/components/ModalDelete.vue";
 import { data } from "@/services/ContactList";
 import { useToast } from "primevue/usetoast";
+import {
+  doc,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  onSnapshot,
+} from "firebase/firestore";
+import { db } from "@/firebase";
 
 const toast = useToast();
 const visible = ref(false);
@@ -92,35 +103,31 @@ const visibleDelete = ref(false);
 const deleteIndex = ref(null);
 const deleteItem = ref(null);
 
-const items = ref([
-  {
-    id: 1,
-    image: "image1.png",
-    name: "Image 1",
-    text: "Wellness Life Travel",
-  },
-  {
-    id: 2,
-    image: "image2.png",
-    name: "Image 2",
-    text: "Discover your favourite tour with us",
-  },
-  {
-    id: 3,
-    image: "image3.png",
-    name: "Image 3",
-    text: "Let our travel experts plan your next gateway",
-  },
-]);
+const loading = ref(false);
 
-const onDialogUpdate = (value) => {
-  visible.value = value;
-};
+const carouselArray = ref([]);
+const items = ref([]);
 
-const handleAddImg = (file) => {
-  console.log("add file: " + file);
-  items.value.push(file);
-};
+// const items = ref([
+//   {
+//     id: 1,
+//     image: "image1.png",
+//     name: "Image 1",
+//     text: "Wellness Life Travel",
+//   },
+//   {
+//     id: 2,
+//     image: "image2.png",
+//     name: "Image 2",
+//     text: "Discover your favourite tour with us",
+//   },
+//   {
+//     id: 3,
+//     image: "image3.png",
+//     name: "Image 3",
+//     text: "Let our travel experts plan your next gateway",
+//   },
+// ]);
 
 const handleCancel = (value) => {
   visibleDelete.value = value;
@@ -134,6 +141,44 @@ const handleDelete = (index, item) => {
   } else {
     items.value.splice(index, 1);
   }
+};
+
+const handleAddImg = async (file, base64data) => {
+  items.value.push({ name: file.name, img: base64data });
+  console.log("file", items.value);
+};
+
+const clearCollection = async () => {
+  const collectionRef = collection(db, "carousel");
+  const snapshot = await getDocs(collectionRef);
+
+  snapshot.forEach((item) => {
+    deleteDoc(item.ref);
+  });
+  //await deleteDoc(doc(db, "carousel", "5fAvHa7aq3c6WAssUtQu"));
+};
+
+const onSubmit = async () => {
+  loading.value = true;
+  try {
+    await clearCollection();
+    items.value.forEach(async (item, index) => {
+      const submitData = { ...item, seq: index };
+      console.log("submitData", submitData.value);
+
+      const docRef = await addDoc(collection(db, "carousel"), submitData);
+      //console.log(docRef);
+      console.log("Document written with ID: ", docRef.id);
+    });
+    loading.value = false;
+    visible.value = false;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+const onDialogUpdate = (value) => {
+  visible.value = value;
 };
 
 const confirmDelete = () => {
@@ -167,6 +212,25 @@ const moveItemDown = (index) => {
 watch(items.value, (newValue, oldValue) => {
   console.log("watch:", oldValue);
   console.log("upload file name", newValue);
+});
+
+onMounted(async () => {
+  // tour.value = data.tours.find((item) => {
+  //   return item.id === parseInt(route.params.tourId);
+  // });
+
+  onSnapshot(collection(db, "carousel"), (querySnapshot) => {
+    const carouselList = [];
+    querySnapshot.forEach((doc) => {
+      const list = {
+        id: doc.id,
+        name: doc.data().name,
+        img: doc.data().img,
+      };
+      carouselList.push(list);
+    });
+    items.value = carouselList;
+  });
 });
 </script>
 
