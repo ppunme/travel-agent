@@ -6,42 +6,48 @@ import Contact from "@/views/App/Contact.vue";
 import CreateTour from "@/views/App/CreateTour.vue";
 import EditTour from "@/views/App/EditTour.vue";
 import Login from "@/views/Admin/Login.vue";
+import Register from "@/views/Admin/Register.vue";
 
 const routes = [
   {
     path: "/",
-    name: "Home",
+    name: "home",
     component: Home,
   },
   {
     path: "/contact",
-    name: "Contact",
+    name: "contact",
     component: Contact,
   },
   {
     path: "/tours",
-    name: "Tours",
+    name: "tours",
     component: Tours,
   },
   {
     path: "/tours/:tourId",
-    name: "Tour Detail",
+    name: "tour-detail",
     component: TourDetails,
   },
   {
     path: "/tours/create",
-    name: "Create Tour",
+    name: "create-tour",
     component: CreateTour,
   },
   {
     path: "/tours/edit/:tourId",
-    name: "Edit Tour",
+    name: "edit-tour",
     component: EditTour,
   },
   {
     path: "/admin",
-    name: "Admin Login",
+    name: "login",
     component: Login,
+  },
+  {
+    path: "/register",
+    name: "register",
+    component: Register,
   },
 ];
 

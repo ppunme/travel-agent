@@ -18,10 +18,11 @@
         placeholder="อีเมล"
         class="all-input !rounded-full w-full !mb-4"
       />
-      <InputText
+      <Password
         v-model="password"
         placeholder="รหัสผ่าน"
         class="all-input !rounded-full w-full"
+        toggleMask
       />
       <Button
         label="เข้าสู่ระบบ"
@@ -51,7 +52,8 @@
 <script setup>
 import { ref } from "vue";
 import store from "@/store";
-
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useRouter } from "vue-router";
 import Modal from "@/components/Modal.vue";
 import ForgetPassword from "@/components/ForgetPassword.vue";
 
@@ -59,9 +61,25 @@ const email = ref();
 const password = ref();
 
 const visible = ref(false);
+const router = useRouter();
+
+// const login = () => {
+//   store.dispatch("login", { email: "test@test.com" });
+// };
 
 const login = () => {
-  store.dispatch("login", { email: "test@test.com" });
+  store.dispatch("login", { email: email.value });
+
+  const auth = getAuth();
+  signInWithEmailAndPassword(auth, email.value, password.value)
+    .then(() => {
+      localStorage.setItem("token", auth.currentUser.accessToken);
+      router.push("/");
+    })
+    .catch((error) => {
+      console.log(error.code);
+      alert(error.message);
+    });
 };
 
 const onDialogUpdate = (value) => {
