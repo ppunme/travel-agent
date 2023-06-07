@@ -42,7 +42,7 @@
   <nav class="navbar text-primary-blue relative z-10">
     <div class="flex justify-between items-center py-4 px-3 md:px-0">
       <div class="flex items-center">
-        <img src="@/assets/images/logo.png" alt="logo" class="w-20 sm:w-full" />
+        <img src="@/assets/images/logo.png" alt="logo" class="w-20" />
         <h5
           class="sm:text-3xl ml-4 self-center font-semibold w-40 text-primary-blue"
         >
