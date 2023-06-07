@@ -63,6 +63,7 @@
       </div>
 
       <div
+        v-if="!isLoggedIn"
         class="hidden lg:flex items-center bg-primary-blue w-60 h-20 pl-4 pr-2 rounded-l-[5rem] justify-around"
       >
         <a
@@ -74,8 +75,8 @@
           <font-awesome-icon :icon="social.icon" size="2xl" />
         </a>
       </div>
-      <div>
-        {{ user }} {{ isLoggedIn }}
+      <div v-if="isLoggedIn">
+        {{ user.email }}
         <Button label="log out" @click="logout" />
       </div>
       <div class="md:hidden">
@@ -155,6 +156,7 @@ const socialLinks = ref([
 
 const logout = () => {
   store.dispatch("logout");
+  localStorage.removeItem("token");
   router.push("/admin");
 };
 

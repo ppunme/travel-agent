@@ -14,7 +14,6 @@ import { watch, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import Navbar from "@/layout/Navbar.vue";
 import Footer from "./layout/Footer.vue";
-//import jwt from "jsonwebtoken";
 import store from "@/store";
 
 const route = useRoute();
@@ -22,16 +21,16 @@ const admin = ref(false);
 
 const isTokenExpired = (token) => {
   try {
-    console.log(token);
-    //const decoded = jwt.decode(token);
-    //console.log(decoded);
-    // if (!decoded || typeof decoded.exp === "undefined") {
-    //   // Invalid token or expiration time missing
-    //   return true;
-    // }
+    const JWT = token;
+    const jwtPayload = JSON.parse(window.atob(JWT.split(".")[1]));
+    const exp = jwtPayload.exp;
+    const now = parseInt(String(Date.now() / 1000));
 
-    // const currentTime = Math.floor(Date.now() / 1000);
-    // return decoded.exp < currentTime;
+    if (exp - now < 0) {
+      return true;
+    } else {
+      return false;
+    }
   } catch (error) {
     // Failed to decode token
     return true;
@@ -40,15 +39,10 @@ const isTokenExpired = (token) => {
 
 const getEmail = (token) => {
   try {
-    console.log(token);
-    // const decoded = jwt.decode(token);
-
-    // if (!decoded || typeof decoded.email === "undefined") {
-    //   // Invalid token or email missing
-    //   return null;
-    // }
-
-    // return decoded.email;
+    const tokenPayload = token.split(".")[1];
+    const decodedPayload = window.atob(tokenPayload);
+    const payloadObj = JSON.parse(decodedPayload);
+    return payloadObj.email;
   } catch (error) {
     return null;
   }
