@@ -26,8 +26,7 @@
     "vee-validate": "^4.9.5",
     "vue": "^3.3.0",
     "vue-router": "^4.1.6",
-    "vuex": "^4.1.0",
-    "yup": "^1.1.1"
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
