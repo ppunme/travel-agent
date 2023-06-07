@@ -61,7 +61,9 @@
           {{ menuItem.label }}
         </router-link>
       </div>
+
       <div
+        v-if="!isLoggedIn"
         class="hidden lg:flex items-center bg-primary-blue w-60 h-20 pl-4 pr-2 rounded-l-[5rem] justify-around"
       >
         <a
@@ -72,6 +74,10 @@
         >
           <font-awesome-icon :icon="social.icon" size="2xl" />
         </a>
+      </div>
+      <div v-if="isLoggedIn">
+        {{ user.email }}
+        <Button label="log out" @click="logout" />
       </div>
       <div class="md:hidden">
         <button
@@ -120,9 +126,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-/* eslint-disable */
-const open = ref(false);
+import { ref, computed } from "vue";
+import store from "@/store";
+import { useRouter } from "vue-router";
+
+//const open = ref(false);
+const router = useRouter();
 const showMenu = ref(false);
 const menuItems = ref([
   {
@@ -144,6 +153,15 @@ const socialLinks = ref([
   { icon: ["fab", "instagram"], url: "www.instagram.com" },
   { icon: ["fab", "twitter"], url: "www.twitter.com" },
 ]);
+
+const logout = () => {
+  store.dispatch("logout");
+  localStorage.removeItem("token");
+  router.push("/admin");
+};
+
+const isLoggedIn = computed(() => store.state.isLoggedIn);
+const user = computed(() => store.state.user);
 </script>
 
 <style lang="scss" scoped>

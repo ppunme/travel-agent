@@ -184,7 +184,7 @@ onMounted(() => {
     const tourData = [];
 
     querySnapshot.forEach((doc) => {
-      console.log("doc", doc);
+      //console.log("doc", doc);
       const tour = {
         id: doc.id,
         name: doc.data().fileName,
@@ -192,7 +192,7 @@ onMounted(() => {
         label: doc.data().fileName,
         value: doc.id,
       };
-      console.log("tour", tour);
+      //console.log("tour", tour);
       tourData.push(tour);
     });
 

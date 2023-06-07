@@ -147,6 +147,12 @@ body,
 }
 
 .all-input {
+  .p-password-input {
+    width: 100%;
+    border-radius: 999px;
+  }
+
+  .p-password-input,
   &.p-inputtext {
     border: 1px solid $secondary-font-color;
     padding-left: 1.25rem;
