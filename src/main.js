@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router/index.js";
+import store from "./store";
 
 import PrimeVue from "primevue/config";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -178,6 +179,7 @@ const app = createApp(App);
 
 app
   .use(router)
+  .use(store)
   .use(PrimeVue, { ripple: true })
   .use(ConfirmationService)
   .use(ToastService)

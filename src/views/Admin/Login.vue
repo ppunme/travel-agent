@@ -27,6 +27,7 @@
         label="เข้าสู่ระบบ"
         rounded
         class="!bg-primary-blue !border-none !text-[1.25rem] w-full !mt-4"
+        @click="login"
       />
       <h5
         class="text-end font-light mt-4 text-primary-blue cursor-pointer hover:opacity-70"
@@ -49,6 +50,8 @@
 
 <script setup>
 import { ref } from "vue";
+import store from "@/store";
+
 import Modal from "@/components/Modal.vue";
 import ForgetPassword from "@/components/ForgetPassword.vue";
 
@@ -56,6 +59,10 @@ const email = ref();
 const password = ref();
 
 const visible = ref(false);
+
+const login = () => {
+  store.dispatch("login", { email: "test@test.com" });
+};
 
 const onDialogUpdate = (value) => {
   visible.value = value;

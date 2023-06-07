@@ -41,8 +41,8 @@ import TourPackagesList from "@/components/TourPackagesList.vue";
 
 const tours = ref([]);
 const search = ref("");
-const pageSizeOptions = ref([2, 4, 6]);
-const pageSize = ref(2);
+const pageSizeOptions = ref([4, 8, 12]);
+const pageSize = ref(4);
 const dataLength = ref();
 const page = ref(0);
 
