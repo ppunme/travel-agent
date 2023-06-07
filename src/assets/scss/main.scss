@@ -32,6 +32,8 @@ body,
 }
 
 .p-paginator {
+  padding: 0.5rem 0rem !important;
+
   .p-paginator-pages {
     .p-paginator-page {
       border: 1px solid $primary-border-color !important;

@@ -6,7 +6,7 @@
     :sort="sort"
     v-model:search="search"
   />
-  <div class="container mx-auto">
+  <div class="container mx-auto px-4 sm:px-8 md:px-10">
     <div class="flex justify-end">
       <Button
         class="w-48 !bg-[#06C755] !my-8"
@@ -22,10 +22,19 @@
 
     <TourPackagesList :tours="paginatedTours" />
     <Paginator
+      :template="{
+        '639px': 'PrevPageLink CurrentPageReport NextPageLink',
+        '767px':
+          'FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink',
+        '1023px':
+          'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink',
+        default:
+          'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink JumpToPageDropdown',
+      }"
       :rows="pageSize"
       :totalRecords="dataLength"
       :rowsPerPageOptions="pageSizeOptions"
-      class="pb-16"
+      class="py-8"
       @page="handlePageChange"
     ></Paginator>
   </div>
@@ -41,8 +50,8 @@ import TourPackagesList from "@/components/TourPackagesList.vue";
 
 const tours = ref([]);
 const search = ref("");
-const pageSizeOptions = ref([4, 8, 12]);
-const pageSize = ref(4);
+const pageSizeOptions = ref([1, 2, 3]);
+const pageSize = ref(1);
 const dataLength = ref();
 const page = ref(0);
 
@@ -69,6 +78,11 @@ watch(selectedCountry, (newValue) => {
   if (newValue?.country === null) {
     selectedCountry.value = null;
   }
+  dataLength.value = filteredTours.value.length;
+});
+
+watch(search, () => {
+  dataLength.value = filteredTours.value.length;
 });
 
 const handlePageChange = (e) => {
