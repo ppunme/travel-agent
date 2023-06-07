@@ -19,19 +19,74 @@
       :key="item.id"
       :class="['file-item', { 'mb-2': idx !== items.length - 1 }]"
     >
-      <div class="flex gap-2 lg:gap-6">
-        <div class="flex-none flex items-center">
-          <img
-            v-if="item"
-            :src="item.objectURL || item.img"
-            :alt="item.name"
-            class="w-24 shadow-2 flex-shrink-0 border-round"
-          />
+      <!-- <div class="flex flex-row gap-2 lg:gap-6">
+        <div class="flex flex-col w-2/5 md:w-1/5">
+          <div class="img-container md:w-full">
+            <img
+              v-if="item"
+              :src="item.objectURL || item.img"
+              :alt="item.name"
+            />
+          </div>
         </div>
-        <div class="grow flex items-center">
+        <div class="flex flex-col w-3/5 md:w-4/5">
+          <div class="flex flex-col md:flex-row md:items-center md:h-full">
+            <div class="md:w-3/4">
+              <p class="ellipsis">{{ item.name }}</p>
+            </div>
+            <div class="md:w-1/4 flex justify-end items-end h-full">
+              <button
+                @click="moveItemUp(idx)"
+                type="button"
+                class="hover:opacity-90 pr-2"
+              >
+                <font-awesome-icon
+                  :icon="['fas', 'chevron-circle-up']"
+                  size="xl"
+                  class="text-primary-blue"
+                />
+              </button>
+              <button
+                @click="moveItemDown(idx)"
+                type="button"
+                class="hover:opacity-90 pr-6"
+              >
+                <font-awesome-icon
+                  :icon="['fas', 'chevron-circle-down']"
+                  size="xl"
+                  class="text-primary-blue"
+                />
+              </button>
+              <button
+                @click="onDelete(idx, item)"
+                type="button"
+                class="btn-delete"
+              >
+                <font-awesome-icon
+                  :icon="['fas', 'xmark']"
+                  size="lg"
+                  class="text-red-500"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="flex flex-col md:flex-row gap-2 lg:gap-6">
+        <div class="md:basis-1/5">
+          <div class="img-container w-1/2 md:w-full">
+            <img
+              v-if="item"
+              :src="item.objectURL || item.img"
+              :alt="item.name"
+            />
+          </div>
+        </div>
+        <div class="md:basis-3/5 flex items-center">
           <span class="ellipsis">{{ item.name }}</span>
         </div>
-        <div class="flex-none flex items-center pr-6">
+        <div class="md:basis-1/5 flex items-center justify-end">
           <button
             @click="moveItemUp(idx)"
             type="button"
@@ -46,7 +101,7 @@
           <button
             @click="moveItemDown(idx)"
             type="button"
-            class="hover:opacity-90"
+            class="hover:opacity-90 pr-6"
           >
             <font-awesome-icon
               :icon="['fas', 'chevron-circle-down']"
@@ -54,8 +109,6 @@
               class="text-primary-blue"
             />
           </button>
-        </div>
-        <div class="flex-none flex items-center">
           <button @click="onDelete(idx, item)" type="button" class="btn-delete">
             <font-awesome-icon
               :icon="['fas', 'xmark']"
@@ -123,18 +176,6 @@ const onDelete = (index, item) => {
 watch(props.items.length, (newValue, oldValue) => {
   console.log("watch:", oldValue);
   console.log("upload file name", newValue);
-});
-
-onMounted(async () => {
-  const docRef = doc(db, "tours", route.params.tourId);
-
-  onSnapshot(docRef, (docSnapshot) => {
-    if (docSnapshot.exists()) {
-      tour.value = docSnapshot.data();
-    } else {
-      console.log("Document does not exist");
-    }
-  });
 });
 </script>
 

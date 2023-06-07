@@ -18,6 +18,7 @@
     >
       <EditTourGrid
         :tours="tours"
+        :tours2="tours2"
         :selectedTours="selectedTours"
         @onAddRow="onAddRow"
         @updateSelectedTours="updateSelectedTours"
@@ -51,12 +52,14 @@
 
 <script setup>
 /* eslint-disable */
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import Modal from "@/components/Modal.vue";
 import ConfirmModal from "@/components/ConfirmModal.vue";
 import EditTourGrid from "@/components/EditTourGrid.vue";
 //import { data } from "@/services/TourPackageService";
 import { useToast } from "primevue/usetoast";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "@/firebase";
 
 const toast = useToast();
 const visible = ref(false);
@@ -66,20 +69,15 @@ const deleteItem = ref(null);
 
 const selectedTours = ref([
   {
-    id: 4,
-    image: "tour4.jpg",
-    name: "Tour 4",
-    label: "Tour 4",
-    value: 24,
-  },
-  {
-    id: 5,
-    image: "tour5.jpg",
-    name: "Tour 5",
-    label: "Tour 5",
-    value: 5,
+    id: "",
+    image: "",
+    name: "",
+    label: "",
+    value: "",
   },
 ]);
+
+const tours2 = ref();
 
 const tours = ref([
   {
@@ -135,7 +133,6 @@ const onDialogUpdate = (value) => {
 };
 
 const onAddRow = () => {
-  console.log("onadd", selectedTours.value);
   selectedTours.value.push({
     id: null,
     image: null,
@@ -181,4 +178,25 @@ const handleDrop = (e, newIndex) => {
   selectedTours.value.splice(newIndex, 0, item);
   toast.add({ severity: "success", summary: "Rows Reordered", life: 2000 });
 };
+
+onMounted(() => {
+  onSnapshot(collection(db, "tours"), (querySnapshot) => {
+    const tourData = [];
+
+    querySnapshot.forEach((doc) => {
+      console.log("doc", doc);
+      const tour = {
+        id: doc.id,
+        name: doc.data().fileName,
+        image: doc.data().image,
+        label: doc.data().fileName,
+        value: doc.id,
+      };
+      console.log("tour", tour);
+      tourData.push(tour);
+    });
+
+    tours2.value = tourData;
+  });
+});
 </script>

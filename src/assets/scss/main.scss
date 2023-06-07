@@ -275,6 +275,31 @@ body,
   }
 }
 
+.img-container {
+  position: relative;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &::before {
+    content: "";
+    display: block;
+    padding-bottom: 35%;
+  }
+
+  @media (max-width: 768px) {
+    &::before {
+      padding-bottom: 60%;
+    }
+  }
+}
+
 .btn-delete {
   @apply w-8 h-8 bg-neutral-100 hover:bg-neutral-200 rounded-full;
 }
@@ -284,7 +309,7 @@ body,
 }
 
 .ellipsis {
-  @apply w-20 sm:w-36 md:w-60 lg:w-96 overflow-hidden whitespace-nowrap overflow-ellipsis;
+  @apply w-full  overflow-hidden whitespace-nowrap overflow-ellipsis;
 }
 
 .hamburger-bar {
