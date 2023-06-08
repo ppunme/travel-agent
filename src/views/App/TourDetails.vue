@@ -1,44 +1,44 @@
 <template>
-  <div class="container mx-auto py-12">
+  <div class="container mx-auto px-4 sm:px-8 md:px-10 py-12">
     <div class="flex justify-end">
       <Button
         v-if="route.params.tourId !== 'preview' && tour"
-        class="w-32 !bg-[#F5A327] !mb-12"
+        class="w-18 md:w-32 !bg-[#F5A327] !mb-12"
         rounded
         @click="$router.push(`/tours/edit/${$route.params.tourId}`)"
       >
         <font-awesome-icon :icon="['fas', 'pen']" size="lg" /><span
           class="mx-auto"
-          >แก้ไข</span
+          ><p class="hidden md:block">แก้ไข</p></span
         >
       </Button>
       <Button
         v-if="route.params.tourId !== 'preview' && tour"
-        class="w-32 !bg-[#D42E35] !mb-12 !ml-4"
+        class="w-18 md:w-32 !bg-[#D42E35] !mb-12 !ml-4"
         rounded
         @click="handleDelete($route.params.tourId)"
       >
         <font-awesome-icon :icon="['fas', 'trash']" size="lg" /><span
           class="mx-auto"
-          >ลบ</span
+          ><p class="hidden md:block">ลบ</p></span
         >
       </Button>
     </div>
-    <div class="grid grid-cols-5 gap-16">
+    <div class="grid grid-cols-1 lg:grid-cols-5 lg:gap-10">
       <img
         v-if="route.params.tourId === 'preview'"
         :src="route.query.image"
         alt=""
-        class="col-span-2 w-full rounded-[20px]"
+        class="lg:col-span-2 w-full rounded-[20px]"
       />
       <img
         v-if="route.params.tourId !== 'preview' && tour"
         :src="tour.image"
         alt=""
-        class="col-span-2 w-full rounded-[20px]"
+        class="lg:col-span-2 w-full rounded-[20px]"
       />
       <div class="col-span-3 flex flex-col font-medium">
-        <h1 class="pb-8">
+        <h1 class="pb-8 mt-8 lg:mt-0">
           {{
             route.params.tourId !== "preview" && tour
               ? tour.name
@@ -99,7 +99,7 @@
                 คืน
               </h5>
             </div>
-            <div class="mb-10">
+            <div class="mb-8 sm:mb-10">
               <div class="inline-block w-10">
                 <div class="w-6 text-center">
                   <font-awesome-icon
@@ -118,30 +118,41 @@
               </h5>
             </div>
           </div>
-          <div>
-            <Button class="w-48 !bg-[#1492DE] !mr-8" rounded target="_blank">
+          <di class="flex flex-col justify-between sm:flex-row xl:block">
+            <Button
+              class="w-40 sm:w-44 md:w-48 lg:w-[10.5rem] xl:w-48 !bg-[#1492DE] xl:!mr-8"
+              rounded
+              target="_blank"
+            >
               <font-awesome-icon
                 :icon="['fab', 'facebook-messenger']"
                 size="2xl"
               />
               <span class="mx-auto">ส่งข้อความ</span>
             </Button>
-            <Button class="w-48 !bg-[#06C755] !mr-8" rounded>
+            <Button
+              class="w-40 sm:w-44 md:w-48 lg:w-[10.5rem] xl:w-48 !bg-[#06C755] xl:!mr-8 !my-4 sm:!my-0"
+              rounded
+            >
               <font-awesome-icon :icon="['fab', 'line']" size="2xl" />
               <span class="mx-auto">แอดไลน์</span>
             </Button>
-            <Button class="w-48 !bg-[#F77174] !mr-8" rounded target="_blank">
+            <Button
+              class="w-40 sm:w-44 md:w-48 lg:w-[10.5rem] xl:w-48 !bg-[#F77174]"
+              rounded
+              target="_blank"
+            >
               <font-awesome-icon :icon="['fas', 'phone']" size="2xl" />
               <span class="mx-auto">โทรจอง</span>
             </Button>
-          </div>
+          </di>
         </div>
       </div>
     </div>
     <div
       class="py-14 border border-y-primary-border-color border-x-0 border-t-0 font-medium"
     >
-      <h1 class="mb-8">รายละเอียดการเดินทาง</h1>
+      <h1 class="mb-8 text-[1.75rem] sm:text-[2.5rem]">รายละเอียดการเดินทาง</h1>
       <div
         v-html="
           route.params.tourId !== 'preview' && tour
