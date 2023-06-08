@@ -2,8 +2,13 @@
   <Dialog
     v-model:visible="visibleValue"
     modal
-    :style="{ width: '20vw' }"
-    :breakpoints="{ '1200px': '75vw', '641px': '95vw' }"
+    :style="{ width: '22.5vw' }"
+    :breakpoints="{
+      '1280px': '32.5vw',
+      '1024px': '42.5vw',
+      '768px': '52.5vw',
+      '640px': '90vw',
+    }"
     :draggable="false"
     :pt="{
       closeButton: { class: '!hidden' },

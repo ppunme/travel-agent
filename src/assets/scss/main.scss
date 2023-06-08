@@ -108,7 +108,9 @@ body,
     }
 
     .ql-image,
-    .ql-font {
+    .ql-font,
+    .ql-color,
+    .ql-background {
       display: none;
     }
   }
@@ -258,9 +260,6 @@ body,
           box-shadow: none !important;
         }
       }
-    }
-
-    .p-dialog-content {
     }
 
     .p-dialog-footer {
