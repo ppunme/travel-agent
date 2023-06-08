@@ -1,6 +1,6 @@
 <template>
   <div class="xl:px-56 2xl:px-72">
-    <div class="text-end pb-6">
+    <div v-if="isLoggedIn" class="text-end pb-6">
       <Button
         @click="visible = true"
         rounded
@@ -51,8 +51,7 @@
 </template>
 
 <script setup>
-/* eslint-disable */
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import Modal from "@/components/Modal.vue";
 import ConfirmModal from "@/components/ConfirmModal.vue";
 import EditTourGrid from "@/components/EditTourGrid.vue";
@@ -60,12 +59,15 @@ import EditTourGrid from "@/components/EditTourGrid.vue";
 import { useToast } from "primevue/usetoast";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase";
+import store from "@/store";
 
 const toast = useToast();
 const visible = ref(false);
 const visibleDelete = ref(false);
 const deleteIndex = ref(null);
 const deleteItem = ref(null);
+
+const isLoggedIn = computed(() => store.state.isLoggedIn);
 
 const selectedTours = ref([
   {

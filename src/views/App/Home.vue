@@ -1,5 +1,5 @@
 <template>
-  <div class="text-end pb-6 pr-6">
+  <div v-if="isLoggedIn" class="text-end pb-6 pr-6">
     <Button
       @click="visible = true"
       rounded
@@ -76,17 +76,15 @@
 </template>
 
 <script setup>
-/* eslint-disable */
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted, computed } from "vue";
 import TourGrid from "@/components/TourGrid.vue";
 import ContactCard from "@/components/ContactCard.vue";
 import Modal from "@/components/Modal.vue";
 import EditCarousel from "@/components/EditCarousel.vue";
 import ConfirmModal from "@/components/ConfirmModal.vue";
 import { data } from "@/services/ContactList";
-import { useToast } from "primevue/usetoast";
+//import { useToast } from "primevue/usetoast";
 import {
-  doc,
   collection,
   addDoc,
   getDocs,
@@ -94,8 +92,9 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { db } from "@/firebase";
+import store from "@/store";
 
-const toast = useToast();
+//const toast = useToast();
 const visible = ref(false);
 const visibleDelete = ref(false);
 const deleteIndex = ref(null);
@@ -103,8 +102,10 @@ const deleteItem = ref(null);
 
 const loading = ref(false);
 
-const carouselArray = ref([]);
+// const carouselArray = ref([]);
 const items = ref([]);
+
+const isLoggedIn = computed(() => store.state.isLoggedIn);
 
 const handleCancel = (value) => {
   visibleDelete.value = value;
@@ -157,19 +158,19 @@ const onDialogUpdate = (value) => {
   visible.value = value;
 };
 
-const confirmDelete = () => {
-  visibleDelete.value = false;
+// const confirmDelete = () => {
+//   visibleDelete.value = false;
 
-  if (deleteItem.value) {
-    items.value = items.value.filter((tour) => tour.id !== deleteItem.value);
-    toast.add({
-      severity: "error",
-      summary: "Confirmed",
-      detail: "รูปถูกลบแล้ว",
-      life: 3000,
-    });
-  }
-};
+//   if (deleteItem.value) {
+//     items.value = items.value.filter((tour) => tour.id !== deleteItem.value);
+//     toast.add({
+//       severity: "error",
+//       summary: "Confirmed",
+//       detail: "รูปถูกลบแล้ว",
+//       life: 3000,
+//     });
+//   }
+// };
 
 const moveItemUp = (index) => {
   if (index > 0) {
