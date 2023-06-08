@@ -41,13 +41,13 @@
 
   <nav class="navbar text-primary-blue relative z-10">
     <div class="flex justify-between items-center py-4 px-3 md:px-0">
-      <div class="flex items-center">
-        <img src="@/assets/images/logo.png" alt="logo" class="w-20 sm:w-full" />
-        <h5
+      <div class="flex items-center lg:ml-20">
+        <img src="@/assets/images/logo.png" alt="logo" class="w-20 sm:w-auto" />
+        <h4
           class="sm:text-3xl ml-4 self-center font-semibold w-40 text-primary-blue"
         >
           Wellness Life Travel
-        </h5>
+        </h4>
       </div>
       <div
         class="hidden md:flex md:justify-center md:items-center sm:gap-8 lg:gap-16 xl:gap-28"
@@ -75,9 +75,33 @@
           <font-awesome-icon :icon="social.icon" size="2xl" />
         </a>
       </div>
-      <div v-if="isLoggedIn">
-        {{ user.email }}
-        <Button label="log out" @click="logout" />
+      <div v-if="isLoggedIn" class="hidden md:flex md:items-center pr-4">
+        <Avatar
+          @click="toggle"
+          class="mr-2 !bg-primary-blue text-white cursor-pointer"
+          size="large"
+          shape="circle"
+          ><font-awesome-icon :icon="['far', 'user']"
+        /></Avatar>
+        <Menu ref="adminMenu" id="overlay_menu" :popup="true">
+          <template #start>
+            <div class="menu-item">
+              <div class="flex flex-col">
+                <span class="font-bold">{{ user.email }}</span>
+                <span class="text-sm">Admin</span>
+              </div>
+            </div>
+          </template>
+          <template #end>
+            <div
+              @click="logout"
+              class="menu-item hover:bg-neutral-100 hover:cursor-pointer"
+            >
+              <font-awesome-icon :icon="['fas', 'sign-out']" />
+              <span class="ml-2">Logout</span>
+            </div>
+          </template></Menu
+        >
       </div>
       <div class="md:hidden">
         <button
@@ -109,15 +133,17 @@
         class="md:hidden absolute inset-x-0 top-[115px] bg-[#333] z-20"
         style="height: calc(100vh - 50px)"
       >
-        <div class="px-6">
-          <div
+        <div class="flex flex-col px-6">
+          <router-link
+            @click="showMenu = !showMenu"
             v-for="(item, index) in menuItems"
             :key="index"
-            class="py-4 border-b-[1px] border-white/20"
+            :to="item.route"
+            class="py-4 border-b-[1px] border-white/20 !text-white hover:text-gray-300"
+            >{{ item.label }}</router-link
           >
-            <a class="!text-white hover:text-gray-300" :href="item.route">{{
-              item.label
-            }}</a>
+          <div v-if="isLoggedIn" class="py-4">
+            <Button label="Logout" @click="logout" />
           </div>
         </div>
       </div>
@@ -128,11 +154,10 @@
 <script setup>
 import { ref, computed } from "vue";
 import store from "@/store";
-import { useRouter } from "vue-router";
 
-//const open = ref(false);
-const router = useRouter();
 const showMenu = ref(false);
+const adminMenu = ref();
+
 const menuItems = ref([
   {
     label: "หน้าแรก",
@@ -157,7 +182,11 @@ const socialLinks = ref([
 const logout = () => {
   store.dispatch("logout");
   localStorage.removeItem("token");
-  router.push("/admin");
+  showMenu.value = !showMenu.value
+};
+
+const toggle = (event) => {
+  adminMenu.value.toggle(event);
 };
 
 const isLoggedIn = computed(() => store.state.isLoggedIn);

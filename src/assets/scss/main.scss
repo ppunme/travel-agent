@@ -321,3 +321,7 @@ body,
 .hamburger-bar {
   @apply transform transition w-full h-[4px] bg-primary-blue absolute rounded-full;
 }
+
+.menu-item {
+  @apply flex items-center p-2 pl-6 text-gray-600;
+}

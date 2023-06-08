@@ -45,7 +45,19 @@
       :visible="visible"
       @update:visible="onDialogUpdate"
     >
-      <ForgetPassword />
+      <ForgetPassword
+        @update:visible="onDialogUpdate"
+        @showSuccess="showSuccess"
+      />
+    </Modal>
+    <Modal
+      header="ลืมรหัสผ่าน"
+      :hideButton="true"
+      width="30vw"
+      :visible="visibleSuccess"
+      @update:visible="visibleSuccess = false"
+    >
+      <SuccessReset />
     </Modal>
   </div>
 </template>
@@ -57,12 +69,14 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "vue-router";
 import Modal from "@/components/Modal.vue";
 import ForgetPassword from "@/components/ForgetPassword.vue";
+import SuccessReset from "@/components/SuccessReset.vue";
 
 const email = ref();
 const password = ref();
 
 const loading = ref(false);
 const visible = ref(false);
+const visibleSuccess = ref(false);
 const router = useRouter();
 
 const login = () => {
@@ -85,5 +99,9 @@ const login = () => {
 
 const onDialogUpdate = (value) => {
   visible.value = value;
+};
+
+const showSuccess = (value) => {
+  visibleSuccess.value = value;
 };
 </script>
