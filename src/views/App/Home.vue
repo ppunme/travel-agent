@@ -14,6 +14,7 @@
     :visible="visible"
     @update:visible="onDialogUpdate"
     @onSubmit="onSubmit"
+    :loading="loading"
   >
     <EditCarousel
       :items="items"

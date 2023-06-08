@@ -78,10 +78,9 @@
 </template>
 
 <script setup>
-/* eslint-disable */
-import { ref, watch, defineProps, defineEmits } from "vue";
+import { defineProps, defineEmits } from "vue";
 
-const props = defineProps(["tours", "selectedTours", "tours2"]);
+defineProps(["selectedTours", "tours2"]);
 const emit = defineEmits([
   "onAddRow",
   "updateSelectedTours",
