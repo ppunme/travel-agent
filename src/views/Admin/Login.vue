@@ -29,6 +29,7 @@
         rounded
         class="!bg-primary-blue !border-none !text-[1.25rem] w-full !mt-4"
         @click="login"
+        :loading="loading"
       />
       <h5
         class="text-end font-light mt-4 text-primary-blue cursor-pointer hover:opacity-70"
@@ -44,7 +45,19 @@
       :visible="visible"
       @update:visible="onDialogUpdate"
     >
-      <ForgetPassword />
+      <ForgetPassword
+        @update:visible="onDialogUpdate"
+        @showSuccess="showSuccess"
+      />
+    </Modal>
+    <Modal
+      header="ลืมรหัสผ่าน"
+      :hideButton="true"
+      width="30vw"
+      :visible="visibleSuccess"
+      @update:visible="visibleSuccess = false"
+    >
+      <SuccessReset />
     </Modal>
   </div>
 </template>
@@ -56,18 +69,18 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "vue-router";
 import Modal from "@/components/Modal.vue";
 import ForgetPassword from "@/components/ForgetPassword.vue";
+import SuccessReset from "@/components/SuccessReset.vue";
 
 const email = ref();
 const password = ref();
 
+const loading = ref(false);
 const visible = ref(false);
+const visibleSuccess = ref(false);
 const router = useRouter();
 
-// const login = () => {
-//   store.dispatch("login", { email: "test@test.com" });
-// };
-
 const login = () => {
+  loading.value = true;
   store.dispatch("login", { email: email.value });
 
   const auth = getAuth();
@@ -75,14 +88,20 @@ const login = () => {
     .then(() => {
       localStorage.setItem("token", auth.currentUser.accessToken);
       router.push("/");
+      loading.value = false;
     })
     .catch((error) => {
       console.log(error.code);
       alert(error.message);
+      loading.value = false;
     });
 };
 
 const onDialogUpdate = (value) => {
   visible.value = value;
+};
+
+const showSuccess = (value) => {
+  visibleSuccess.value = value;
 };
 </script>

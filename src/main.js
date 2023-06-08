@@ -140,9 +140,14 @@ import {
   faLock,
   faBars,
   faExclamationCircle,
+  faSignOutAlt,
+  faSignOut,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { faCircleXmark as regularCircleXmark } from "@fortawesome/free-regular-svg-icons";
+import {
+  faCircleXmark as regularCircleXmark,
+  faUser,
+} from "@fortawesome/free-regular-svg-icons";
 
 library.add(
   faFacebook,
@@ -172,7 +177,10 @@ library.add(
   faXmark,
   faBars,
   faExclamationCircle,
-  faLock
+  faLock,
+  faUser,
+  faSignOutAlt,
+  faSignOut
 );
 
 const app = createApp(App);
