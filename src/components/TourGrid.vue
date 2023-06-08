@@ -14,10 +14,11 @@
       header="แก้ไขการแสดงผลแพ็คเกจทัวร์หน้าโฮมเพจ"
       :visible="visible"
       @update:visible="onDialogUpdate"
+      @onSubmit="onSubmit"
       :tourGrid="true"
+      :loading="loading"
     >
       <EditTourGrid
-        :tours="tours"
         :tours2="tours2"
         :selectedTours="selectedTours"
         @onAddRow="onAddRow"
@@ -28,13 +29,13 @@
     </Modal>
     <div class="grid grid-cols-2 md:grid-cols-3 gap-12">
       <div
-        v-for="item in tours"
+        v-for="item in selectedTours"
         :key="item.index"
         class="flex justify-center cursor-pointer hover:opacity-80"
         @click="viewPackage(item.id)"
       >
         <img
-          :src="require(`@/assets/images/${item.image}`)"
+          :src="item.image"
           :alt="item.name"
           class="rounded-xl shadow-lg shadow-neutral-500"
         />
@@ -55,9 +56,14 @@ import { ref, onMounted, computed } from "vue";
 import Modal from "@/components/Modal.vue";
 import ConfirmModal from "@/components/ConfirmModal.vue";
 import EditTourGrid from "@/components/EditTourGrid.vue";
-//import { data } from "@/services/TourPackageService";
 import { useToast } from "primevue/usetoast";
-import { collection, onSnapshot } from "firebase/firestore";
+import {
+  doc,
+  collection,
+  onSnapshot,
+  updateDoc,
+  deleteField,
+} from "firebase/firestore";
 import { db } from "@/firebase";
 import store from "@/store";
 
@@ -66,6 +72,8 @@ const visible = ref(false);
 const visibleDelete = ref(false);
 const deleteIndex = ref(null);
 const deleteItem = ref(null);
+
+const loading = ref(false);
 
 const isLoggedIn = computed(() => store.state.isLoggedIn);
 
@@ -81,57 +89,13 @@ const selectedTours = ref([
 
 const tours2 = ref();
 
-const tours = ref([
-  {
-    id: 1,
-    image: "tour1.jpg",
-    name: "Tour 1",
-    label: "Tour 1",
-    value: 1,
-  },
-  {
-    id: 2,
-    image: "tour2.jpg",
-    name: "Tour 2",
-    label: "Tour 2",
-    value: 2,
-  },
-  {
-    id: 3,
-    image: "tour3.jpg",
-    name: "Tour 3",
-    label: "Tour 3",
-    value: 3,
-  },
-  {
-    id: 4,
-    image: "tour4.jpg",
-    name: "Tour 4",
-    label: "Tour 4",
-    value: 24,
-  },
-  {
-    id: 5,
-    image: "tour5.jpg",
-    name: "Tour 5",
-    label: "Tour 5",
-    value: 5,
-  },
-  {
-    id: 6,
-    image: "tour6.jpg",
-    name: "Tour 6",
-    label: "Tour 6",
-    value: 6,
-  },
-]);
-
 const viewPackage = (id) => {
   console.log("view::", id);
 };
 
 const onDialogUpdate = (value) => {
   visible.value = value;
+  console.log("selectedTours.value", selectedTours.value);
 };
 
 const onAddRow = () => {
@@ -162,13 +126,15 @@ const handleDelete = (index, item) => {
   }
 };
 
-const confirmAction = () => {
+const confirmAction = async () => {
   visibleDelete.value = false;
 
   if (deleteItem.value) {
-    selectedTours.value = selectedTours.value.filter(
-      (tour) => tour.id !== deleteItem.value
-    );
+    await updateDoc(doc(db, "tours", deleteItem.value), {
+      selected: deleteField(),
+      seq: deleteField(),
+    });
+
     toast.add({ severity: "error", summary: "Item deleted", life: 2000 });
   }
 };
@@ -179,6 +145,20 @@ const handleDrop = (e, newIndex) => {
   const item = selectedTours.value.splice(oldIndex, 1)[0];
   selectedTours.value.splice(newIndex, 0, item);
   toast.add({ severity: "success", summary: "Rows Reordered", life: 2000 });
+};
+
+const onSubmit = () => {
+  loading.value = true;
+  console.log("onSubmit", selectedTours.value);
+
+  selectedTours.value.forEach(async (item, index) => {
+    await updateDoc(doc(db, "tours", item.id), {
+      selected: true,
+      seq: index,
+    });
+    loading.value = false;
+    visible.value = false;
+  });
 };
 
 onMounted(() => {
@@ -192,13 +172,19 @@ onMounted(() => {
         name: doc.data().fileName,
         image: doc.data().image,
         label: doc.data().fileName,
+        selected: doc.data().selected,
+        seq: doc.data().seq,
         value: doc.id,
       };
       //console.log("tour", tour);
       tourData.push(tour);
     });
 
+    const selected = tourData.filter((tour) => tour.selected);
+    const sortedSelected = selected.sort((a, b) => a.seq - b.seq);
+
     tours2.value = tourData;
+    selectedTours.value = sortedSelected;
   });
 });
 </script>
