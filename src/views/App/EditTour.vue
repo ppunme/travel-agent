@@ -24,11 +24,11 @@
       <div class="lg:col-span-3 xl:col-span-6 2xl:col-span-5">
         <form @submit="onSubmit">
           <div
-            class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 gap-3 sm:gap-6 2xl:gap-8 mb-6 xl:mb-8 2xl:mb-10 items-center mt-10 lg:mt-0"
+            class="grid grid-cols-12 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 gap-3 sm:gap-6 2xl:gap-8 mb-6 xl:mb-8 2xl:mb-10 items-center mt-10 lg:mt-0"
           >
-            <div class="col-start-1">รูปภาพ</div>
+            <div class="col-start-1 col-span-3 sm:col-span-1">รูปภาพ</div>
             <div
-              class="col-span-3 sm:col-span-5 md:col-span-6 lg:col-span-5 xl:col-span-7 2xl:col-span-9"
+              class="col-span-9 sm:col-span-5 md:col-span-6 lg:col-span-5 xl:col-span-7 2xl:col-span-9"
             >
               <div class="flex">
                 <Chip v-if="clearButton" :label="fileName" class="mr-2" />
@@ -56,9 +56,9 @@
               }}</small>
             </div>
 
-            <div class="col-start-1">หัวข้อ</div>
+            <div class="col-start-1 col-span-3 sm:col-span-1">หัวข้อ</div>
             <div
-              class="col-span-3 sm:col-span-5 md:col-span-6 lg:col-span-5 xl:col-span-7 2xl:col-span-9"
+              class="col-span-9 sm:col-span-5 md:col-span-6 lg:col-span-5 xl:col-span-7 2xl:col-span-9"
             >
               <InputText
                 v-model="name"
@@ -69,9 +69,9 @@
               <small v-if="nameError" class="p-error">{{ nameError }}</small>
             </div>
 
-            <div class="col-start-1">ประเทศ</div>
+            <div class="col-start-1 col-span-3 sm:col-span-1">ประเทศ</div>
             <div
-              class="col-span-3 sm:col-span-5 md:col-span-6 lg:col-span-5 xl:col-span-7 2xl:col-span-9"
+              class="col-span-9 sm:col-span-5 md:col-span-6 lg:col-span-5 xl:col-span-7 2xl:col-span-9"
             >
               <MultiSelect
                 v-model="countries"
@@ -100,8 +100,8 @@
               }}</small>
             </div>
 
-            <div class="col-start-1 mt-4 sm:mt-0">ระยะเวลา</div>
-            <div class="col-start-1 sm:col-start-2 md:col-span-1 xl:col-span-2">
+            <div class="col-start-1 col-span-3 sm:col-span-1">ระยะเวลา</div>
+            <div class="col-span-3 sm:col-span-1 xl:col-span-2">
               <InputNumber
                 v-model="days"
                 placeholder="วัน"
@@ -112,7 +112,7 @@
               }}</small>
             </div>
             <div>วัน</div>
-            <div class="md:col-span-1 xl:col-span-2">
+            <div class="col-span-3 sm:col-span-1 xl:col-span-2">
               <InputNumber
                 v-model="nights"
                 placeholder="คืน"
@@ -124,8 +124,8 @@
             </div>
             <div>คืน</div>
 
-            <div class="col-start-1 mt-6 sm:mt-0">ราคา</div>
-            <div class="col-span-2 xl:col-span-3 mt-6 sm:mt-0">
+            <div class="!col-start-1 col-span-3 sm:col-span-1">ราคา</div>
+            <div class="col-span-7 sm:col-span-2 xl:col-span-3">
               <InputNumber
                 v-model="price"
                 placeholder="ราคา"
@@ -138,9 +138,9 @@
 
             <div>บาท</div>
 
-            <div class="col-start-1">สายการบิน</div>
+            <div class="!col-start-1 col-span-3 sm:col-span-1">สายการบิน</div>
             <div
-              class="col-span-3 sm:col-span-5 md:col-span-6 lg:col-span-5 xl:col-span-7 2xl:col-span-9"
+              class="col-span-9 sm:col-span-5 md:col-span-6 lg:col-span-5 xl:col-span-7 2xl:col-span-9"
             >
               <InputText
                 v-model="airline"
