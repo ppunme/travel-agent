@@ -434,6 +434,7 @@ const onCancel = () => {
 };
 
 onMounted(async () => {
+  console.log("aa");
   const docRef = doc(db, "tours", route.params.tourId);
 
   onSnapshot(docRef, (docSnapshot) => {
