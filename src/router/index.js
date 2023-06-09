@@ -28,6 +28,7 @@ const routes = [
     path: "/tours/:tourId",
     name: "tour-detail",
     component: TourDetails,
+    props: true,
   },
   {
     path: "/tours/create",

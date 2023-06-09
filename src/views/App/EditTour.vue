@@ -243,24 +243,21 @@ const handleEdit = () => {
   visibleEdit.value = true;
 };
 
-const blobToBase64 = (blob) => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
-  });
-};
-
 const onSelectedFiles = async (event) => {
   const file = event.files[0];
+  const reader = new FileReader();
+  let blob = await fetch(file.objectURL).then((r) => r.blob());
 
-  const blobImage = new Blob([file]);
-  const base64Image = await blobToBase64(blobImage);
+  reader.readAsDataURL(blob);
 
-  tour.value.image = base64Image;
+  reader.onloadend = function () {
+    const base64data = reader.result;
+    tour.value.image = base64data;
+  };
+
   tour.value.fileName = file.name;
   fileName.value = file.name;
+  console.log(fileUpload.value);
 };
 
 const clearFile = async () => {

@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from "vue";
+import { defineProps } from "vue";
 import { useRouter } from "vue-router";
 
 const props = defineProps([
@@ -55,16 +55,6 @@ const openNewRoute = async (id) => {
     const priceValidate = await props.priceValidate();
     const detailsValidate = await props.detailsValidate();
     const fileNameValidate = await props.fileNameValidate();
-    console.log(
-      nameValidate,
-      airlineValidate,
-      daysValidate,
-      nightsValidate,
-      countriesValidate,
-      priceValidate,
-      detailsValidate,
-      fileNameValidate
-    );
 
     if (
       !nameValidate.valid ||
@@ -81,7 +71,7 @@ const openNewRoute = async (id) => {
 
     const countries = props.item.countries.map((item) => item.name);
 
-    const previewData = ref({
+    const previewData = {
       airline: props.item.airline,
       countries: countries.join(", "),
       days: props.item.days,
@@ -90,18 +80,14 @@ const openNewRoute = async (id) => {
       name: props.item.name,
       nights: props.item.nights,
       price: props.item.price,
-    });
+    };
 
     const url = router.resolve({
       path: "/tours/preview",
-      query: previewData.value,
-    }).href;
-
-    const link = document.createElement("a");
-    link.href = url;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    link.click();
+      query: previewData,
+      target: "_blank",
+    });
+    window.open(url.href, url.target);
   }
 };
 </script>
