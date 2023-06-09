@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isLoggedIn" class="text-end pb-6 pr-6">
+  <div v-if="isLoggedIn" class="text-end pb-6 px-6">
     <Button
       @click="visible = true"
       rounded
@@ -48,7 +48,7 @@
     </template>
   </Carousel>
 
-  <div class="container mx-auto">
+  <div class="container mx-auto px-6">
     <div class="flex justify-center items-center py-12">
       <font-awesome-icon
         :icon="['fas', 'bus']"
@@ -142,7 +142,7 @@ const onSubmit = async () => {
     await clearCollection();
     items.value.forEach(async (item, index) => {
       const submitData = { ...item, seq: index };
-      console.log("submitData", submitData.value);
+      console.log("submitData2", submitData);
 
       const docRef = await addDoc(collection(db, "carousel"), submitData);
       //console.log(docRef);
@@ -204,6 +204,7 @@ onMounted(async () => {
         id: doc.id,
         name: doc.data().name,
         img: doc.data().img,
+        seq: doc.data().seq,
       };
       carouselList.push(list);
     });

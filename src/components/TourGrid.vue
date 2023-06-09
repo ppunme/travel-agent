@@ -27,7 +27,7 @@
         @handleDrop="handleDrop"
       />
     </Modal>
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-12">
+    <!-- <div class="grid grid-cols-2 md:grid-cols-3 gap-12">
       <div
         v-for="item in selectedTours"
         :key="item.index"
@@ -39,6 +39,22 @@
           :alt="item.name"
           class="rounded-xl shadow-lg shadow-neutral-500"
         />
+      </div>
+    </div> -->
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-12">
+      <div
+        v-for="item in selectedTours"
+        :key="item.index"
+        class="flex justify-center cursor-pointer hover:opacity-80"
+        @click="viewPackage(item.id)"
+      >
+        <div class="square-image">
+          <img
+            :src="item.image"
+            :alt="item.name"
+            class="rounded-xl shadow-lg shadow-gray-300"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -95,7 +111,6 @@ const viewPackage = (id) => {
 
 const onDialogUpdate = (value) => {
   visible.value = value;
-  console.log("selectedTours.value", selectedTours.value);
 };
 
 const onAddRow = () => {
@@ -188,3 +203,15 @@ onMounted(() => {
   });
 });
 </script>
+
+<style scoped>
+.square-image {
+  aspect-ratio: 1/1;
+}
+
+.square-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+</style>

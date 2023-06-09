@@ -65,6 +65,8 @@ onMounted(() => {
 
     if (!expired) {
       store.dispatch("login", { email: email });
+    } else {
+      //localStorage.removeItem("token");
     }
   }
 });

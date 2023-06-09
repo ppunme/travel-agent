@@ -108,7 +108,7 @@
           @click="showMenu = !showMenu"
           class="flex items-center space-x-2 focus:outline-none"
         >
-          <div class="w-9 flex items-center justify-center relative">
+          <div class="w-9 h-9 flex items-center justify-center relative">
             <span
               :class="showMenu ? 'translate-y-0 rotate-45' : '-translate-y-3'"
               class="hamburger-bar"
