@@ -147,6 +147,8 @@ const customBase64Uploader = async (event) => {
 
   reader.readAsDataURL(blob);
 
+  console.log("tessst");
+
   reader.onloadend = function () {
     const base64data = reader.result;
     // console.log("base64data: " + base64data);
