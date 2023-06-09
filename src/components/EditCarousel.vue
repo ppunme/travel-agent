@@ -156,8 +156,6 @@ const customBase64Uploader = async (event) => {
   };
 };
 
-console.log("test");
-
 const moveItemUp = (index) => {
   if (index > 0) {
     emit("moveItemUp", index);
