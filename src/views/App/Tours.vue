@@ -29,7 +29,7 @@
         '1023px':
           'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink',
         default:
-          'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink JumpToPageDropdown',
+          'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown',
       }"
       :rows="pageSize"
       :totalRecords="dataLength"
@@ -50,8 +50,8 @@ import TourPackagesList from "@/components/TourPackagesList.vue";
 
 const tours = ref([]);
 const search = ref("");
-const pageSizeOptions = ref([1, 2, 3]);
-const pageSize = ref(1);
+const pageSizeOptions = ref([4, 8, 16]);
+const pageSize = ref(4);
 const dataLength = ref();
 const page = ref(0);
 

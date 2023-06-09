@@ -39,6 +39,7 @@ const props = defineProps([
   "countriesValidate",
   "detailsValidate",
   "fileNameValidate",
+  "imageObjectURL",
 ]);
 
 const router = useRouter();
@@ -47,6 +48,7 @@ const openNewRoute = async (id) => {
   if (!props.management) {
     router.push(`/tours/${id}`);
   } else {
+    console.log(props.item.image);
     const nameValidate = await props.nameValidate();
     const airlineValidate = await props.airlineValidate();
     const daysValidate = await props.daysValidate();
@@ -76,7 +78,7 @@ const openNewRoute = async (id) => {
       countries: countries.join(", "),
       days: props.item.days,
       details: props.item.details,
-      image: props.item.image,
+      image: props.imageObjectURL,
       name: props.item.name,
       nights: props.item.nights,
       price: props.item.price,

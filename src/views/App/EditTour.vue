@@ -19,6 +19,7 @@
           :countriesValidate="countriesValidate"
           :detailsValidate="detailsValidate"
           :fileNameValidate="fileNameValidate"
+          :imageObjectURL="imageObjectURL"
         />
       </div>
       <div class="lg:col-span-3 xl:col-span-6 2xl:col-span-5">
@@ -214,6 +215,7 @@ const { handleSubmit, resetForm } = useForm();
 const fileUpload = ref(null);
 const clearButton = ref(false);
 const visibleEdit = ref(false);
+const imageObjectURL = ref();
 
 const options = ref([
   { name: "ออสเตรเลีย" },
@@ -245,6 +247,7 @@ const handleEdit = () => {
 
 const onSelectedFiles = async (event) => {
   const file = event.files[0];
+
   const reader = new FileReader();
   let blob = await fetch(file.objectURL).then((r) => r.blob());
 
@@ -253,11 +256,10 @@ const onSelectedFiles = async (event) => {
   reader.onloadend = function () {
     const base64data = reader.result;
     tour.value.image = base64data;
+    tour.value.fileName = file.name;
+    fileName.value = file.name;
+    imageObjectURL.value = file.objectURL;
   };
-
-  tour.value.fileName = file.name;
-  fileName.value = file.name;
-  console.log(fileUpload.value);
 };
 
 const clearFile = async () => {
@@ -430,6 +432,10 @@ const onCancel = () => {
   router.push(`/tours/${route.params.tourId}`);
 };
 
+const base64ToBlob = async (base64String) => {
+  return await fetch(base64String).then((response) => response.blob());
+};
+
 onMounted(async () => {
   const docRef = doc(db, "tours", route.params.tourId);
 
@@ -449,6 +455,11 @@ onMounted(async () => {
       airline.value = tourData.airline;
       details.value = tourData.details;
       fileName.value = tourData.fileName;
+
+      base64ToBlob(tourData.image).then((blob) => {
+        const objectURL = URL.createObjectURL(blob);
+        imageObjectURL.value = objectURL;
+      });
     } else {
       console.log("Document does not exist");
     }
