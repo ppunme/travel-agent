@@ -15,35 +15,28 @@
       <h2 class="text-center mb-6">Admin Login</h2>
       <form @submit="onSubmit">
         <InputText
-          id="value"
-          v-model="value"
-          type="text"
-          :class="{ 'p-invalid': errorMessage }"
-          aria-describedby="text-error"
-        />
-        <InputText
           v-model="email"
           placeholder="อีเมล"
+          :class="{ 'p-invalid': errorEmail }"
           class="all-input !rounded-full w-full !mb-4"
         />
         <Password
           v-model="password"
           placeholder="รหัสผ่าน"
+          :class="{ 'p-invalid': errorPassword }"
           class="all-input !rounded-full w-full"
           :feedback="false"
           toggleMask
         />
-        <p v-if="errMessage">{{ errMessage }}</p>
-        <small class="p-error" id="text-error">{{
-          errorMessage || "&nbsp;"
+        <small class="p-error">{{
+          errorEmail || errorPassword || errorLogin || "&nbsp;"
         }}</small>
         <Button
           label="เข้าสู่ระบบ"
           rounded
-          class="!bg-primary-blue !border-none !text-[1.25rem] w-full !mt-4"
+          class="!bg-primary-blue !border-none !text-[1.25rem] w-full !mt-3"
           type="submit"
           :loading="loading"
-          @click="login"
         />
       </form>
       <h5
@@ -87,9 +80,7 @@ import ForgetPassword from "@/components/ForgetPassword.vue";
 import SuccessReset from "@/components/SuccessReset.vue";
 import { useField, useForm } from "vee-validate";
 
-const email = ref();
-const password = ref();
-const errMessage = ref("");
+const errorLogin = ref("");
 
 const loading = ref(false);
 const visible = ref(false);
@@ -97,20 +88,35 @@ const visibleSuccess = ref(false);
 const router = useRouter();
 
 const { handleSubmit, resetForm } = useForm();
-const { value, errorMessage } = useField("value", validateField);
 
-function validateField(value) {
+const { value: email, errorMessage: errorEmail } = useField(
+  "email",
+  validateEmail
+);
+
+const { value: password, errorMessage: errorPassword } = useField(
+  "name",
+  validatePassword
+);
+
+function validateEmail(value) {
   if (!value) {
-    return "Name - Surname is required.";
+    return "กรุณากรอกอีเมล";
   }
 
   return true;
 }
 
-const onSubmit = handleSubmit((values) => {
-  if (values.value && values.value.length > 0) {
-    resetForm();
+function validatePassword(value) {
+  if (!value) {
+    return "กรุณากรอกรหัสผ่าน";
   }
+
+  return true;
+}
+
+const onSubmit = handleSubmit(() => {
+  login();
 });
 
 const login = () => {
@@ -122,11 +128,12 @@ const login = () => {
     .then(() => {
       localStorage.setItem("token", auth.currentUser.accessToken);
       router.push("/");
+      resetForm();
       loading.value = false;
     })
     .catch((error) => {
       console.log(error.code);
-      errMessage.value = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
+      errorLogin.value = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
       loading.value = false;
     });
 };
