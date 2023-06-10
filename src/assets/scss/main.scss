@@ -326,3 +326,11 @@ body,
 .menu-item {
   @apply flex items-center p-2 pl-6 text-gray-600;
 }
+
+.contact-icon {
+  @apply self-center text-lg sm:text-3xl;
+}
+
+.contact-text {
+  @apply pl-3 text-[0.8rem] md:text-lg;
+}

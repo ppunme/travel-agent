@@ -48,7 +48,7 @@
     </template>
   </Carousel>
 
-  <div class="container mx-auto px-6">
+  <div class="container mx-auto px-4 sm:px-8 md:px-10">
     <div class="flex justify-center items-center py-12">
       <font-awesome-icon
         :icon="['fas', 'bus']"
