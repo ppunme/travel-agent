@@ -9,11 +9,13 @@
         <h5 class="pt-2 text-gray-800">รับจัดทัวร์ในประเทศและต่างประเทศ</h5>
 
         <div class="pt-12">
-          <Button class="w-48 !bg-green-line-app" rounded @click="addLineID">
-            <font-awesome-icon :icon="['fab', 'line']" size="2xl" /><span
-              class="mx-auto"
-              >แอดไลน์</span
-            >
+          <Button
+            class="w-48 !bg-green-line-app"
+            rounded
+            @click="addLineID">
+            <font-awesome-icon
+              :icon="['fab', 'line']"
+              size="2xl" /><span class="mx-auto">แอดไลน์</span>
           </Button>
         </div>
         <div class="pt-3">
@@ -31,9 +33,10 @@
           <Button
             class="w-48 !bg-[#F77174] !mr-8"
             rounded
-            @click="makePhoneCall"
-          >
-            <font-awesome-icon :icon="['fas', 'phone']" size="2xl" />
+            @click="makePhoneCall">
+            <font-awesome-icon
+              :icon="['fas', 'phone']"
+              size="2xl" />
             <span class="mx-auto">โทรจอง</span>
           </Button>
         </div>
@@ -42,43 +45,39 @@
             class="w-48 !bg-[#D42E35]"
             rounded
             target="_blank"
-            @click="sendEmail"
-          >
-            <font-awesome-icon :icon="['fas', 'envelope']" size="2xl" /><span
-              class="mx-auto"
-              >ส่งอีเมล</span
-            >
+            @click="sendEmail">
+            <font-awesome-icon
+              :icon="['fas', 'envelope']"
+              size="2xl" /><span class="mx-auto">ส่งอีเมล</span>
           </Button>
         </div>
       </div>
 
       <div class="lg:w-7/12 pt-7 my-12 lg:my-0">
         <div
-          class="bg-[#2890E3] md:pl-10 xl:pl-20 h-96 md:h-120 lg:h-148 xl:h-128 rounded-xl flex justify-center md:justify-normal items-center relative"
-        >
+          class="bg-[#2890E3] md:pl-10 xl:pl-20 h-96 md:h-120 lg:h-148 xl:h-128 rounded-xl flex justify-center md:justify-normal items-center relative">
           <div
             class="bg-[#F1C31E] w-24 md:w-28 h-16 md:h-20 absolute -top-7 left-10 xl:left-20 rounded-xl shadow-md" />
           <div class="hidden md:block absolute -bottom-10 right-0 w-96">
-            <img :src="vector" class="w-140" />
+            <img
+              :src="vector"
+              class="w-140" />
           </div>
           <div>
             <div class="contact-item">
               <font-awesome-icon
                 :icon="data.line.icon"
-                class="contact-icon sm:w-8"
-              />
+                class="contact-icon sm:w-8" />
               <span class="contact-text">{{ data.line.link }}</span>
             </div>
             <div
               v-for="item in data.contacts"
               :key="item.id"
               class="contact-item hover:cursor-pointer hover:opacity-90"
-              @click="handleClick(item.name, item.link)"
-            >
+              @click="handleClick(item.name, item.link)">
               <font-awesome-icon
                 :icon="item.icon"
-                class="contact-icon sm:w-8"
-              />
+                class="contact-icon sm:w-8" />
               <span class="contact-text">{{ item.link }}</span>
             </div>
           </div>
@@ -108,26 +107,26 @@
     window.open("line://ti/p/ppunme", "_blank");
   };
 
-const makePhoneCall = () => {
-  window.location.href = "tel:0932392359";
-};
+  const makePhoneCall = () => {
+    window.location.href = "tel:0932392359";
+  };
 
-const handleClick = (name, link) => {
-  switch (name) {
-    case "facebook":
-      window.open(link, "_blank");
-      break;
-    case "instagram":
-      window.open(link, "_blank");
-      break;
-    case "phone":
-      makePhoneCall();
-      break;
-    case "email":
-      sendEmail();
-      break;
-    default:
-      break;
-  }
-};
+  const handleClick = (name, link) => {
+    switch (name) {
+      case "facebook":
+        window.open(link, "_blank");
+        break;
+      case "instagram":
+        window.open(link, "_blank");
+        break;
+      case "phone":
+        makePhoneCall();
+        break;
+      case "email":
+        sendEmail();
+        break;
+      default:
+        break;
+    }
+  };
 </script>
