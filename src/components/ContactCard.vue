@@ -35,7 +35,6 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
 import lineQrCode from "@/assets/images/line-qr-code.png";
 import bgImage from "@/assets/images/home-contact-bg.png";
 

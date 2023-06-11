@@ -9,7 +9,6 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
 import TourPackageCard from "./TourPackageCard.vue";
 
 const props = defineProps(["tours"]);

@@ -126,7 +126,7 @@
 
 <script setup>
 /* eslint-disable */
-import { ref, watch, defineProps, defineEmits, onMounted } from "vue";
+import { ref, watch, defineEmits, onMounted } from "vue";
 
 const props = defineProps(["items"]);
 const emit = defineEmits([

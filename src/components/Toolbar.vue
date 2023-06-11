@@ -77,7 +77,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref, watch } from "vue";
+import { defineEmits, ref, watch } from "vue";
 
 const props = defineProps([
   "selectedCountry",

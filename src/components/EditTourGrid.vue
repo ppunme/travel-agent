@@ -78,8 +78,6 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from "vue";
-
 defineProps(["selectedTours", "tours2"]);
 const emit = defineEmits([
   "onAddRow",

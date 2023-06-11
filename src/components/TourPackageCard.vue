@@ -15,17 +15,16 @@
         ฿{{ parseFloat(item.price).toLocaleString() }}
       </h5>
       <Button
-        @click="openNewRoute(item.id)"
         label="ดูรายละเอียด"
         rounded
         class="!bg-primary-blue !border-none !font-normal"
+        @click="openNewRoute(item.id)"
       />
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps } from "vue";
 import { useRouter } from "vue-router";
 
 const props = defineProps([

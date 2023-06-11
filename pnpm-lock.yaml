@@ -79,11 +79,14 @@ devDependencies:
     specifier: ^7.32.0
     version: 7.32.0
   eslint-plugin-vue:
-    specifier: ^8.0.3
+    specifier: ^8.7.1
     version: 8.7.1(eslint@7.32.0)
   tailwindcss:
     specifier: ^3.3.2
     version: 3.3.2
+  vue-eslint-parser:
+    specifier: ^9.3.0
+    version: 9.3.0(eslint@7.32.0)
 
 packages:
 
@@ -8309,6 +8312,24 @@ packages:
   /vue-eslint-parser@8.3.0(eslint@7.32.0):
     resolution: {integrity: sha512-dzHGG3+sYwSf6zFBa0Gi9ZDshD7+ad14DGOdTLjruRVgZXe2J+DcZ9iUhyR48z5g1PqRa20yt3Njna/veLJL/g==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    peerDependencies:
+      eslint: '>=6.0.0'
+    dependencies:
+      debug: 4.3.4
+      eslint: 7.32.0
+      eslint-scope: 7.2.0
+      eslint-visitor-keys: 3.4.0
+      espree: 9.5.1
+      esquery: 1.5.0
+      lodash: 4.17.21
+      semver: 7.5.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /vue-eslint-parser@9.3.0(eslint@7.32.0):
+    resolution: {integrity: sha512-48IxT9d0+wArT1+3wNIy0tascRoywqSUe2E1YalIC1L8jsUGe5aJQItWfRok7DVFGz3UYvzEI7n5wiTXsCMAcQ==}
+    engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: '>=6.0.0'
     dependencies:
