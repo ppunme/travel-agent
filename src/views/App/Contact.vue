@@ -36,7 +36,7 @@
             @click="makePhoneCall"
           >
             <font-awesome-icon :icon="['fas', 'phone']" size="2xl" />
-            <span class="mx-auto">โทรจอง</span>
+            <span class="mx-auto">โทรติดต่อ</span>
           </Button>
         </div>
         <div class="pt-3">
@@ -56,7 +56,7 @@
 
       <div class="lg:w-7/12 pt-7 my-12 lg:my-0">
         <div
-          class="bg-[#2890E3] xl:pl-20 h-96 md:h-120 lg:h-148 xl:h-128 rounded-xl flex justify-center md:justify-normal items-center relative"
+          class="bg-[#2890E3] md:pl-10 xl:pl-20 h-96 md:h-120 lg:h-148 xl:h-128 rounded-xl flex justify-center md:justify-normal items-center relative"
         >
           <div
             class="bg-[#F1C31E] w-24 md:w-28 h-16 md:h-20 absolute -top-7 left-10 xl:left-20 rounded-xl shadow-md"
@@ -64,17 +64,24 @@
           <div class="hidden md:block absolute -bottom-10 right-0 w-96">
             <img :src="vector" class="w-140" />
           </div>
-          <div class="sm:pl-10 sm:pr-2">
-            <div class="text-white py-3">
-              <font-awesome-icon :icon="data.line.icon" class="contact-icon" />
+          <div>
+            <div class="contact-item">
+              <font-awesome-icon
+                :icon="data.line.icon"
+                class="contact-icon sm:w-8"
+              />
               <span class="contact-text">{{ data.line.link }}</span>
             </div>
             <div
               v-for="item in data.contacts"
               :key="item.id"
-              class="text-white py-3"
+              class="contact-item hover:cursor-pointer hover:opacity-90"
+              @click="handleClick(item.name, item.link)"
             >
-              <font-awesome-icon :icon="item.icon" class="contact-icon" />
+              <font-awesome-icon
+                :icon="item.icon"
+                class="contact-icon sm:w-8"
+              />
               <span class="contact-text">{{ item.link }}</span>
             </div>
           </div>
@@ -106,5 +113,24 @@ const addLineID = () => {
 
 const makePhoneCall = () => {
   window.location.href = "tel:0932392359";
+};
+
+const handleClick = (name, link) => {
+  switch (name) {
+    case "facebook":
+      window.open(link, "_blank");
+      break;
+    case "instagram":
+      window.open(link, "_blank");
+      break;
+    case "phone":
+      makePhoneCall();
+      break;
+    case "email":
+      sendEmail();
+      break;
+    default:
+      break;
+  }
 };
 </script>

@@ -338,5 +338,9 @@ body,
 }
 
 .contact-text {
-  @apply pl-3 text-[0.8rem] md:text-lg;
+  @apply pl-3 text-[0.8rem] sm:text-lg;
+}
+
+.contact-item {
+  @apply text-white py-3 flex items-center
 }
