@@ -3,17 +3,29 @@
     <div class="flex flex-col lg:flex-row py-6">
       <!-- h-[calc(100vh - navbar - content margin top - content margin bottom - footer )] -->
       <div class="lg:w-5/12 lg:min-h-[calc(100vh_-_16rem)]">
-        <p class="text-primary-blue text-3xl lg:text-4xl">ติดต่อเรา</p>
+        <p class="text-primary-blue text-3xl lg:text-4xl">
+          ติดต่อเรา
+        </p>
 
-        <h4 class="pt-4 text-gray-800">บริษัท เวลเนส ไลฟ์ ทราเวล จำกัด</h4>
-        <h5 class="pt-2 text-gray-800">รับจัดทัวร์ในประเทศและต่างประเทศ</h5>
+        <h4 class="pt-4 text-gray-800">
+          บริษัท เวลเนส ไลฟ์ ทราเวล จำกัด
+        </h4>
+        <h5 class="pt-2 text-gray-800">
+          รับจัดทัวร์ในประเทศและต่างประเทศ
+        </h5>
 
         <div class="pt-12">
-          <Button class="w-48 !bg-green-line-app" rounded @click="addLineID">
-            <font-awesome-icon :icon="['fab', 'line']" size="2xl" /><span
+          <Button
+            class="w-48 !bg-green-line-app"
+            rounded
+            @click="addLineID"
+          >
+            <font-awesome-icon
+              :icon="['fab', 'line']"
+              size="2xl"
+            /><span
               class="mx-auto"
-              >แอดไลน์</span
-            >
+            >แอดไลน์</span>
           </Button>
         </div>
         <div class="pt-3">
@@ -35,7 +47,10 @@
             rounded
             @click="makePhoneCall"
           >
-            <font-awesome-icon :icon="['fas', 'phone']" size="2xl" />
+            <font-awesome-icon
+              :icon="['fas', 'phone']"
+              size="2xl"
+            />
             <span class="mx-auto">โทรจอง</span>
           </Button>
         </div>
@@ -60,13 +75,19 @@
         >
           <div
             class="bg-[#F1C31E] w-24 md:w-28 h-16 md:h-20 absolute -top-7 left-10 xl:left-20 rounded-xl shadow-md"
-          ></div>
+          />
           <div class="hidden md:block absolute -bottom-10 right-0 w-96">
-            <img :src="vector" class="w-140" />
+            <img
+              :src="vector"
+              class="w-140"
+            >
           </div>
           <div class="sm:pl-10 sm:pr-2">
             <div class="text-white py-3">
-              <font-awesome-icon :icon="data.line.icon" class="contact-icon" />
+              <font-awesome-icon
+                :icon="data.line.icon"
+                class="contact-icon"
+              />
               <span class="contact-text">{{ data.line.link }}</span>
             </div>
             <div
@@ -74,7 +95,10 @@
               :key="item.id"
               class="text-white py-3"
             >
-              <font-awesome-icon :icon="item.icon" class="contact-icon" />
+              <font-awesome-icon
+                :icon="item.icon"
+                class="contact-icon"
+              />
               <span class="contact-text">{{ item.link }}</span>
             </div>
           </div>

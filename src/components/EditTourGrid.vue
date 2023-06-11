@@ -69,26 +69,24 @@
         </div>
       </div>
       <div class="mt-6">
-        <Button @click="addRow" class="w-28 !bg-green-add !border-none" rounded>
-          <font-awesome-icon :icon="['fas', 'plus']" size="xl" /><span
-            class="mx-auto"
-            >เพิ่ม</span
-          ></Button
+        <Button
+          class="w-28 !bg-green-add !border-none"
+          rounded
+          @click="addRow"
         >
+          <font-awesome-icon
+            :icon="['fas', 'plus']"
+            size="xl"
+          /><span
+            class="mx-auto"
+          >เพิ่ม</span>
+        </Button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-  defineProps(["selectedTours", "tours2"]);
-  const emit = defineEmits([
-    "onAddRow",
-    "updateSelectedTours",
-    "handleDelete",
-    "handleDrop",
-  ]);
-
 defineProps(["selectedTours", "tours"]);
 const emit = defineEmits([
   "onAddRow",

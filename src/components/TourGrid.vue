@@ -98,19 +98,19 @@ const visibleDelete = ref(false);
 const deleteIndex = ref(null);
 const deleteItem = ref(null);
 
-  const loading = ref(false);
+const loading = ref(false);
 
-  const isLoggedIn = computed(() => store.state.isLoggedIn);
+const isLoggedIn = computed(() => store.state.isLoggedIn);
 
-  const selectedTours = ref([
-    {
-      id: "",
-      image: "",
-      name: "",
-      label: "",
-      value: "",
-    },
-  ]);
+const selectedTours = ref([
+  {
+    id: "",
+    image: "",
+    name: "",
+    label: "",
+    value: "",
+  },
+]);
 
 const tours = ref();
 
@@ -209,7 +209,7 @@ const viewPackage = (id) => {
 
     tours.value = tourData;
     selectedTours.value = sortedSelected;
-  });
+  })})
 </script>
 
 <style scoped>

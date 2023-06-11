@@ -221,7 +221,6 @@
 
           <div class="flex justify-end pt-12">
             <Button
-              @click="onCancel"
               class="w-36 !text-[#9d9d9d] !mr-6 cancel-button"
               text
               rounded
@@ -233,7 +232,6 @@
               /><span class="mx-auto">ยกเลิก</span>
             </Button>
             <Button
-              @click="handleEdit"
               class="w-36 !bg-green-add !border-green-add"
               rounded
               @click="handleEdit"

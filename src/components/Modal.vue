@@ -31,7 +31,6 @@
       #footer
     >
       <Button
-        @click="onCancel"
         class="!w-28 cancel-button"
         label="ยกเลิก"
         severity="secondary"

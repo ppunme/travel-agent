@@ -223,7 +223,6 @@
 
           <div class="flex justify-end pt-12">
             <Button
-              @click="onCancel"
               class="w-36 !text-[#9d9d9d] !mr-6 cancel-button"
               text
               rounded
