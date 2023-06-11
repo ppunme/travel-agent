@@ -36,24 +36,26 @@ body,
 
   .p-paginator-pages {
     .p-paginator-page {
-      border: 1px solid $primary-border-color !important;
-      color: $secondary-font-color !important;
+      //border: 1px solid $primary-border-color !important;
       margin: 0.5rem !important;
 
       &.p-highlight {
         background: $secondary-color !important;
-        color: #ffffff !important;
+        color: #fff !important;
       }
+    }
+
+    .p-link:focus {
+      box-shadow: none !important;
     }
   }
 
-  .p-paginator-first,
-  .p-paginator-prev,
-  .p-paginator-next,
-  .p-paginator-last {
-    border: 1px solid $primary-border-color !important;
-    color: $secondary-font-color !important;
-  }
+  // .p-paginator-first,
+  // .p-paginator-prev,
+  // .p-paginator-next,
+  // .p-paginator-last {
+  //   border: 1px solid $primary-border-color !important;
+  // }
 
   .p-paginator-prev {
     margin-right: 2rem !important;
@@ -307,6 +309,10 @@ body,
   }
 }
 
+.cancel-button {
+  box-shadow: inset 0px 0px 0px 1px $primary-border-color;
+}
+
 .btn-delete {
   @apply w-8 h-8 bg-neutral-100 hover:bg-neutral-200 rounded-full;
 }
@@ -325,4 +331,12 @@ body,
 
 .menu-item {
   @apply flex items-center p-2 pl-6 text-gray-600;
+}
+
+.contact-icon {
+  @apply self-center text-lg sm:text-3xl;
+}
+
+.contact-text {
+  @apply pl-3 text-[0.8rem] md:text-lg;
 }

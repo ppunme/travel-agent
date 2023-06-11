@@ -2,17 +2,14 @@
   <div class="xl:px-56 2xl:px-72">
     <div
       v-if="isLoggedIn"
-      class="text-end pb-6"
-    >
+      class="text-end pb-6">
       <Button
         rounded
         class="w-32 !bg-amber-500 !border-none"
-        @click="visible = true"
-      >
+        @click="visible = true">
         <font-awesome-icon
           :icon="['fas', 'pen']"
-          size="xl"
-        />
+          size="xl" />
         <span class="mx-auto">แก้ไข</span>
       </Button>
     </div>
@@ -22,16 +19,14 @@
       :tourGrid="true"
       :loading="loading"
       @update:visible="onDialogUpdate"
-      @onSubmit="onSubmit"
-    >
+      @onSubmit="onSubmit">
       <EditTourGrid
-        :tours2="tours2"
+        :tours="tours"
         :selectedTours="selectedTours"
         @onAddRow="onAddRow"
         @updateSelectedTours="updateSelectedTours"
         @handleDelete="handleDelete"
-        @handleDrop="handleDrop"
-      />
+        @handleDrop="handleDrop" />
     </Modal>
     <!-- <div class="grid grid-cols-2 md:grid-cols-3 gap-12">
       <div
@@ -52,14 +47,12 @@
         v-for="item in selectedTours"
         :key="item.index"
         class="flex justify-center cursor-pointer hover:opacity-80"
-        @click="viewPackage(item.id)"
-      >
+        @click="viewPackage(item.id)">
         <div class="square-image">
           <img
             :src="item.image"
             :alt="item.name"
-            class="rounded-xl shadow-lg shadow-gray-300"
-          >
+            class="rounded-xl shadow-lg shadow-gray-300" />
         </div>
       </div>
     </div>
@@ -68,8 +61,7 @@
     header="Delete"
     :visible="visibleDelete"
     @handleCancel="handleCancel"
-    @confirmAction="confirmAction"
-  />
+    @confirmAction="confirmAction" />
   <Toast />
 </template>
 
@@ -87,7 +79,10 @@
     deleteField,
   } from "firebase/firestore";
   import { db } from "@/firebase";
+  import { useRouter } from "vue-router";
   import store from "@/store";
+
+  const router = useRouter();
 
   const toast = useToast();
   const visible = ref(false);
@@ -109,10 +104,10 @@
     },
   ]);
 
-  const tours2 = ref();
+  const tours = ref();
 
   const viewPackage = (id) => {
-    console.log("view::", id);
+    router.push(`/tours/${id}`);
   };
 
   const onDialogUpdate = (value) => {
@@ -204,7 +199,7 @@
       const selected = tourData.filter((tour) => tour.selected);
       const sortedSelected = selected.sort((a, b) => a.seq - b.seq);
 
-      tours2.value = tourData;
+      tours.value = tourData;
       selectedTours.value = sortedSelected;
     });
   });

@@ -12,21 +12,18 @@
           class="draggable-img rounded-lg hover:opacity-80"
           @dragstart="handleDragStart($event, index)"
           @dragover="handleDragOver($event)"
-          @drop="handleDrop($event, index)"
-        >
+          @drop="handleDrop($event, index)">
           <div class="square-image">
             <img
               v-if="item.image"
               :src="item.image"
               :alt="item.name"
-              class="rounded-xl"
-            >
+              class="rounded-xl" />
             <img
               v-else
               :src="require('@/assets/images/no-img.png')"
               alt="no image"
-              class="object-cover h-[525px] w-full"
-            >
+              class="object-cover h-[525px] w-full" />
           </div>
         </div>
       </div>
@@ -37,19 +34,17 @@
       <div
         v-for="(item, idx) in selectedTours"
         :key="item.id"
-        class="flex items-center mt-4"
-      >
+        class="flex items-center mt-4">
         <label class="w-32 pr-4">ภาพที่ {{ idx + 1 }}</label>
         <div class="w-full flex items-center">
           <Dropdown
             :modelValue="item"
-            :options="tours2"
+            :options="tours"
             filter
             optionLabel="name"
             placeholder="Select a tour"
             class="p-dropdown-sm w-full sm:w-14rem"
-            @change="updateTour(idx, $event)"
-          >
+            @change="updateTour(idx, $event)">
             <template #option="slotProps">
               <div class="flex align-items-center">
                 {{ slotProps.option.name }}
@@ -59,39 +54,35 @@
           <button
             type="button"
             class="btn-delete ml-2"
-            @click="onDelete(idx, item)"
-          >
+            @click="onDelete(idx, item)">
             <font-awesome-icon
               :icon="['fas', 'times']"
-              class="text-red-500"
-            />
+              class="text-red-500" />
           </button>
         </div>
       </div>
       <div class="mt-6">
         <Button
-          label="เพิ่ม"
-          class="w-32 !bg-green-400 !border-none"
+          class="w-28 !bg-green-add !border-none"
           rounded
-          @click="addRow"
-        />
+          @click="addRow">
+          <font-awesome-icon
+            :icon="['fas', 'plus']"
+            size="xl" /><span class="mx-auto">เพิ่ม</span>
+        </Button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-  defineProps(["selectedTours", "tours2"]);
+  defineProps(["selectedTours", "tours"]);
   const emit = defineEmits([
     "onAddRow",
     "updateSelectedTours",
     "handleDelete",
     "handleDrop",
   ]);
-
-  const addRow = () => {
-    emit("onAddRow");
-  };
 
   const updateTour = (index, e) => {
     // console.log("updateTour", index, e.value.id);

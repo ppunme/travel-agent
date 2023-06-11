@@ -8,8 +8,7 @@
     :pt="{
       closeButton: { class: '!hidden' },
     }"
-    :class="[hideButton && 'reset-password', tourGrid && 'tour-grid']"
-  >
+    :class="[hideButton && 'reset-password', tourGrid && 'tour-grid']">
     <template #header>
       <h5 class="mx-auto">
         {{ header }}
@@ -17,34 +16,29 @@
       <Button
         text
         class="!p-0 !text-neutral-400 !absolute right-0 !mr-[1.5rem]"
-        @click="onCancel"
-      >
+        @click="onCancel">
         <font-awesome-icon
           :icon="['fas', 'times']"
-          size="lg"
-        />
+          size="lg" />
       </Button>
     </template>
     <slot />
     <template
       v-if="!hideButton"
-      #footer
-    >
+      #footer>
       <Button
-        class="!w-28 custom-button"
+        class="!w-28 cancel-button"
         label="ยกเลิก"
         severity="secondary"
         rounded
         outlined
-        @click="onCancel"
-      />
+        @click="onCancel" />
       <Button
         label="บันทึก"
         rounded
         class="!w-28 !bg-primary-blue !border-primary-blue"
         :loading="loading"
-        @click="onSave"
-      />
+        @click="onSave" />
     </template>
   </Dialog>
 </template>
@@ -81,10 +75,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .custom-button {
-    box-shadow: inset 0px 0px 0px 1px #64748b;
-  }
-
   .button-text {
     font-size: 14px;
   }

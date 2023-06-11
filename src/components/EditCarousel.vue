@@ -9,15 +9,13 @@
       :maxFileSize="3140000"
       :auto="true"
       invalid-file-size-message="file size should be smaller than 3.14 MB."
-      @select="customBase64Uploader"
-    />
+      @select="customBase64Uploader" />
   </div>
   <div class="bg-neutral-100 rounded-lg p-2 mt-2 min-h-[220px]">
     <div
       v-for="(item, idx) in items"
       :key="item.id"
-      :class="['file-item', { 'mb-2': idx !== items.length - 1 }]"
-    >
+      :class="['file-item', { 'mb-2': idx !== items.length - 1 }]">
       <!-- <div class="flex flex-row gap-2 lg:gap-6">
         <div class="flex flex-col w-2/5 md:w-1/5">
           <div class="img-container md:w-full">
@@ -78,8 +76,7 @@
             <img
               v-if="item"
               :src="item.objectURL || item.img"
-              :alt="item.name"
-            >
+              :alt="item.name" />
           </div>
         </div>
         <div class="md:basis-3/5 flex items-center">
@@ -89,35 +86,29 @@
           <button
             type="button"
             class="hover:opacity-90 pr-2"
-            @click="moveItemUp(idx)"
-          >
+            @click="moveItemUp(idx)">
             <font-awesome-icon
               :icon="['fas', 'chevron-circle-up']"
               size="xl"
-              class="text-primary-blue"
-            />
+              class="text-primary-blue" />
           </button>
           <button
             type="button"
             class="hover:opacity-90 pr-6"
-            @click="moveItemDown(idx)"
-          >
+            @click="moveItemDown(idx)">
             <font-awesome-icon
               :icon="['fas', 'chevron-circle-down']"
               size="xl"
-              class="text-primary-blue"
-            />
+              class="text-primary-blue" />
           </button>
           <button
             type="button"
             class="btn-delete"
-            @click="onDelete(idx, item)"
-          >
+            @click="onDelete(idx, item)">
             <font-awesome-icon
               :icon="['fas', 'xmark']"
               size="lg"
-              class="text-red-500"
-            />
+              class="text-red-500" />
           </button>
         </div>
       </div>
