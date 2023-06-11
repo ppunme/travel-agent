@@ -9,10 +9,10 @@
           )"
           :key="item.id"
           :draggable="true"
+          class="draggable-img rounded-lg hover:opacity-80"
           @dragstart="handleDragStart($event, index)"
           @dragover="handleDragOver($event)"
           @drop="handleDrop($event, index)"
-          class="draggable-img rounded-lg hover:opacity-80"
         >
           <div class="square-image">
             <img
@@ -20,13 +20,13 @@
               :src="item.image"
               :alt="item.name"
               class="rounded-xl"
-            />
+            >
             <img
               v-else
               :src="require('@/assets/images/no-img.png')"
               alt="no image"
               class="object-cover h-[525px] w-full"
-            />
+            >
           </div>
         </div>
       </div>
@@ -57,20 +57,23 @@
             </template>
           </Dropdown>
           <button
-            @click="onDelete(idx, item)"
             type="button"
             class="btn-delete ml-2"
+            @click="onDelete(idx, item)"
           >
-            <font-awesome-icon :icon="['fas', 'times']" class="text-red-500" />
+            <font-awesome-icon
+              :icon="['fas', 'times']"
+              class="text-red-500"
+            />
           </button>
         </div>
       </div>
       <div class="mt-6">
         <Button
-          @click="addRow"
           label="เพิ่ม"
           class="w-32 !bg-green-400 !border-none"
           rounded
+          @click="addRow"
         />
       </div>
     </div>
@@ -78,59 +81,59 @@
 </template>
 
 <script setup>
-defineProps(["selectedTours", "tours2"]);
-const emit = defineEmits([
-  "onAddRow",
-  "updateSelectedTours",
-  "handleDelete",
-  "handleDrop",
-]);
+  defineProps(["selectedTours", "tours2"]);
+  const emit = defineEmits([
+    "onAddRow",
+    "updateSelectedTours",
+    "handleDelete",
+    "handleDrop",
+  ]);
 
-const addRow = () => {
-  emit("onAddRow");
-};
+  const addRow = () => {
+    emit("onAddRow");
+  };
 
-const updateTour = (index, e) => {
-  // console.log("updateTour", index, e.value.id);
-  emit("updateSelectedTours", index, e.value);
-};
+  const updateTour = (index, e) => {
+    // console.log("updateTour", index, e.value.id);
+    emit("updateSelectedTours", index, e.value);
+  };
 
-const onDelete = (index, item) => {
-  //e.preventDefault();
-  emit("handleDelete", index, item);
-};
+  const onDelete = (index, item) => {
+    //e.preventDefault();
+    emit("handleDelete", index, item);
+  };
 
-const handleDragStart = (e, index) => {
-  e.dataTransfer.setData("text/plain", index);
-};
+  const handleDragStart = (e, index) => {
+    e.dataTransfer.setData("text/plain", index);
+  };
 
-const handleDragOver = (e) => {
-  e.preventDefault();
-};
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
 
-const handleDrop = (e, newIndex) => {
-  e.preventDefault();
-  emit("handleDrop", e, newIndex);
-};
+  const handleDrop = (e, newIndex) => {
+    e.preventDefault();
+    emit("handleDrop", e, newIndex);
+  };
 </script>
 
 <style scoped>
-.draggable-item {
-  cursor: move;
-}
+  .draggable-item {
+    cursor: move;
+  }
 
-.draggable-img {
-  cursor: move;
-}
+  .draggable-img {
+    cursor: move;
+  }
 
-.square-image {
-  aspect-ratio: 1/1; /* Creates a square aspect ratio */
-  overflow: hidden;
-}
+  .square-image {
+    aspect-ratio: 1/1; /* Creates a square aspect ratio */
+    overflow: hidden;
+  }
 
-.square-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+  .square-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 </style>

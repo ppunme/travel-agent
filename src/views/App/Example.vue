@@ -15,30 +15,30 @@
 </template>
 
 <script setup>
-import { ref, reactive, watch, onMounted, computed } from "vue";
-import HelloWorld from "@/components/HelloWorld.vue";
-import Button from "primevue/button";
+  import { ref, reactive, watch, onMounted, computed } from "vue";
+  import HelloWorld from "@/components/HelloWorld.vue";
+  import Button from "primevue/button";
 
-const count = ref(0);
-const state2 = reactive({ count: 0 });
+  const count = ref(0);
+  const state2 = reactive({ count: 0 });
 
-const increment1 = () => {
-  count.value++;
-};
+  const increment1 = () => {
+    count.value++;
+  };
 
-const increment2 = () => {
-  state2.count++;
-};
+  const increment2 = () => {
+    state2.count++;
+  };
 
-const double = computed(() => {
-  return count.value * 2;
-});
+  const double = computed(() => {
+    return count.value * 2;
+  });
 
-onMounted(async () => {
-  console.log("on mounted!");
-});
+  onMounted(async () => {
+    console.log("on mounted!");
+  });
 
-watch(count, (newValue, oldValue) => {
-  console.log(`Count changed from ${oldValue} to ${newValue}`);
-});
+  watch(count, (newValue, oldValue) => {
+    console.log(`Count changed from ${oldValue} to ${newValue}`);
+  });
 </script>

@@ -7,11 +7,10 @@
       url="./upload.php"
       accept="image/*"
       :maxFileSize="3140000"
-      @select="customBase64Uploader"
       :auto="true"
       invalid-file-size-message="file size should be smaller than 3.14 MB."
-    >
-    </FileUpload>
+      @select="customBase64Uploader"
+    />
   </div>
   <div class="bg-neutral-100 rounded-lg p-2 mt-2 min-h-[220px]">
     <div
@@ -80,7 +79,7 @@
               v-if="item"
               :src="item.objectURL || item.img"
               :alt="item.name"
-            />
+            >
           </div>
         </div>
         <div class="md:basis-3/5 flex items-center">
@@ -88,9 +87,9 @@
         </div>
         <div class="md:basis-1/5 flex items-center justify-end">
           <button
-            @click="moveItemUp(idx)"
             type="button"
             class="hover:opacity-90 pr-2"
+            @click="moveItemUp(idx)"
           >
             <font-awesome-icon
               :icon="['fas', 'chevron-circle-up']"
@@ -99,9 +98,9 @@
             />
           </button>
           <button
-            @click="moveItemDown(idx)"
             type="button"
             class="hover:opacity-90 pr-6"
+            @click="moveItemDown(idx)"
           >
             <font-awesome-icon
               :icon="['fas', 'chevron-circle-down']"
@@ -109,7 +108,11 @@
               class="text-primary-blue"
             />
           </button>
-          <button @click="onDelete(idx, item)" type="button" class="btn-delete">
+          <button
+            type="button"
+            class="btn-delete"
+            @click="onDelete(idx, item)"
+          >
             <font-awesome-icon
               :icon="['fas', 'xmark']"
               size="lg"
@@ -121,62 +124,62 @@
     </div>
   </div>
   <Toast />
-  <ConfirmDialog></ConfirmDialog>
+  <ConfirmDialog />
 </template>
 
 <script setup>
-/* eslint-disable */
-import { ref, watch, defineEmits, onMounted } from "vue";
+  /* eslint-disable */
+  import { ref, watch, onMounted } from "vue";
 
-const props = defineProps(["items"]);
-const emit = defineEmits([
-  "handleAddImg",
-  "handleDelete",
-  "moveItemUp",
-  "moveItemDown",
-]);
+  const props = defineProps(["items"]);
+  const emit = defineEmits([
+    "handleAddImg",
+    "handleDelete",
+    "moveItemUp",
+    "moveItemDown",
+  ]);
 
-const uploadedFile = ref([]);
+  const uploadedFile = ref([]);
 
-const customBase64Uploader = async (event) => {
-  console.log("event", event);
-  const file = event.files[0];
-  //console.log("file", file);
-  const reader = new FileReader();
-  let blob = await fetch(file.objectURL).then((r) => r.blob()); //blob:url
+  const customBase64Uploader = async (event) => {
+    console.log("event", event);
+    const file = event.files[0];
+    //console.log("file", file);
+    const reader = new FileReader();
+    let blob = await fetch(file.objectURL).then((r) => r.blob()); //blob:url
 
-  reader.readAsDataURL(blob);
+    reader.readAsDataURL(blob);
 
-  reader.onloadend = function () {
-    const base64data = reader.result;
-    // console.log("base64data: " + base64data);
-    // console.log("file", file);
-    uploadedFile.value.push(file);
-    emit("handleAddImg", file, base64data);
+    reader.onloadend = function () {
+      const base64data = reader.result;
+      // console.log("base64data: " + base64data);
+      // console.log("file", file);
+      uploadedFile.value.push(file);
+      emit("handleAddImg", file, base64data);
+    };
   };
-};
 
-const moveItemUp = (index) => {
-  if (index > 0) {
-    emit("moveItemUp", index);
-  }
-};
+  const moveItemUp = (index) => {
+    if (index > 0) {
+      emit("moveItemUp", index);
+    }
+  };
 
-const moveItemDown = (index) => {
-  console.log("props", props.items);
-  if (index < props.items.length - 1) {
-    emit("moveItemDown", index);
-  }
-};
+  const moveItemDown = (index) => {
+    console.log("props", props.items);
+    if (index < props.items.length - 1) {
+      emit("moveItemDown", index);
+    }
+  };
 
-const onDelete = (index, item) => {
-  emit("handleDelete", index, item);
-};
+  const onDelete = (index, item) => {
+    emit("handleDelete", index, item);
+  };
 
-watch(props.items.length, (newValue, oldValue) => {
-  console.log("watch:", oldValue);
-  console.log("upload file name", newValue);
-});
+  watch(props.items.length, (newValue, oldValue) => {
+    console.log("watch:", oldValue);
+    console.log("upload file name", newValue);
+  });
 </script>
 
 <style></style>

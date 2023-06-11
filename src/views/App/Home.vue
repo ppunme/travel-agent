@@ -1,20 +1,26 @@
 <template>
-  <div v-if="isLoggedIn" class="text-end pb-6 px-6">
+  <div
+    v-if="isLoggedIn"
+    class="text-end pb-6 px-6"
+  >
     <Button
-      @click="visible = true"
       rounded
       class="w-32 !bg-amber-500 !border-none"
+      @click="visible = true"
     >
-      <font-awesome-icon :icon="['fas', 'pen']" size="xl" />
+      <font-awesome-icon
+        :icon="['fas', 'pen']"
+        size="xl"
+      />
       <span class="mx-auto">แก้ไข</span>
     </Button>
   </div>
   <Modal
     header="แก้ไขภาพหน้าโฮมเพจ"
     :visible="visible"
+    :loading="loading"
     @update:visible="onDialogUpdate"
     @onSubmit="onSubmit"
-    :loading="loading"
   >
     <EditCarousel
       :items="items"
@@ -34,16 +40,10 @@
   >
     <template #item="slotProps">
       <div class="img-container w-full">
-        <img :src="slotProps.data.img" :alt="slotProps.data.name" />
-        <!-- <div
-          class="absolute inset-0 flex items-center pl-32 w-1/2 lg:w-1/3 xl:w-1/2"
+        <img
+          :src="slotProps.data.img"
+          :alt="slotProps.data.name"
         >
-          <p
-            class="text-white text-5xl lg:text-7xl font-semibold opacity-80 tracking-wide"
-          >
-            {{ slotProps.data.text }}
-          </p>
-        </div> -->
       </div>
     </template>
   </Carousel>
@@ -55,19 +55,24 @@
         size="2xl"
         class="text-primary-blue self-center pr-2"
       />
-      <p class="text-primary-blue">รับจัดทัวร์ในประเทศและต่างประเทศ</p>
+      <p class="text-primary-blue">
+        รับจัดทัวร์ในประเทศและต่างประเทศ
+      </p>
     </div>
     <TourGrid />
     <div class="text-center py-12">
       <Button
-        @click="$router.push('/tours')"
         label="ดูทั้งหมด"
         rounded
         class="w-32 !bg-primary-blue !border-none"
+        @click="$router.push('/tours')"
       />
     </div>
   </div>
-  <ContactCard :contacts="data.contacts" :line="data.line" />
+  <ContactCard
+    :contacts="data.contacts"
+    :line="data.line"
+  />
   <ConfirmModal
     header="Delete"
     :visible="visibleDelete"
