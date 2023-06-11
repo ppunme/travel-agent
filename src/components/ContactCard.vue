@@ -2,25 +2,21 @@
   <div class="relative">
     <img
       :src="bgImage"
-      class="absolute top-0 object-cover h-[480px] w-full"
-    >
+      class="absolute top-0 object-cover h-[480px] w-full" />
     <div class="overlay" />
 
     <div
-      class="flex flex-col lg:flex-row text-center lg:text-left text items-center"
-    >
+      class="flex flex-col lg:flex-row text-center lg:text-left text items-center">
       <div class="basis-1/2">
         <div class="flex flex-col items-center lg:items-start">
           <img
             :src="lineQrCode"
-            class="self-center"
-          >
+            class="self-center" />
           <p class="self-center pt-3">
             <font-awesome-icon
               :icon="line.icon"
               size="2xl"
-              class="text-green-line-app bg-white rounded-xl"
-            />
+              class="text-green-line-app bg-white rounded-xl" />
             <span class="pl-3 text-lg">Line id: {{ line.link }}</span>
           </p>
         </div>
@@ -30,13 +26,11 @@
         <div
           v-for="item in contacts"
           :key="item.id"
-          class="py-3"
-        >
+          class="py-3">
           <font-awesome-icon
             :icon="item.icon"
             size="2xl"
-            class="self-center pr-2"
-          />
+            class="self-center pr-2" />
           <span class="pl-3 lg:text-lg">{{ item.link }}</span>
         </div>
       </div>

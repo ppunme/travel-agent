@@ -7,8 +7,7 @@
     <InputText
       v-model="email"
       placeholder="อีเมล"
-      class="all-input !rounded-full w-full !mt-6"
-    />
+      class="all-input !rounded-full w-full !mt-6" />
     <small class="p-error w-full flex justify-start">{{
       errorEmail || "&nbsp;"
     }}</small>
@@ -17,8 +16,7 @@
       rounded
       class="!bg-primary-blue !border-none !text-[1.25rem] w-full !mt-6"
       :loading="loading"
-      @click="resetPassword"
-    />
+      @click="resetPassword" />
   </div>
 </template>
 <script setup>

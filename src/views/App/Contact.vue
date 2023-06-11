@@ -21,12 +21,10 @@
             class="w-48 !bg-[#1492DE]"
             rounded
             target="_blank"
-            @click="goToMessenger"
-          >
+            @click="goToMessenger">
             <font-awesome-icon
               :icon="['fab', 'facebook-messenger']"
-              size="2xl"
-            /><span class="mx-auto">ส่งข้อความ</span>
+              size="2xl" /><span class="mx-auto">ส่งข้อความ</span>
           </Button>
         </div>
         <div class="pt-3 xl:hidden">
@@ -59,8 +57,7 @@
           class="bg-[#2890E3] md:pl-10 xl:pl-20 h-96 md:h-120 lg:h-148 xl:h-128 rounded-xl flex justify-center md:justify-normal items-center relative"
         >
           <div
-            class="bg-[#F1C31E] w-24 md:w-28 h-16 md:h-20 absolute -top-7 left-10 xl:left-20 rounded-xl shadow-md"
-          />
+            class="bg-[#F1C31E] w-24 md:w-28 h-16 md:h-20 absolute -top-7 left-10 xl:left-20 rounded-xl shadow-md" />
           <div class="hidden md:block absolute -bottom-10 right-0 w-96">
             <img :src="vector" class="w-140" />
           </div>
@@ -92,24 +89,24 @@
 </template>
 
 <script setup>
-import { data } from "@/services/ContactList";
-import vector from "@/assets/images/vector-buildings.png";
+  import { data } from "@/services/ContactList";
+  import vector from "@/assets/images/vector-buildings.png";
 
-const goToMessenger = () => {
-  window.open(
-    "https://www.facebook.com/messages/t/poonnamee.ngamrayab",
-    "_blank"
-  );
-};
+  const goToMessenger = () => {
+    window.open(
+      "https://www.facebook.com/messages/t/poonnamee.ngamrayab",
+      "_blank"
+    );
+  };
 
-const sendEmail = () => {
-  // window.open("mailto:example@example.com?subject=Inquiry", "_blank");
-  window.open("mailto:example@example.com?subject=Inquiry", "_blank");
-};
+  const sendEmail = () => {
+    // window.open("mailto:example@example.com?subject=Inquiry", "_blank");
+    window.open("mailto:example@example.com?subject=Inquiry", "_blank");
+  };
 
-const addLineID = () => {
-  window.open("line://ti/p/ppunme", "_blank");
-};
+  const addLineID = () => {
+    window.open("line://ti/p/ppunme", "_blank");
+  };
 
 const makePhoneCall = () => {
   window.location.href = "tel:0932392359";

@@ -4,13 +4,11 @@
       v-if="item.image"
       :src="item.image"
       alt=""
-      class="w-full h-[21rem] object-cover"
-    >
+      class="w-full h-[21rem] object-cover" />
     <div class="px-6 py-4 font-medium">
       <h3
         v-if="item.name"
-        class="pb-3"
-      >
+        class="pb-3">
         {{ item.name }}
       </h3>
       <h6 v-if="item.days && item.nights">
@@ -18,16 +16,14 @@
       </h6>
       <h5
         v-if="item.price"
-        class="py-4 text-primary-blue font-semibold"
-      >
+        class="py-4 text-primary-blue font-semibold">
         ฿{{ parseFloat(item.price).toLocaleString() }}
       </h5>
       <Button
         label="ดูรายละเอียด"
         rounded
         class="!bg-primary-blue !border-none !font-normal"
-        @click="openNewRoute(item.id)"
-      />
+        @click="openNewRoute(item.id)" />
     </div>
   </div>
 </template>
