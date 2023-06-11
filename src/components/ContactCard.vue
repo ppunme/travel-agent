@@ -13,7 +13,7 @@
             <font-awesome-icon
               :icon="line.icon"
               size="2xl"
-              class="text-line-green bg-white rounded-xl"
+              class="text-green-line-app bg-white rounded-xl"
             />
             <span class="pl-3 text-lg">Line id: {{ line.link }}</span>
           </p>

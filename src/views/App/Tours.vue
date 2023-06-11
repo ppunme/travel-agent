@@ -9,7 +9,7 @@
   <div class="container mx-auto px-4 sm:px-8 md:px-10">
     <div class="flex justify-end">
       <Button
-        class="w-48 !bg-[#06C755] !my-8"
+        class="w-48 !bg-green-add !my-8"
         rounded
         @click="$router.push(`/tours/create`)"
       >

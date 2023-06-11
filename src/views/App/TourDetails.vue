@@ -131,7 +131,7 @@
               <span class="mx-auto">ส่งข้อความ</span>
             </Button>
             <Button
-              class="w-40 sm:w-44 md:w-48 lg:w-[10.5rem] xl:w-48 !bg-[#06C755] xl:!mr-8 !my-4 sm:!my-0"
+              class="w-40 sm:w-44 md:w-48 lg:w-[10.5rem] xl:w-48 !bg-green-line-app xl:!mr-8 !my-4 sm:!my-0"
               rounded
             >
               <font-awesome-icon :icon="['fab', 'line']" size="2xl" />

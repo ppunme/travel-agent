@@ -36,24 +36,26 @@ body,
 
   .p-paginator-pages {
     .p-paginator-page {
-      border: 1px solid $primary-border-color !important;
-      color: $secondary-font-color !important;
+      //border: 1px solid $primary-border-color !important;
       margin: 0.5rem !important;
 
       &.p-highlight {
         background: $secondary-color !important;
-        color: #ffffff !important;
+        color: #fff !important;
       }
+    }
+
+    .p-link:focus {
+      box-shadow: none !important;
     }
   }
 
-  .p-paginator-first,
-  .p-paginator-prev,
-  .p-paginator-next,
-  .p-paginator-last {
-    border: 1px solid $primary-border-color !important;
-    color: $secondary-font-color !important;
-  }
+  // .p-paginator-first,
+  // .p-paginator-prev,
+  // .p-paginator-next,
+  // .p-paginator-last {
+  //   border: 1px solid $primary-border-color !important;
+  // }
 
   .p-paginator-prev {
     margin-right: 2rem !important;
@@ -305,6 +307,10 @@ body,
       padding-bottom: 60%;
     }
   }
+}
+
+.cancel-button {
+  box-shadow: inset 0px 0px 0px 1px $primary-border-color;
 }
 
 .btn-delete {

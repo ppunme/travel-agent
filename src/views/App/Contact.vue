@@ -9,7 +9,7 @@
         <h5 class="pt-2 text-gray-800">รับจัดทัวร์ในประเทศและต่างประเทศ</h5>
 
         <div class="pt-12">
-          <Button class="w-48 !bg-[#06C755]" rounded @click="addLineID">
+          <Button class="w-48 !bg-green-line-app" rounded @click="addLineID">
             <font-awesome-icon :icon="['fab', 'line']" size="2xl" /><span
               class="mx-auto"
               >แอดไลน์</span

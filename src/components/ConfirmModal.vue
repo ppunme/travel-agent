@@ -31,7 +31,7 @@
       <div class="text-center">
         <Button
           @click="onCancel"
-          class="!w-28 custom-button"
+          class="!w-28 cancel-button"
           label="ยกเลิก"
           severity="secondary"
           rounded
@@ -80,10 +80,6 @@ watch(
 </script>
 
 <style lang="scss" scoped>
-.custom-button {
-  box-shadow: inset 0px 0px 0px 1px #64748b;
-}
-
 .button-text {
   font-size: 14px;
 }

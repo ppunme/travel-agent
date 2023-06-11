@@ -66,12 +66,12 @@
         </div>
       </div>
       <div class="mt-6">
-        <Button
-          @click="addRow"
-          label="เพิ่ม"
-          class="w-32 !bg-green-400 !border-none"
-          rounded
-        />
+        <Button @click="addRow" class="w-28 !bg-green-add !border-none" rounded>
+          <font-awesome-icon :icon="['fas', 'plus']" size="xl" /><span
+            class="mx-auto"
+            >เพิ่ม</span
+          ></Button
+        >
       </div>
     </div>
   </div>

@@ -168,7 +168,8 @@
           <div class="flex justify-end pt-12">
             <Button
               @click="onCancel"
-              class="w-36 !bg-[#FFFFFF] !text-[#D42E35] !border-[#D42E35] !mr-6"
+              class="w-36 !text-[#9d9d9d] !mr-6 cancel-button"
+              text
               rounded
             >
               <font-awesome-icon :icon="['fas', 'xmark']" size="xl" /><span
@@ -178,7 +179,7 @@
             </Button>
             <Button
               @click="handleEdit"
-              class="w-36 !bg-[#06C755] !border-[#06C755]"
+              class="w-36 !bg-green-add !border-green-add"
               rounded
             >
               <font-awesome-icon :icon="['fas', 'check']" size="xl" /><span

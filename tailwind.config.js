@@ -5,9 +5,10 @@ module.exports = {
     extend: {
       colors: {
         "primary-blue": "#176AA1",
-        "line-green": "#00B900",
         "primary-border-color": "#9d9d9d",
         "primary-icon-color": "rgba(51,51,51,0.6)",
+        "green-line-app": "#00B900",
+        "green-add": "#06C755",
       },
       width: {
         100: "25rem",
