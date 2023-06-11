@@ -3,33 +3,27 @@
     <div class="w-120 px-6">
       <div class="flex justify-center mb-6">
         <div
-          class="bg-primary-blue rounded-full w-[100px] h-[100px] flex justify-center items-center"
-        >
+          class="bg-primary-blue rounded-full w-[100px] h-[100px] flex justify-center items-center">
           <font-awesome-icon
             :icon="['fas', 'lock']"
             style="color: #ffffff"
-            class="text-[3rem]"
-          />
+            class="text-[3rem]" />
         </div>
       </div>
-      <h2 class="text-center mb-6">
-        Admin Login
-      </h2>
+      <h2 class="text-center mb-6">Admin Login</h2>
       <form @submit="onSubmit">
         <InputText
           v-model="email"
           placeholder="อีเมล"
           :class="{ 'p-invalid': errorEmail }"
-          class="all-input !rounded-full w-full !mb-4"
-        />
+          class="all-input !rounded-full w-full !mb-4" />
         <Password
           v-model="password"
           placeholder="รหัสผ่าน"
           :class="{ 'p-invalid': errorPassword }"
           class="all-input !rounded-full w-full"
           :feedback="false"
-          toggleMask
-        />
+          toggleMask />
         <small class="p-error">{{
           errorEmail || errorPassword || errorLogin || "&nbsp;"
         }}</small>
@@ -38,13 +32,11 @@
           rounded
           class="!bg-primary-blue !border-none !text-[1.25rem] w-full !mt-3"
           type="submit"
-          :loading="loading"
-        />
+          :loading="loading" />
       </form>
       <h5
         class="text-end font-light mt-4 text-primary-blue cursor-pointer hover:opacity-70"
-        @click="visible = true"
-      >
+        @click="visible = true">
         ลืมรหัสผ่าน?
       </h5>
     </div>
@@ -53,20 +45,17 @@
       :hideButton="true"
       width="30vw"
       :visible="visible"
-      @update:visible="onDialogUpdate"
-    >
+      @update:visible="onDialogUpdate">
       <ForgetPassword
         @update:visible="onDialogUpdate"
-        @showSuccess="showSuccess"
-      />
+        @showSuccess="showSuccess" />
     </Modal>
     <Modal
       header="ลืมรหัสผ่าน"
       :hideButton="true"
       width="30vw"
       :visible="visibleSuccess"
-      @update:visible="visibleSuccess = false"
-    >
+      @update:visible="visibleSuccess = false">
       <SuccessReset />
     </Modal>
   </div>

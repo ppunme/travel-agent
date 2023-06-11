@@ -13,24 +13,20 @@
     :pt="{
       closeButton: { class: '!hidden' },
     }"
-    class="text-center"
-  >
+    class="text-center">
     <template #header>
       <h5
         class="mr-auto font-bold"
-        :class="header === 'Delete' ? 'text-[#D42E35]' : 'text-[#F5A327]'"
-      >
+        :class="header === 'Delete' ? 'text-[#D42E35]' : 'text-[#F5A327]'">
         <font-awesome-icon :icon="['fas', 'exclamation-circle']" /> {{ header }}
       </h5>
       <Button
         text
         class="!p-0 !text-neutral-400"
-        @click="onCancel"
-      >
+        @click="onCancel">
         <font-awesome-icon
           :icon="['fas', 'times']"
-          size="lg"
-        />
+          size="lg" />
       </Button>
     </template>
     <p>{{ `ยืนยันการ${header === "Delete" ? "ลบ" : "แก้ไข"}ข้อมูล?` }}</p>
@@ -42,16 +38,14 @@
           severity="secondary"
           rounded
           outlined
-          @click="onCancel"
-        />
+          @click="onCancel" />
         <Button
           :type="header === 'Delete' ? 'button' : 'submit'"
           label="ยืนยัน"
           rounded
           class="!w-28 !bg-primary-blue !border-primary-blue"
           :loading="loading"
-          @click="onSave"
-        />
+          @click="onSave" />
       </div>
     </template>
   </Dialog>
@@ -87,7 +81,7 @@
 </script>
 
 <style lang="scss" scoped>
-.button-text {
-  font-size: 14px;
-}
+  .button-text {
+    font-size: 14px;
+  }
 </style>

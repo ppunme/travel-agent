@@ -1,9 +1,7 @@
 <template>
   <div class="tool-bar">
     <div class="py-12 text-center container mx-auto px-4 sm:px-8 md:px-10">
-      <h2 class="mb-8">
-        แพ็คเกจทัวร์
-      </h2>
+      <h2 class="mb-8">แพ็คเกจทัวร์</h2>
       <div class="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-0">
         <div class="lg:justify-self-end lg:order-1 order-2 lg:pr-4 xl:pr-8">
           <Dropdown
@@ -12,13 +10,11 @@
             :options="countries"
             optionLabel="name"
             placeholder="ประเทศ"
-            class="w-full lg:w-[225px] text-start pl-2 !rounded-full"
-          >
+            class="w-full lg:w-[225px] text-start pl-2 !rounded-full">
             <template #value="slotProps">
               <div
                 v-if="slotProps.value"
-                class="flex align-items-center"
-              >
+                class="flex align-items-center">
                 <div>{{ slotProps.value.name }}</div>
               </div>
               <span v-else>
@@ -37,20 +33,17 @@
             <font-awesome-icon
               v-if="!searchValue"
               class="pointer-events-none"
-              :icon="['fas', 'magnifying-glass']"
-            />
+              :icon="['fas', 'magnifying-glass']" />
             <font-awesome-icon
               v-if="searchValue"
               class="!top-[45%] cursor-pointer"
               :icon="['fas', 'circle-xmark']"
               size="lg"
-              @click="clearSearch"
-            />
+              @click="clearSearch" />
             <InputText
               v-model="searchValue"
               placeholder="ค้นหา..."
-              class="all-input w-full !rounded-full"
-            />
+              class="all-input w-full !rounded-full" />
           </span>
         </div>
         <div class="lg:justify-self-start lg:order-3 order-3 lg:pl-4 xl:pl-8">
@@ -59,13 +52,11 @@
             :options="sort"
             optionLabel="name"
             placeholder="เรียงตาม"
-            class="w-full lg:w-[225px] text-start pl-2 !rounded-full"
-          >
+            class="w-full lg:w-[225px] text-start pl-2 !rounded-full">
             <template #value="slotProps">
               <div
                 v-if="slotProps.value"
-                class="flex align-items-center"
-              >
+                class="flex align-items-center">
                 <div>{{ slotProps.value.name }}</div>
               </div>
               <span v-else>
