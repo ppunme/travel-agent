@@ -7,10 +7,12 @@
         rounded
         @click="$router.push(`/tours/edit/${$route.params.tourId}`)"
       >
-        <font-awesome-icon :icon="['fas', 'pen']" size="lg" /><span
+        <font-awesome-icon
+          :icon="['fas', 'pen']"
+          size="lg"
+        /><span
           class="mx-auto"
-          ><p class="hidden md:block">แก้ไข</p></span
-        >
+        ><p class="hidden md:block">แก้ไข</p></span>
       </Button>
       <Button
         v-if="route.params.tourId !== 'preview' && tour"
@@ -18,10 +20,12 @@
         rounded
         @click="handleDelete($route.params.tourId)"
       >
-        <font-awesome-icon :icon="['fas', 'trash']" size="lg" /><span
+        <font-awesome-icon
+          :icon="['fas', 'trash']"
+          size="lg"
+        /><span
           class="mx-auto"
-          ><p class="hidden md:block">ลบ</p></span
-        >
+        ><p class="hidden md:block">ลบ</p></span>
       </Button>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-5 lg:gap-10">
@@ -30,13 +34,13 @@
         :src="route.query.image"
         alt=""
         class="lg:col-span-2 w-full rounded-[20px]"
-      />
+      >
       <img
         v-if="route.params.tourId !== 'preview' && tour"
         :src="tour.image"
         alt=""
         class="lg:col-span-2 w-full rounded-[20px]"
-      />
+      >
       <div class="col-span-3 flex flex-col font-medium">
         <h1 class="pb-8 mt-8 lg:mt-0">
           {{
@@ -134,7 +138,10 @@
               class="w-40 sm:w-44 md:w-48 lg:w-[10.5rem] xl:w-48 !bg-green-line-app xl:!mr-8 !my-4 sm:!my-0"
               rounded
             >
-              <font-awesome-icon :icon="['fab', 'line']" size="2xl" />
+              <font-awesome-icon
+                :icon="['fab', 'line']"
+                size="2xl"
+              />
               <span class="mx-auto">แอดไลน์</span>
             </Button>
             <Button
@@ -142,7 +149,10 @@
               rounded
               target="_blank"
             >
-              <font-awesome-icon :icon="['fas', 'phone']" size="2xl" />
+              <font-awesome-icon
+                :icon="['fas', 'phone']"
+                size="2xl"
+              />
               <span class="mx-auto">โทรจอง</span>
             </Button>
           </di>
@@ -152,14 +162,16 @@
     <div
       class="py-14 border border-y-primary-border-color border-x-0 border-t-0 font-medium"
     >
-      <h1 class="mb-8 text-[1.75rem] sm:text-[2.5rem]">รายละเอียดการเดินทาง</h1>
+      <h1 class="mb-8 text-[1.75rem] sm:text-[2.5rem]">
+        รายละเอียดการเดินทาง
+      </h1>
       <div
         v-html="
           route.params.tourId !== 'preview' && tour
             ? tour.details
             : route.query.details
         "
-      ></div>
+      />
     </div>
   </div>
   <ConfirmModal
@@ -170,41 +182,41 @@
   />
 </template>
 <script setup>
-import { ref, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { doc, onSnapshot, deleteDoc } from "firebase/firestore";
-import { db } from "@/firebase";
-import ConfirmModal from "@/components/ConfirmModal.vue";
+  import { ref, onMounted } from "vue";
+  import { useRoute, useRouter } from "vue-router";
+  import { doc, onSnapshot, deleteDoc } from "firebase/firestore";
+  import { db } from "@/firebase";
+  import ConfirmModal from "@/components/ConfirmModal.vue";
 
-const route = useRoute();
-const router = useRouter();
+  const route = useRoute();
+  const router = useRouter();
 
-const tour = ref();
-const visibleDelete = ref(false);
+  const tour = ref();
+  const visibleDelete = ref(false);
 
-const handleCancel = (value) => {
-  visibleDelete.value = value;
-};
+  const handleCancel = (value) => {
+    visibleDelete.value = value;
+  };
 
-const handleDelete = () => {
-  visibleDelete.value = true;
-};
+  const handleDelete = () => {
+    visibleDelete.value = true;
+  };
 
-const confirmAction = async () => {
-  await deleteDoc(doc(db, "tours", route.params.tourId));
-  visibleDelete.value = false;
-  router.push("/tours");
-};
+  const confirmAction = async () => {
+    await deleteDoc(doc(db, "tours", route.params.tourId));
+    visibleDelete.value = false;
+    router.push("/tours");
+  };
 
-onMounted(async () => {
-  const docRef = doc(db, "tours", route.params.tourId);
+  onMounted(async () => {
+    const docRef = doc(db, "tours", route.params.tourId);
 
-  onSnapshot(docRef, (docSnapshot) => {
-    if (docSnapshot.exists()) {
-      tour.value = docSnapshot.data();
-    } else {
-      console.log("Document does not exist");
-    }
+    onSnapshot(docRef, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        tour.value = docSnapshot.data();
+      } else {
+        console.log("Document does not exist");
+      }
+    });
   });
-});
 </script>

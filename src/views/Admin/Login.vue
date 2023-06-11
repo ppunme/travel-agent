@@ -12,7 +12,9 @@
           />
         </div>
       </div>
-      <h2 class="text-center mb-6">Admin Login</h2>
+      <h2 class="text-center mb-6">
+        Admin Login
+      </h2>
       <form @submit="onSubmit">
         <InputText
           v-model="email"
@@ -71,78 +73,78 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useRouter } from "vue-router";
-import store from "@/store";
-import Modal from "@/components/Modal.vue";
-import ForgetPassword from "@/components/ForgetPassword.vue";
-import SuccessReset from "@/components/SuccessReset.vue";
-import { useField, useForm } from "vee-validate";
+  import { ref } from "vue";
+  import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+  import { useRouter } from "vue-router";
+  import store from "@/store";
+  import Modal from "@/components/Modal.vue";
+  import ForgetPassword from "@/components/ForgetPassword.vue";
+  import SuccessReset from "@/components/SuccessReset.vue";
+  import { useField, useForm } from "vee-validate";
 
-const errorLogin = ref("");
+  const errorLogin = ref("");
 
-const loading = ref(false);
-const visible = ref(false);
-const visibleSuccess = ref(false);
-const router = useRouter();
+  const loading = ref(false);
+  const visible = ref(false);
+  const visibleSuccess = ref(false);
+  const router = useRouter();
 
-const { handleSubmit, resetForm } = useForm();
+  const { handleSubmit, resetForm } = useForm();
 
-const { value: email, errorMessage: errorEmail } = useField(
-  "email",
-  validateEmail
-);
+  const { value: email, errorMessage: errorEmail } = useField(
+    "email",
+    validateEmail
+  );
 
-const { value: password, errorMessage: errorPassword } = useField(
-  "name",
-  validatePassword
-);
+  const { value: password, errorMessage: errorPassword } = useField(
+    "name",
+    validatePassword
+  );
 
-function validateEmail(value) {
-  if (!value) {
-    return "กรุณากรอกอีเมล";
+  function validateEmail(value) {
+    if (!value) {
+      return "กรุณากรอกอีเมล";
+    }
+
+    return true;
   }
 
-  return true;
-}
+  function validatePassword(value) {
+    if (!value) {
+      return "กรุณากรอกรหัสผ่าน";
+    }
 
-function validatePassword(value) {
-  if (!value) {
-    return "กรุณากรอกรหัสผ่าน";
+    return true;
   }
 
-  return true;
-}
+  const onSubmit = handleSubmit(() => {
+    login();
+  });
 
-const onSubmit = handleSubmit(() => {
-  login();
-});
+  const login = () => {
+    loading.value = true;
+    store.dispatch("login", { email: email.value });
 
-const login = () => {
-  loading.value = true;
-  store.dispatch("login", { email: email.value });
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email.value, password.value)
+      .then(() => {
+        localStorage.setItem("token", auth.currentUser.accessToken);
+        router.push("/");
+        resetForm();
+        loading.value = false;
+      })
+      .catch((error) => {
+        console.log(error.code);
+        errorLogin.value = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
+        loading.value = false;
+      });
+  };
 
-  const auth = getAuth();
-  signInWithEmailAndPassword(auth, email.value, password.value)
-    .then(() => {
-      localStorage.setItem("token", auth.currentUser.accessToken);
-      router.push("/");
-      resetForm();
-      loading.value = false;
-    })
-    .catch((error) => {
-      console.log(error.code);
-      errorLogin.value = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
-      loading.value = false;
-    });
-};
+  const onDialogUpdate = (value) => {
+    visible.value = value;
+  };
 
-const onDialogUpdate = (value) => {
-  visible.value = value;
-};
-
-const showSuccess = (value) => {
-  visibleSuccess.value = value;
-};
+  const showSuccess = (value) => {
+    visibleSuccess.value = value;
+  };
 </script>

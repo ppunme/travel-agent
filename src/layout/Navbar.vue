@@ -44,7 +44,11 @@
   >
     <div class="flex justify-between items-center py-4 px-3 md:px-0 md:w-full">
       <div class="flex items-center lg:ml-20">
-        <img src="@/assets/images/logo.png" alt="logo" class="w-20 sm:w-auto" />
+        <img
+          src="@/assets/images/logo.png"
+          alt="logo"
+          class="w-20 sm:w-auto"
+        >
         <h4
           class="sm:text-3xl ml-4 self-center font-semibold w-40 text-primary-blue"
         >
@@ -76,18 +80,29 @@
           rel="noopener noreferrer"
           class="text-white hover:text-gray-400 ml-4"
         >
-          <font-awesome-icon :icon="social.icon" size="2xl" />
+          <font-awesome-icon
+            :icon="social.icon"
+            size="2xl"
+          />
         </a>
       </div>
-      <div v-if="isLoggedIn" class="hidden md:flex md:items-center pr-4">
+      <div
+        v-if="isLoggedIn"
+        class="hidden md:flex md:items-center pr-4"
+      >
         <Avatar
-          @click="toggle"
           class="mr-2 !bg-primary-blue text-white cursor-pointer"
           size="large"
           shape="circle"
-          ><font-awesome-icon :icon="['far', 'user']"
-        /></Avatar>
-        <Menu ref="adminMenu" id="overlay_menu" :popup="true">
+          @click="toggle"
+        >
+          <font-awesome-icon :icon="['far', 'user']" />
+        </Avatar>
+        <Menu
+          id="overlay_menu"
+          ref="adminMenu"
+          :popup="true"
+        >
           <template #start>
             <div class="menu-item">
               <div class="flex flex-col">
@@ -98,35 +113,35 @@
           </template>
           <template #end>
             <div
-              @click="logout"
               class="menu-item hover:bg-neutral-100 hover:cursor-pointer"
+              @click="logout"
             >
               <font-awesome-icon :icon="['fas', 'sign-out']" />
               <span class="ml-2">Logout</span>
             </div>
-          </template></Menu
-        >
+          </template>
+        </Menu>
       </div>
       <div class="md:hidden">
         <button
-          @click="showMenu = !showMenu"
           class="flex items-center space-x-2 focus:outline-none"
+          @click="showMenu = !showMenu"
         >
           <div class="w-9 h-9 flex items-center justify-center relative">
             <span
               :class="showMenu ? 'translate-y-0 rotate-45' : '-translate-y-3'"
               class="hamburger-bar"
-            ></span>
+            />
 
             <span
               :class="showMenu ? 'opacity-0 translate-x-3' : 'opacity-100'"
               class="hamburger-bar"
-            ></span>
+            />
 
             <span
               :class="showMenu ? 'translate-y-0 -rotate-45' : 'translate-y-3'"
               class="hamburger-bar"
-            ></span>
+            />
           </div>
         </button>
       </div>
@@ -139,15 +154,22 @@
       >
         <div class="flex flex-col px-6">
           <router-link
-            @click="showMenu = !showMenu"
             v-for="(item, index) in menuItems"
             :key="index"
             :to="item.route"
             class="py-4 border-b-[1px] border-white/20 !text-white hover:text-gray-300"
-            >{{ item.label }}</router-link
+            @click="showMenu = !showMenu"
           >
-          <div v-if="isLoggedIn" class="py-4">
-            <Button label="Logout" @click="logout" />
+            {{ item.label }}
+          </router-link>
+          <div
+            v-if="isLoggedIn"
+            class="py-4"
+          >
+            <Button
+              label="Logout"
+              @click="logout"
+            />
           </div>
         </div>
       </div>

@@ -1,10 +1,10 @@
 <template>
   <Toolbar
     v-model:selectedCountry="selectedCountry"
-    :countries="countries"
     v-model:selectedSort="selectedSort"
-    :sort="sort"
     v-model:search="search"
+    :countries="countries"
+    :sort="sort"
   />
   <div class="container mx-auto px-4 sm:px-8 md:px-10">
     <div class="flex justify-end">
@@ -13,10 +13,11 @@
         rounded
         @click="$router.push(`/tours/create`)"
       >
-        <font-awesome-icon :icon="['fas', 'plus']" size="xl" /><span
-          class="mx-auto"
-          >เพิ่มแพ็คเกจใหม่</span
-        >
+        <font-awesome-icon
+          :icon="['fas', 'plus']"
+          size="xl"
+        />
+        <span class="mx-auto"> เพิ่มแพ็คเกจใหม่ </span>
       </Button>
     </div>
 
@@ -36,7 +37,7 @@
       :rowsPerPageOptions="pageSizeOptions"
       class="py-8"
       @page="handlePageChange"
-    ></Paginator>
+    />
   </div>
 </template>
 

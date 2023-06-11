@@ -20,8 +20,8 @@
           <Button
             class="w-48 !bg-[#1492DE]"
             rounded
-            @click="goToMessenger"
             target="_blank"
+            @click="goToMessenger"
           >
             <font-awesome-icon
               :icon="['fab', 'facebook-messenger']"
@@ -43,13 +43,13 @@
           <Button
             class="w-48 !bg-[#D42E35]"
             rounded
-            @click="sendEmail"
             target="_blank"
+            @click="sendEmail"
           >
-            <font-awesome-icon :icon="['fas', 'envelope']" size="2xl" /><span
-              class="mx-auto"
-              >ส่งอีเมล</span
-            >
+            <font-awesome-icon
+              :icon="['fas', 'envelope']"
+              size="2xl"
+            /><span class="mx-auto">ส่งอีเมล</span>
           </Button>
         </div>
       </div>
