@@ -19,7 +19,7 @@ const contacts = [
   },
   {
     id: 4,
-    name: "envelope",
+    name: "email",
     link: "wellnesslifetravel@gmail.com",
     icon: ["fas", "envelope"],
   },
