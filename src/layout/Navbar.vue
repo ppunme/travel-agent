@@ -70,6 +70,8 @@
           v-for="(social, index) in socialLinks"
           :key="index"
           :href="social.url"
+          target="_blank"
+          rel="noopener noreferrer"
           class="text-white hover:text-gray-400 ml-4"
         >
           <font-awesome-icon :icon="social.icon" size="2xl" />
@@ -174,9 +176,15 @@ const menuItems = ref([
 ]);
 
 const socialLinks = ref([
-  { icon: ["fab", "square-facebook"], url: "www.facebook.com" },
-  { icon: ["fab", "instagram"], url: "www.instagram.com" },
-  { icon: ["fab", "twitter"], url: "www.twitter.com" },
+  {
+    icon: ["fab", "square-facebook"],
+    url: "https://www.facebook.com/wellnesslifetravel",
+  },
+  {
+    icon: ["fab", "instagram"],
+    url: "https://www.instagram.com/wellnesslifetravel",
+  },
+  { icon: ["fab", "twitter"], url: "https://www.twitter.com" },
 ]);
 
 const logout = () => {
@@ -207,7 +215,9 @@ const user = computed(() => store.state.user);
   opacity: 0;
 }
 
-.router-link-active {
-  border-bottom: 2px solid $secondary-color;
+@media screen and (min-width: 768px) {
+  .router-link-active {
+    border-bottom: 2px solid $secondary-color;
+  }
 }
 </style>
