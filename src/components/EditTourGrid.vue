@@ -43,7 +43,7 @@
         <div class="w-full flex items-center">
           <Dropdown
             :modelValue="item"
-            :options="tours2"
+            :options="tours"
             filter
             optionLabel="name"
             placeholder="Select a tour"
@@ -80,7 +80,7 @@
 <script setup>
 import { defineProps, defineEmits } from "vue";
 
-defineProps(["selectedTours", "tours2"]);
+defineProps(["selectedTours", "tours"]);
 const emit = defineEmits([
   "onAddRow",
   "updateSelectedTours",

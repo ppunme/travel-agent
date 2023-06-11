@@ -19,7 +19,7 @@
       :loading="loading"
     >
       <EditTourGrid
-        :tours2="tours2"
+        :tours="tours"
         :selectedTours="selectedTours"
         @onAddRow="onAddRow"
         @updateSelectedTours="updateSelectedTours"
@@ -81,7 +81,10 @@ import {
   deleteField,
 } from "firebase/firestore";
 import { db } from "@/firebase";
+import { useRouter } from "vue-router";
 import store from "@/store";
+
+const router = useRouter();
 
 const toast = useToast();
 const visible = ref(false);
@@ -103,10 +106,10 @@ const selectedTours = ref([
   },
 ]);
 
-const tours2 = ref();
+const tours = ref();
 
 const viewPackage = (id) => {
-  console.log("view::", id);
+  router.push(`/tours/${id}`);
 };
 
 const onDialogUpdate = (value) => {
@@ -198,7 +201,7 @@ onMounted(() => {
     const selected = tourData.filter((tour) => tour.selected);
     const sortedSelected = selected.sort((a, b) => a.seq - b.seq);
 
-    tours2.value = tourData;
+    tours.value = tourData;
     selectedTours.value = sortedSelected;
   });
 });
