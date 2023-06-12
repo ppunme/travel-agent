@@ -1,212 +1,209 @@
 <template>
   <div class="container mx-auto px-4 sm:px-8 md:px-10 py-12">
-    <div v-if="isLoggedIn">
-      <h2 class="text-center mb-8">แก้ไขแพ็คเกจ</h2>
+    <h2 class="text-center mb-8">แก้ไขแพ็คเกจ</h2>
+    <div
+      class="grid lg:grid-cols-5 xl:grid-cols-9 2xl:grid-cols-7 lg:gap-[3.5rem] xl:gap-16 2xl:gap-20">
       <div
-        class="grid lg:grid-cols-5 xl:grid-cols-9 2xl:grid-cols-7 lg:gap-[3.5rem] xl:gap-16 2xl:gap-20">
-        <div
-          class="lg:col-span-2 xl:col-span-3 2xl:col-span-2 px-0 sm:px-[7.5rem] md:px-44 lg:px-0">
-          <h5 class="font-medium mb-6">Preview</h5>
-          <TourPackageCard
-            :item="tour"
-            :management="true"
-            :nameValidate="nameValidate"
-            :airlineValidate="airlineValidate"
-            :daysValidate="daysValidate"
-            :nightsValidate="nightsValidate"
-            :priceValidate="priceValidate"
-            :countriesValidate="countriesValidate"
-            :detailsValidate="detailsValidate"
-            :fileNameValidate="fileNameValidate"
-            :imageObjectURL="imageObjectURL" />
-        </div>
-        <div class="lg:col-span-3 xl:col-span-6 2xl:col-span-5">
-          <form @submit="onSubmit">
+        class="lg:col-span-2 xl:col-span-3 2xl:col-span-2 px-0 sm:px-[7.5rem] md:px-44 lg:px-0">
+        <h5 class="font-medium mb-6">Preview</h5>
+        <TourPackageCard
+          :item="tour"
+          :management="true"
+          :nameValidate="nameValidate"
+          :airlineValidate="airlineValidate"
+          :daysValidate="daysValidate"
+          :nightsValidate="nightsValidate"
+          :priceValidate="priceValidate"
+          :countriesValidate="countriesValidate"
+          :detailsValidate="detailsValidate"
+          :fileNameValidate="fileNameValidate"
+          :imageObjectURL="imageObjectURL" />
+      </div>
+      <div class="lg:col-span-3 xl:col-span-6 2xl:col-span-5">
+        <form @submit="onSubmit">
+          <div
+            class="grid grid-cols-12 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 gap-3 sm:gap-6 2xl:gap-8 mb-6 xl:mb-8 2xl:mb-10 items-center mt-10 lg:mt-0">
+            <div class="col-start-1 col-span-3 sm:col-span-1">รูปภาพ</div>
             <div
-              class="grid grid-cols-12 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 gap-3 sm:gap-6 2xl:gap-8 mb-6 xl:mb-8 2xl:mb-10 items-center mt-10 lg:mt-0">
-              <div class="col-start-1 col-span-3 sm:col-span-1">รูปภาพ</div>
-              <div
-                class="col-span-9 sm:col-span-5 md:col-span-6 lg:col-span-5 xl:col-span-7 2xl:col-span-9">
-                <div class="flex">
-                  <Chip
-                    v-if="clearButton"
-                    :label="fileName"
-                    class="mr-2" />
-                  <FileUpload
-                    ref="fileUpload"
-                    class="upload-package-image-button p-button-rounded !bg-primary-blue"
-                    :class="fileName && '!hidden'"
-                    mode="basic"
-                    name="image[]"
-                    accept="image/*"
-                    :maxFileSize="10000000"
-                    @select="onSelectedFiles" />
-                  <button
-                    v-if="clearButton"
-                    @click="clearFile">
-                    <font-awesome-icon
-                      :icon="['far', 'circle-xmark']"
-                      size="xl"
-                      style="color: #d42e35" />
-                  </button>
-                </div>
-                <InputText
-                  v-model="fileName"
-                  class="hidden" />
-                <small
-                  v-if="fileNameError"
-                  class="p-error">
-                  {{ fileNameError }}
-                </small>
+              class="col-span-9 sm:col-span-5 md:col-span-6 lg:col-span-5 xl:col-span-7 2xl:col-span-9">
+              <div class="flex">
+                <Chip
+                  v-if="clearButton"
+                  :label="fileName"
+                  class="mr-2" />
+                <FileUpload
+                  ref="fileUpload"
+                  class="upload-package-image-button p-button-rounded !bg-primary-blue"
+                  :class="fileName && '!hidden'"
+                  mode="basic"
+                  name="image[]"
+                  accept="image/*"
+                  :maxFileSize="10000000"
+                  @select="onSelectedFiles" />
+                <button
+                  v-if="clearButton"
+                  @click="clearFile">
+                  <font-awesome-icon
+                    :icon="['far', 'circle-xmark']"
+                    size="xl"
+                    style="color: #d42e35" />
+                </button>
               </div>
-
-              <div class="col-start-1 col-span-3 sm:col-span-1">หัวข้อ</div>
-              <div
-                class="col-span-9 sm:col-span-5 md:col-span-6 lg:col-span-5 xl:col-span-7 2xl:col-span-9">
-                <InputText
-                  v-model="name"
-                  placeholder="หัวข้อ"
-                  class="all-input !rounded-full w-full"
-                  :class="nameError && 'p-invalid'" />
-                <small
-                  v-if="nameError"
-                  class="p-error">
-                  {{ nameError }}
-                </small>
-              </div>
-
-              <div class="col-start-1 col-span-3 sm:col-span-1">ประเทศ</div>
-              <div
-                class="col-span-9 sm:col-span-5 md:col-span-6 lg:col-span-5 xl:col-span-7 2xl:col-span-9">
-                <MultiSelect
-                  v-model="countries"
-                  :options="data.countriesForm"
-                  optionLabel="name"
-                  placeholder="เลือกประเทศ"
-                  display="chip"
-                  class="pl-2 w-full !rounded-full col-span-7"
-                  :class="countriesError && 'p-invalid'"
-                  filter>
-                  <template #option="slotProps">
-                    <div class="flex align-items-center">
-                      <div>{{ slotProps.option.name }}</div>
-                    </div>
-                  </template>
-                  <template #footer>
-                    <div class="py-2 px-3">
-                      <b>{{ countries ? countries.length : 0 }}</b>
-                      ประเทศ
-                    </div>
-                  </template>
-                </MultiSelect>
-                <small
-                  v-if="countriesError"
-                  class="p-error">
-                  {{ countriesError }}
-                </small>
-              </div>
-
-              <div class="col-start-1 col-span-3 sm:col-span-1">ระยะเวลา</div>
-              <div class="col-span-3 sm:col-span-1 xl:col-span-2">
-                <InputNumber
-                  v-model="days"
-                  placeholder="วัน"
-                  :class="`input-number ${daysError && 'p-invalid'}`" />
-                <small
-                  v-if="daysError"
-                  class="block w-28 p-error">
-                  {{ daysError }}
-                </small>
-              </div>
-              <div>วัน</div>
-              <div class="col-span-3 sm:col-span-1 xl:col-span-2">
-                <InputNumber
-                  v-model="nights"
-                  placeholder="คืน"
-                  :class="`input-number ${nightsError && 'p-invalid'}`" />
-                <small
-                  v-if="nightsError"
-                  class="block w-28 p-error">
-                  {{ nightsError }}
-                </small>
-              </div>
-              <div>คืน</div>
-
-              <div class="!col-start-1 col-span-3 sm:col-span-1">ราคา</div>
-              <div class="col-span-7 sm:col-span-2 xl:col-span-3">
-                <InputNumber
-                  v-model="price"
-                  placeholder="ราคา"
-                  :class="`input-price w-full ${priceError && 'p-invalid'}`" />
-                <small
-                  v-if="priceError"
-                  class="block w-28 p-error">
-                  {{ priceError }}
-                </small>
-              </div>
-
-              <div>บาท</div>
-
-              <div class="!col-start-1 col-span-3 sm:col-span-1">สายการบิน</div>
-              <div
-                class="col-span-9 sm:col-span-5 md:col-span-6 lg:col-span-5 xl:col-span-7 2xl:col-span-9">
-                <InputText
-                  v-model="airline"
-                  placeholder="สายการบิน"
-                  class="all-input !rounded-full w-full"
-                  :class="airlineError && 'p-invalid'" />
-                <small
-                  v-if="airlineError"
-                  class="p-error">
-                  {{ airlineError }}
-                </small>
-              </div>
+              <InputText
+                v-model="fileName"
+                class="hidden" />
+              <small
+                v-if="fileNameError"
+                class="p-error">
+                {{ fileNameError }}
+              </small>
             </div>
 
-            <div class="mb-4">รายละเอียดการเดินทาง</div>
-            <Editor
-              v-model="details"
-              editorStyle="height: 320px"
-              :class="detailsError && 'p-invalid'" />
-            <small
-              v-if="detailsError"
-              class="block w-28 p-error">
-              {{ detailsError }}
-            </small>
-
-            <div class="flex justify-end pt-12">
-              <Button
-                class="w-36 !text-[#9d9d9d] !mr-6 cancel-button"
-                text
-                rounded
-                @click="onCancel">
-                <font-awesome-icon
-                  :icon="['fas', 'xmark']"
-                  size="xl" /><span class="mx-auto">ยกเลิก</span>
-              </Button>
-              <Button
-                class="w-36 !bg-green-add !border-green-add"
-                rounded
-                @click="handleEdit">
-                <font-awesome-icon
-                  :icon="['fas', 'check']"
-                  size="xl" /><span class="mx-auto">บันทึก</span>
-              </Button>
+            <div class="col-start-1 col-span-3 sm:col-span-1">หัวข้อ</div>
+            <div
+              class="col-span-9 sm:col-span-5 md:col-span-6 lg:col-span-5 xl:col-span-7 2xl:col-span-9">
+              <InputText
+                v-model="name"
+                placeholder="หัวข้อ"
+                class="all-input !rounded-full w-full"
+                :class="nameError && 'p-invalid'" />
+              <small
+                v-if="nameError"
+                class="p-error">
+                {{ nameError }}
+              </small>
             </div>
-            <ConfirmModal
-              header="Edit"
-              :visible="visibleEdit"
-              @handleCancel="handleCancel"
-              @confirmAction="onSubmit" />
-          </form>
-        </div>
+
+            <div class="col-start-1 col-span-3 sm:col-span-1">ประเทศ</div>
+            <div
+              class="col-span-9 sm:col-span-5 md:col-span-6 lg:col-span-5 xl:col-span-7 2xl:col-span-9">
+              <MultiSelect
+                v-model="countries"
+                :options="data.countriesForm"
+                optionLabel="name"
+                placeholder="เลือกประเทศ"
+                display="chip"
+                class="pl-2 w-full !rounded-full col-span-7"
+                :class="countriesError && 'p-invalid'"
+                filter>
+                <template #option="slotProps">
+                  <div class="flex align-items-center">
+                    <div>{{ slotProps.option.name }}</div>
+                  </div>
+                </template>
+                <template #footer>
+                  <div class="py-2 px-3">
+                    <b>{{ countries ? countries.length : 0 }}</b>
+                    ประเทศ
+                  </div>
+                </template>
+              </MultiSelect>
+              <small
+                v-if="countriesError"
+                class="p-error">
+                {{ countriesError }}
+              </small>
+            </div>
+
+            <div class="col-start-1 col-span-3 sm:col-span-1">ระยะเวลา</div>
+            <div class="col-span-3 sm:col-span-1 xl:col-span-2">
+              <InputNumber
+                v-model="days"
+                placeholder="วัน"
+                :class="`input-number ${daysError && 'p-invalid'}`" />
+              <small
+                v-if="daysError"
+                class="block w-28 p-error">
+                {{ daysError }}
+              </small>
+            </div>
+            <div>วัน</div>
+            <div class="col-span-3 sm:col-span-1 xl:col-span-2">
+              <InputNumber
+                v-model="nights"
+                placeholder="คืน"
+                :class="`input-number ${nightsError && 'p-invalid'}`" />
+              <small
+                v-if="nightsError"
+                class="block w-28 p-error">
+                {{ nightsError }}
+              </small>
+            </div>
+            <div>คืน</div>
+
+            <div class="!col-start-1 col-span-3 sm:col-span-1">ราคา</div>
+            <div class="col-span-7 sm:col-span-2 xl:col-span-3">
+              <InputNumber
+                v-model="price"
+                placeholder="ราคา"
+                :class="`input-price w-full ${priceError && 'p-invalid'}`" />
+              <small
+                v-if="priceError"
+                class="block w-28 p-error">
+                {{ priceError }}
+              </small>
+            </div>
+
+            <div>บาท</div>
+
+            <div class="!col-start-1 col-span-3 sm:col-span-1">สายการบิน</div>
+            <div
+              class="col-span-9 sm:col-span-5 md:col-span-6 lg:col-span-5 xl:col-span-7 2xl:col-span-9">
+              <InputText
+                v-model="airline"
+                placeholder="สายการบิน"
+                class="all-input !rounded-full w-full"
+                :class="airlineError && 'p-invalid'" />
+              <small
+                v-if="airlineError"
+                class="p-error">
+                {{ airlineError }}
+              </small>
+            </div>
+          </div>
+
+          <div class="mb-4">รายละเอียดการเดินทาง</div>
+          <Editor
+            v-model="details"
+            editorStyle="height: 320px"
+            :class="detailsError && 'p-invalid'" />
+          <small
+            v-if="detailsError"
+            class="block w-28 p-error">
+            {{ detailsError }}
+          </small>
+
+          <div class="flex justify-end pt-12">
+            <Button
+              class="w-36 !text-[#9d9d9d] !mr-6 cancel-button"
+              text
+              rounded
+              @click="onCancel">
+              <font-awesome-icon
+                :icon="['fas', 'xmark']"
+                size="xl" /><span class="mx-auto">ยกเลิก</span>
+            </Button>
+            <Button
+              class="w-36 !bg-green-add !border-green-add"
+              rounded
+              @click="handleEdit">
+              <font-awesome-icon
+                :icon="['fas', 'check']"
+                size="xl" /><span class="mx-auto">บันทึก</span>
+            </Button>
+          </div>
+          <ConfirmModal
+            header="Edit"
+            :visible="visibleEdit"
+            @handleCancel="handleCancel"
+            @confirmAction="onSubmit" />
+        </form>
       </div>
     </div>
-    <div v-else>Please login</div>
   </div>
 </template>
 <script setup>
-import { watch, ref, watchEffect, onMounted, computed } from "vue";
+import { watch, ref, watchEffect, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useField, useForm } from "vee-validate";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
@@ -236,8 +233,6 @@ const tour = ref({
   airline: null,
   details: null,
 });
-
-const isLoggedIn = computed(() => store.state.isLoggedIn);
 
 const handleCancel = (value) => {
   visibleEdit.value = value;
