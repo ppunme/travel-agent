@@ -51,7 +51,6 @@
     if (!props.management) {
       router.push(`/tours/${id}`);
     } else {
-      console.log(props.item.image);
       const nameValidate = await props.nameValidate();
       const airlineValidate = await props.airlineValidate();
       const daysValidate = await props.daysValidate();

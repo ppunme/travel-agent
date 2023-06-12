@@ -5,19 +5,25 @@
   </header>
   <!-- Router view for each route -->
   <router-view />
-
+  <Toast />
   <Footer v-if="!admin" />
 </template>
 
 <script setup>
-  import { watch, ref, onMounted } from "vue";
+  import { watch, ref, onMounted, computed } from "vue";
   import { useRoute } from "vue-router";
+  import store from "@/store";
+  import { useToast } from "primevue/usetoast";
+
   import Navbar from "@/layout/Navbar.vue";
   import Footer from "./layout/Footer.vue";
-  import store from "@/store";
 
   const route = useRoute();
+  const toast = useToast();
+
   const admin = ref(false);
+
+  const toastMessage = computed(() => store.state.toast);
 
   const isTokenExpired = (token) => {
     try {
@@ -47,6 +53,10 @@
       return null;
     }
   };
+
+  watch(toastMessage, (newRoute) => {
+    toast.add(newRoute);
+  });
 
   watch(route, (newRoute) => {
     if (newRoute.path.includes("admin")) {

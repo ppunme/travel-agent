@@ -165,6 +165,8 @@
   import { useRoute, useRouter } from "vue-router";
   import { doc, onSnapshot, deleteDoc } from "firebase/firestore";
   import { db } from "@/firebase";
+  import store from "@/store";
+
   import ConfirmModal from "@/components/ConfirmModal.vue";
 
   const route = useRoute();
@@ -182,9 +184,25 @@
   };
 
   const confirmAction = async () => {
-    await deleteDoc(doc(db, "tours", route.params.tourId));
-    visibleDelete.value = false;
-    router.push("/tours");
+    try {
+      await deleteDoc(doc(db, "tours", route.params.tourId));
+      visibleDelete.value = false;
+
+      store.dispatch("showToast", {
+        severity: "success",
+        summary: "ลบข้อมูลเรียบร้อยแล้ว",
+      });
+
+      router.push("/tours");
+    } catch (error) {
+      if (error) {
+        store.dispatch("showToast", {
+          severity: "error",
+          summary: "เกิดข้อผิดพลาดระหว่างการลบข้อมูล",
+          detail: "กรุณาลองใหม่อีกครั้ง",
+        });
+      }
+    }
   };
 
   onMounted(async () => {

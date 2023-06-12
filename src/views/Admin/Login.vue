@@ -94,7 +94,7 @@
     if (!value) {
       return "กรุณากรอกอีเมล";
     }
-
+    errorLogin.value = "";
     return true;
   }
 
@@ -102,7 +102,7 @@
     if (!value) {
       return "กรุณากรอกรหัสผ่าน";
     }
-
+    errorLogin.value = "";
     return true;
   }
 

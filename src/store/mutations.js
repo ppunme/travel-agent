@@ -7,4 +7,7 @@ export default {
     state.user = null;
     state.isLoggedIn = false;
   },
+  setToast(state, content) {
+    state.toast = content;
+  },
 };

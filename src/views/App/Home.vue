@@ -76,7 +76,6 @@
   import EditCarousel from "@/components/EditCarousel.vue";
   import ConfirmModal from "@/components/ConfirmModal.vue";
   import { data } from "@/services/ContactList";
-  //import { useToast } from "primevue/usetoast";
   import {
     collection,
     addDoc,
@@ -87,7 +86,6 @@
   import { db } from "@/firebase";
   import store from "@/store";
 
-  //const toast = useToast();
   const visible = ref(false);
   const visibleDelete = ref(false);
   const deleteIndex = ref(null);
