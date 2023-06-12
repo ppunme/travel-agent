@@ -36,7 +36,6 @@ body,
 
   .p-paginator-pages {
     .p-paginator-page {
-      //border: 1px solid $primary-border-color !important;
       margin: 0.5rem !important;
 
       &.p-highlight {
@@ -50,12 +49,6 @@ body,
     }
   }
 
-  // .p-paginator-first,
-  // .p-paginator-prev,
-  // .p-paginator-next,
-  // .p-paginator-last {
-  //   border: 1px solid $primary-border-color !important;
-  // }
 
   .p-paginator-prev {
     margin-right: 2rem !important;
