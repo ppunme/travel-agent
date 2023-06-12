@@ -58,15 +58,7 @@ const dataLength = ref();
 const page = ref(0);
 
 const selectedCountry = ref();
-const countries = ref([
-  { name: "ทั้งหมด", country: null },
-  { name: "ออสเตรเลีย", country: "ออสเตรเลีย" },
-  { name: "บราซิล", country: "บราซิล" },
-  { name: "จีน", country: "จีน" },
-  { name: "เชค", country: "เชค" },
-  { name: "สโลวัก", country: "สโลวัก" },
-  { name: "ฮังการี", country: "ฮังการี" },
-]);
+const countries = ref();
 
 const selectedSort = ref();
 const sort = ref([
@@ -157,6 +149,23 @@ const loadData = async () => {
 
     tours.value = tourData;
     dataLength.value = tourData.length;
+
+    let options = [];
+    let filerOptions = [{ name: "ทั้งหมด", country: null }];
+
+    tourData.forEach((item) => {
+      item.countries.forEach((country) => {
+        if (!options.includes(country)) {
+          options.push(country);
+        }
+      });
+    });
+
+    options.forEach((opt) => {
+      filerOptions.push({ name: opt, country: opt });
+    });
+
+    countries.value = filerOptions;
   });
 };
 

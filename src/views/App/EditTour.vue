@@ -80,7 +80,7 @@
                 class="col-span-9 sm:col-span-5 md:col-span-6 lg:col-span-5 xl:col-span-7 2xl:col-span-9">
                 <MultiSelect
                   v-model="countries"
-                  :options="options"
+                  :options="data.countriesForm"
                   optionLabel="name"
                   placeholder="เลือกประเทศ"
                   display="chip"
@@ -213,6 +213,7 @@ import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import store from "@/store";
 
+import { data } from "@/services/CountryList";
 import TourPackageCard from "@/components/TourPackageCard.vue";
 import ConfirmModal from "@/components/ConfirmModal.vue";
 
@@ -224,15 +225,6 @@ const fileUpload = ref(null);
 const clearButton = ref(false);
 const visibleEdit = ref(false);
 const imageObjectURL = ref();
-
-const options = ref([
-  { name: "ออสเตรเลีย" },
-  { name: "บราซิล" },
-  { name: "จีน" },
-  { name: "เชค" },
-  { name: "สโลวัก" },
-  { name: "ฮังการี" },
-]);
 
 const tour = ref({
   image: null,
