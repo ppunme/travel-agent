@@ -208,6 +208,7 @@
   import { useField, useForm } from "vee-validate";
   import { doc, onSnapshot, updateDoc } from "firebase/firestore";
   import { db } from "@/firebase";
+  import store from "@/store";
 
   import TourPackageCard from "@/components/TourPackageCard.vue";
   import ConfirmModal from "@/components/ConfirmModal.vue";
@@ -412,24 +413,39 @@
   });
 
   const onSubmit = handleSubmit(async (values) => {
-    values.countries = values.countries.map((item) => item.name);
-    values.image = tour.value.image;
+    try {
+      values.countries = values.countries.map((item) => item.name);
+      values.image = tour.value.image;
 
-    await updateDoc(doc(db, "tours", route.params.tourId), values);
+      await updateDoc(doc(db, "tours", route.params.tourId), values);
 
-    tour.value = {
-      image: null,
-      name: null,
-      countries: null,
-      days: null,
-      nights: null,
-      price: null,
-      airline: null,
-      details: null,
-    };
-    resetForm();
+      tour.value = {
+        image: null,
+        name: null,
+        countries: null,
+        days: null,
+        nights: null,
+        price: null,
+        airline: null,
+        details: null,
+      };
+      resetForm();
 
-    router.push(`/tours/${route.params.tourId}`);
+      store.dispatch("showToast", {
+        severity: "success",
+        summary: "บันทึกข้อมูลเรียบร้อยแล้ว",
+      });
+
+      router.push(`/tours/${route.params.tourId}`);
+    } catch (error) {
+      if (error) {
+        store.dispatch("showToast", {
+          severity: "error",
+          summary: "เกิดข้อผิดพลาดระหว่างการบันทึกข้อมูล",
+          detail: "กรุณาลองใหม่อีกครั้ง",
+        });
+      }
+    }
   });
 
   const onCancel = () => {

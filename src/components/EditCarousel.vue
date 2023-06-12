@@ -114,7 +114,6 @@
       </div>
     </div>
   </div>
-  <Toast />
   <ConfirmDialog />
 </template>
 

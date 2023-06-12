@@ -28,24 +28,10 @@
         @handleDelete="handleDelete"
         @handleDrop="handleDrop" />
     </Modal>
-    <!-- <div class="grid grid-cols-2 md:grid-cols-3 gap-12">
-      <div
-        v-for="item in selectedTours"
-        :key="item.index"
-        class="flex justify-center cursor-pointer hover:opacity-80"
-        @click="viewPackage(item.id)"
-      >
-        <img
-          :src="item.image"
-          :alt="item.name"
-          class="rounded-xl shadow-lg shadow-neutral-500"
-        />
-      </div>
-    </div> -->
     <div class="grid grid-cols-2 md:grid-cols-3 gap-12">
       <div
-        v-for="item in selectedTours"
-        :key="item.index"
+        v-for="(item, index) in selectedTours"
+        :key="index"
         class="flex justify-center cursor-pointer hover:opacity-80"
         @click="viewPackage(item.id)">
         <div class="square-image">

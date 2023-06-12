@@ -5,4 +5,7 @@ export default {
   logout({ commit }) {
     commit("logout");
   },
+  showToast({ commit }, content) {
+    commit("setToast", { ...content, life: 3000 });
+  },
 };

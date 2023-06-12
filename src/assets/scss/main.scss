@@ -344,3 +344,17 @@ body,
 .contact-item {
   @apply text-white py-3 flex items-center
 }
+
+.p-toast {
+  .p-toast-message {
+    .p-toast-message-content {
+      align-items: center;
+
+      .p-toast-message-text{
+        .p-toast-detail {
+          margin: unset;
+        }
+      }
+    }
+  }
+}

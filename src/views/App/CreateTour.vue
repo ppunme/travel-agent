@@ -40,6 +40,7 @@
                   accept="image/*"
                   :maxFileSize="10000000"
                   @select="onSelectedFiles" />
+
                 <button
                   v-if="clearButton"
                   @click="clearFile">
@@ -205,6 +206,8 @@
   import { useField, useForm } from "vee-validate";
   import { collection, addDoc } from "firebase/firestore";
   import { db } from "@/firebase";
+  import store from "@/store";
+
   import TourPackageCard from "@/components/TourPackageCard.vue";
 
   const router = useRouter();
@@ -233,15 +236,6 @@
     airline: null,
     details: null,
   });
-
-  // const blobToBase64 = (blob) => {
-  //   return new Promise((resolve, reject) => {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => resolve(reader.result);
-  //     reader.onerror = reject;
-  //     reader.readAsDataURL(blob);
-  //   });
-  // };
 
   const onSelectedFiles = async (event) => {
     const file = event.files[0];
@@ -406,25 +400,38 @@
   });
 
   const onSubmit = handleSubmit(async (values) => {
-    values.countries = values.countries.map((item) => item.name);
-    values.image = tour.value.image;
+    try {
+      values.countries = values.countries.map((item) => item.name);
+      values.image = tour.value.image;
 
-    const docRef = await addDoc(collection(db, "tours"), values);
-    console.log(docRef);
-    console.log("Document written with ID: ", docRef.id);
+      const docRef = await addDoc(collection(db, "tours"), values);
+      console.log(docRef);
+      console.log("Document written with ID: ", docRef.id);
 
-    tour.value = {
-      image: null,
-      name: null,
-      countries: null,
-      days: null,
-      nights: null,
-      price: null,
-      airline: null,
-      details: null,
-    };
-    clearFile();
-    resetForm();
+      tour.value = {
+        image: null,
+        name: null,
+        countries: null,
+        days: null,
+        nights: null,
+        price: null,
+        airline: null,
+        details: null,
+      };
+      clearFile();
+      resetForm();
+
+      store.dispatch("showToast", {
+        severity: "success",
+        summary: "บันทึกข้อมูลเรียบร้อยแล้ว",
+      });
+    } catch (error) {
+      store.dispatch("showToast", {
+        severity: "error",
+        summary: "เกิดข้อผิดพลาดระหว่างการบันทึกข้อมูล",
+        detail: "กรุณาลองใหม่อีกครั้ง",
+      });
+    }
   });
 
   const onCancel = () => {
