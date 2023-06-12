@@ -30,16 +30,14 @@
     </Modal>
     <div class="grid grid-cols-2 md:grid-cols-3 gap-12">
       <div
-        v-for="(item, index) in selectedTours"
-        :key="index"
-        class="flex justify-center cursor-pointer hover:opacity-80"
+        v-for="item in selectedTours"
+        :key="item.index"
+        class="flex justify-center cursor-pointer hover:opacity-80 rounded-xl shadow-md square-image"
         @click="viewPackage(item.id)">
-        <div class="square-image">
-          <img
-            :src="item.image"
-            :alt="item.name"
-            class="rounded-xl shadow-lg shadow-gray-300" />
-        </div>
+        <img
+          :src="item.image"
+          :alt="item.name"
+          class="rounded-xl shadow-md" />
       </div>
     </div>
   </div>
