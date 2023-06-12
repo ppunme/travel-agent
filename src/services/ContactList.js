@@ -28,7 +28,7 @@ const contacts = [
 const line = {
   id: 1,
   name: "line",
-  link: "wellnesstravel",
+  link: "wellnesslife19",
   icon: ["fab", "line"],
 };
 export const data = { contacts, line };

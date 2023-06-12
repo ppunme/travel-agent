@@ -93,18 +93,17 @@ import vector from "@/assets/images/vector-buildings.png";
 
 const goToMessenger = () => {
   window.open(
-    "https://www.facebook.com/messages/t/poonnamee.ngamrayab",
+    "https://www.facebook.com/messages/t/wellnesslifetravel",
     "_blank"
   );
 };
 
 const sendEmail = () => {
-  // window.open("mailto:example@example.com?subject=Inquiry", "_blank");
-  window.open("mailto:example@example.com?subject=Inquiry", "_blank");
+  window.open("mailto:wellnesslifetravel@gmail.com?subject=Inquiry", "_blank");
 };
 
 const addLineID = () => {
-  window.open("line://ti/p/ppunme", "_blank");
+  window.open("line://ti/p/wellnesslife19", "_blank");
 };
 
 const makePhoneCall = () => {

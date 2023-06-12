@@ -86,15 +86,13 @@ import {
 import { db } from "@/firebase";
 import store from "@/store";
 
+const items = ref([]);
 const visible = ref(false);
 const visibleDelete = ref(false);
 const deleteIndex = ref(null);
 const deleteItem = ref(null);
 
 const loading = ref(false);
-
-// const carouselArray = ref([]);
-const items = ref([]);
 
 const isLoggedIn = computed(() => store.state.isLoggedIn);
 
@@ -114,7 +112,6 @@ const handleDelete = (index, item) => {
 
 const handleAddImg = async (file, base64data) => {
   items.value.push({ name: file.name, img: base64data });
-  console.log("file", items.value);
 };
 
 const clearCollection = async () => {
@@ -183,10 +180,6 @@ watch(items.value, (newValue, oldValue) => {
 });
 
 onMounted(async () => {
-  // tour.value = data.tours.find((item) => {
-  //   return item.id === parseInt(route.params.tourId);
-  // });
-
   onSnapshot(collection(db, "carousel"), (querySnapshot) => {
     const carouselList = [];
     querySnapshot.forEach((doc) => {

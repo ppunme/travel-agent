@@ -11,7 +11,7 @@
         <div class="flex flex-col items-center lg:items-start pt-8">
           <img
             :src="lineQrCode"
-            class="self-center" />
+            class="self-center w-36 sm:w-auto" />
           <p class="self-center pt-8 lg:pt-3">
             <font-awesome-icon
               :icon="line.icon"
@@ -28,13 +28,13 @@
         <div
           v-for="item in contacts"
           :key="item.id"
-          class="py-3">
+          class="contact-item hover:cursor-pointer hover:opacity-90 py-3"
+          @click="handleClick(item.name, item.link)">
           <font-awesome-icon
             :icon="item.icon"
             size="2xl"
-            class="self-center pr-1 lg:pr-2" />
-          <span
-            class="pl-1 lg:pl-3 lg:text-lg text-[0.875rem] sm:text-[1.125rem]">
+            class="contact-icon sm:w-8" />
+          <span class="contact-text">
             {{ item.link }}
           </span>
         </div>
@@ -48,6 +48,33 @@ import lineQrCode from "@/assets/images/line-qr-code.png";
 import bgImage from "@/assets/images/home-contact-bg.png";
 
 defineProps(["contacts", "line"]);
+
+const sendEmail = () => {
+  window.open("mailto:wellnesslifetravel@gmail.com?subject=Inquiry", "_blank");
+};
+
+const makePhoneCall = () => {
+  window.location.href = "tel:0932392359";
+};
+
+const handleClick = (name, link) => {
+  switch (name) {
+    case "facebook":
+      window.open(link, "_blank");
+      break;
+    case "instagram":
+      window.open(link, "_blank");
+      break;
+    case "phone":
+      makePhoneCall();
+      break;
+    case "email":
+      sendEmail();
+      break;
+    default:
+      break;
+  }
+};
 </script>
 
 <style>

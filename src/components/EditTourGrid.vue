@@ -84,51 +84,49 @@ const emit = defineEmits([
   "handleDrop",
 ]);
 
-const addRow = () => {
-  emit("onAddRow");
-};
+  const addRow = () => {
+    emit("onAddRow");
+  };
 
-const updateTour = (index, e) => {
-  // console.log("updateTour", index, e.value.id);
-  emit("updateSelectedTours", index, e.value);
-};
+  const updateTour = (index, e) => {
+    emit("updateSelectedTours", index, e.value);
+  };
 
-const onDelete = (index, item) => {
-  //e.preventDefault();
-  emit("handleDelete", index, item);
-};
+  const onDelete = (index, item) => {
+    emit("handleDelete", index, item);
+  };
 
-const handleDragStart = (e, index) => {
-  e.dataTransfer.setData("text/plain", index);
-};
+  const handleDragStart = (e, index) => {
+    e.dataTransfer.setData("text/plain", index);
+  };
 
-const handleDragOver = (e) => {
-  e.preventDefault();
-};
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
 
-const handleDrop = (e, newIndex) => {
-  e.preventDefault();
-  emit("handleDrop", e, newIndex);
-};
+  const handleDrop = (e, newIndex) => {
+    e.preventDefault();
+    emit("handleDrop", e, newIndex);
+  };
 </script>
 
 <style scoped>
-.draggable-item {
-  cursor: move;
-}
+  .draggable-item {
+    cursor: move;
+  }
 
-.draggable-img {
-  cursor: move;
-}
+  .draggable-img {
+    cursor: move;
+  }
 
-.square-image {
-  aspect-ratio: 1/1; /* Creates a square aspect ratio */
-  overflow: hidden;
-}
+  .square-image {
+    aspect-ratio: 1/1; /* Creates a square aspect ratio */
+    overflow: hidden;
+  }
 
-.square-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+  .square-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 </style>

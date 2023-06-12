@@ -49,13 +49,11 @@ const resetPassword = handleSubmit(() => {
   const auth = getAuth();
   sendPasswordResetEmail(auth, email.value)
     .then(() => {
-      console.log("password reset email sent!");
       emit("update:visible", false);
       emit("showSuccess", true);
       loading.value = false;
     })
     .catch((error) => {
-      console.log(error.code);
       alert(error.message);
       loading.value = false;
     });
