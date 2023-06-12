@@ -1,5 +1,6 @@
 <template>
-  <div class="flex flex-col items-center justify-center h-screen bg-red-500">
+  <div
+    class="flex flex-col items-center justify-center bg-red-500 min-h-[calc(100vh_-_13rem)]">
     <h1 class="text-6xl font-bold text-white">403</h1>
     <p class="text-2xl font-semibold text-white mt-4">Forbidden</p>
     <p class="text-white mt-2">You are not authorized to access this page.</p>

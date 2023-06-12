@@ -8,6 +8,7 @@ import EditTour from "@/views/App/EditTour.vue";
 import Login from "@/views/Admin/Login.vue";
 import Register from "@/views/Admin/Register.vue";
 import NotFound from "@/layout/NotFound.vue";
+import Unauthorised from "@/layout/Unauthorised.vue";
 
 const routes = [
   {
@@ -34,11 +35,17 @@ const routes = [
     path: "/tours/create",
     name: "create-tour",
     component: CreateTour,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/tours/edit/:tourId",
     name: "edit-tour",
     component: EditTour,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/admin",
@@ -51,6 +58,7 @@ const routes = [
     component: Register,
   },
   { path: "/:pathMatch(.*)", component: NotFound },
+  { path: "/forbidden", component: Unauthorised },
 ];
 
 const scrollBehavior = (to, from, savedPosition) => {
@@ -63,6 +71,18 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
   scrollBehavior,
+});
+
+// Navigation guard to check if the route requires authentication
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem("token");
+  console.log("token", token === null);
+
+  if (to.meta.requiresAuth && token === null) {
+    router.push("/forbidden"); // Redirect to the forbidden page if not authenticated
+  } else {
+    next(); // Continue navigation
+  }
 });
 
 export default router;
