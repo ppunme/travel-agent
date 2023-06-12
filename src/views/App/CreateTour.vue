@@ -418,13 +418,19 @@
         airline: null,
         details: null,
       };
-      clearFile();
+
+      fileUpload.value.clear();
+      tour.value.image = null;
+      tour.value.fileName = null;
+
       resetForm();
 
       store.dispatch("showToast", {
         severity: "success",
         summary: "บันทึกข้อมูลเรียบร้อยแล้ว",
       });
+
+      router.push("/tours");
     } catch (error) {
       store.dispatch("showToast", {
         severity: "error",
