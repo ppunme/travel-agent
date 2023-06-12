@@ -2,22 +2,24 @@
   <div class="relative">
     <img
       :src="bgImage"
-      class="absolute top-0 object-cover h-[480px] w-full" />
-    <div class="overlay" />
+      class="absolute top-0 object-cover h-[550px] lg:h-[480px] w-full" />
+    <div class="overlay h-[550px] lg:h-[480px]" />
 
     <div
-      class="flex flex-col lg:flex-row text-center lg:text-left text items-center">
+      class="flex flex-col lg:flex-row text-center lg:text-left text items-center h-[550px] lg:h-[480px]">
       <div class="basis-1/2">
-        <div class="flex flex-col items-center lg:items-start">
+        <div class="flex flex-col items-center lg:items-start pt-8">
           <img
             :src="lineQrCode"
             class="self-center" />
-          <p class="self-center pt-3">
+          <p class="self-center pt-8 lg:pt-3">
             <font-awesome-icon
               :icon="line.icon"
               size="2xl"
               class="text-green-line-app bg-white rounded-xl" />
-            <span class="pl-3 text-lg">Line id: {{ line.link }}</span>
+            <span class="pl-3 text-lg text-[0.875rem] sm:text-[1.125rem]">
+              Line id: {{ line.link }}
+            </span>
           </p>
         </div>
       </div>
@@ -30,8 +32,11 @@
           <font-awesome-icon
             :icon="item.icon"
             size="2xl"
-            class="self-center pr-2" />
-          <span class="pl-3 lg:text-lg">{{ item.link }}</span>
+            class="self-center pr-1 lg:pr-2" />
+          <span
+            class="pl-1 lg:pl-3 lg:text-lg text-[0.875rem] sm:text-[1.125rem]">
+            {{ item.link }}
+          </span>
         </div>
       </div>
     </div>
@@ -51,13 +56,11 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 480px;
     background-color: rgba(0, 0, 0, 0.7); /* Adjust the opacity as needed */
     z-index: 1;
   }
 
   .text {
-    height: 480px;
     position: relative;
     z-index: 2;
     color: white;
