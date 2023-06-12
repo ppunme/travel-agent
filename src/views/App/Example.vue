@@ -1,6 +1,8 @@
 <template>
   <div>Home 3</div>
-  <HelloWorld msg="hello test props" msg2="test 2" />
+  <HelloWorld
+    msg="hello test props"
+    msg2="test 2" />
   <Button label="Submit" />
 
   <div>

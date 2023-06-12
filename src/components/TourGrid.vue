@@ -149,7 +149,6 @@
 
   const onSubmit = () => {
     loading.value = true;
-    console.log("onSubmit", selectedTours.value);
 
     selectedTours.value.forEach(async (item, index) => {
       await updateDoc(doc(db, "tours", item.id), {
@@ -166,7 +165,6 @@
       const tourData = [];
 
       querySnapshot.forEach((doc) => {
-        //console.log("doc", doc);
         const tour = {
           id: doc.id,
           name: doc.data().fileName,
@@ -176,7 +174,7 @@
           seq: doc.data().seq,
           value: doc.id,
         };
-        //console.log("tour", tour);
+
         tourData.push(tour);
       });
 

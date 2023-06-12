@@ -122,8 +122,7 @@
         resetForm();
         loading.value = false;
       })
-      .catch((error) => {
-        console.log(error.code);
+      .catch(() => {
         errorLogin.value = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
         loading.value = false;
       });

@@ -86,15 +86,13 @@
   import { db } from "@/firebase";
   import store from "@/store";
 
+  const items = ref([]);
   const visible = ref(false);
   const visibleDelete = ref(false);
   const deleteIndex = ref(null);
   const deleteItem = ref(null);
 
   const loading = ref(false);
-
-  // const carouselArray = ref([]);
-  const items = ref([]);
 
   const isLoggedIn = computed(() => store.state.isLoggedIn);
 
@@ -114,7 +112,6 @@
 
   const handleAddImg = async (file, base64data) => {
     items.value.push({ name: file.name, img: base64data });
-    console.log("file", items.value);
   };
 
   const clearCollection = async () => {
@@ -132,11 +129,8 @@
       await clearCollection();
       items.value.forEach(async (item, index) => {
         const submitData = { ...item, seq: index };
-        console.log("submitData2", submitData);
 
-        const docRef = await addDoc(collection(db, "carousel"), submitData);
-        //console.log(docRef);
-        console.log("Document written with ID: ", docRef.id);
+        await addDoc(collection(db, "carousel"), submitData);
       });
       loading.value = false;
       visible.value = false;
@@ -148,20 +142,6 @@
   const onDialogUpdate = (value) => {
     visible.value = value;
   };
-
-  // const confirmDelete = () => {
-  //   visibleDelete.value = false;
-
-  //   if (deleteItem.value) {
-  //     items.value = items.value.filter((tour) => tour.id !== deleteItem.value);
-  //     toast.add({
-  //       severity: "error",
-  //       summary: "Confirmed",
-  //       detail: "รูปถูกลบแล้ว",
-  //       life: 3000,
-  //     });
-  //   }
-  // };
 
   const moveItemUp = (index) => {
     if (index > 0) {
@@ -183,10 +163,6 @@
   });
 
   onMounted(async () => {
-    // tour.value = data.tours.find((item) => {
-    //   return item.id === parseInt(route.params.tourId);
-    // });
-
     onSnapshot(collection(db, "carousel"), (querySnapshot) => {
       const carouselList = [];
       querySnapshot.forEach((doc) => {

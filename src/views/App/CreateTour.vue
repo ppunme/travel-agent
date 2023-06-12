@@ -404,9 +404,7 @@
       values.countries = values.countries.map((item) => item.name);
       values.image = tour.value.image;
 
-      const docRef = await addDoc(collection(db, "tours"), values);
-      console.log(docRef);
-      console.log("Document written with ID: ", docRef.id);
+      await addDoc(collection(db, "tours"), values);
 
       tour.value = {
         image: null,

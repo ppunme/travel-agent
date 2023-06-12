@@ -132,18 +132,13 @@
   const uploadedFile = ref([]);
 
   const customBase64Uploader = async (event) => {
-    console.log("event", event);
     const file = event.files[0];
-    //console.log("file", file);
     const reader = new FileReader();
     let blob = await fetch(file.objectURL).then((r) => r.blob()); //blob:url
 
     reader.readAsDataURL(blob);
-
     reader.onloadend = function () {
       const base64data = reader.result;
-      // console.log("base64data: " + base64data);
-      // console.log("file", file);
       uploadedFile.value.push(file);
       emit("handleAddImg", file, base64data);
     };
@@ -156,7 +151,6 @@
   };
 
   const moveItemDown = (index) => {
-    console.log("props", props.items);
     if (index < props.items.length - 1) {
       emit("moveItemDown", index);
     }
