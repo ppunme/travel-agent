@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-  import TourPackageCard from "./TourPackageCard.vue";
+import TourPackageCard from "./TourPackageCard.vue";
 
-  const props = defineProps(["tours"]);
+const props = defineProps(["tours"]);
 </script>

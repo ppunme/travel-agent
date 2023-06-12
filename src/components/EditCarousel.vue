@@ -118,7 +118,7 @@
 </template>
 
 <script setup>
-  /* eslint-disable */
+/* eslint-disable */
   import { ref, watch, onMounted } from "vue";
 
   const props = defineProps(["items"]);

@@ -76,13 +76,13 @@
 </template>
 
 <script setup>
-  defineProps(["selectedTours", "tours"]);
-  const emit = defineEmits([
-    "onAddRow",
-    "updateSelectedTours",
-    "handleDelete",
-    "handleDrop",
-  ]);
+defineProps(["selectedTours", "tours"]);
+const emit = defineEmits([
+  "onAddRow",
+  "updateSelectedTours",
+  "handleDelete",
+  "handleDrop",
+]);
 
 const addRow = () => {
   emit("onAddRow");

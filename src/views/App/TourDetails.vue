@@ -1,6 +1,8 @@
 <template>
   <div class="container mx-auto px-4 sm:px-8 md:px-10 py-12">
-    <div class="flex justify-end">
+    <div
+      v-if="isLoggedIn"
+      class="flex justify-end">
       <Button
         v-if="route.params.tourId !== 'preview' && tour"
         class="w-18 md:w-32 !bg-[#F5A327] !mb-12"
@@ -161,59 +163,61 @@
     @confirmAction="confirmAction" />
 </template>
 <script setup>
-  import { ref, onMounted } from "vue";
-  import { useRoute, useRouter } from "vue-router";
-  import { doc, onSnapshot, deleteDoc } from "firebase/firestore";
-  import { db } from "@/firebase";
-  import store from "@/store";
+import { ref, onMounted, computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { doc, onSnapshot, deleteDoc } from "firebase/firestore";
+import { db } from "@/firebase";
+import store from "@/store";
 
-  import ConfirmModal from "@/components/ConfirmModal.vue";
+import ConfirmModal from "@/components/ConfirmModal.vue";
 
-  const route = useRoute();
-  const router = useRouter();
+const route = useRoute();
+const router = useRouter();
 
-  const tour = ref();
-  const visibleDelete = ref(false);
+const tour = ref();
+const visibleDelete = ref(false);
 
-  const handleCancel = (value) => {
-    visibleDelete.value = value;
-  };
+const isLoggedIn = computed(() => store.state.isLoggedIn);
 
-  const handleDelete = () => {
-    visibleDelete.value = true;
-  };
+const handleCancel = (value) => {
+  visibleDelete.value = value;
+};
 
-  const confirmAction = async () => {
-    try {
-      await deleteDoc(doc(db, "tours", route.params.tourId));
-      visibleDelete.value = false;
+const handleDelete = () => {
+  visibleDelete.value = true;
+};
 
-      store.dispatch("showToast", {
-        severity: "success",
-        summary: "ลบข้อมูลเรียบร้อยแล้ว",
-      });
+const confirmAction = async () => {
+  try {
+    await deleteDoc(doc(db, "tours", route.params.tourId));
+    visibleDelete.value = false;
 
-      router.push("/tours");
-    } catch (error) {
-      if (error) {
-        store.dispatch("showToast", {
-          severity: "error",
-          summary: "เกิดข้อผิดพลาดระหว่างการลบข้อมูล",
-          detail: "กรุณาลองใหม่อีกครั้ง",
-        });
-      }
-    }
-  };
-
-  onMounted(async () => {
-    const docRef = doc(db, "tours", route.params.tourId);
-
-    onSnapshot(docRef, (docSnapshot) => {
-      if (docSnapshot.exists()) {
-        tour.value = docSnapshot.data();
-      } else {
-        console.log("Document does not exist");
-      }
+    store.dispatch("showToast", {
+      severity: "success",
+      summary: "ลบข้อมูลเรียบร้อยแล้ว",
     });
+
+    router.push("/tours");
+  } catch (error) {
+    if (error) {
+      store.dispatch("showToast", {
+        severity: "error",
+        summary: "เกิดข้อผิดพลาดระหว่างการลบข้อมูล",
+        detail: "กรุณาลองใหม่อีกครั้ง",
+      });
+    }
+  }
+};
+
+onMounted(async () => {
+  const docRef = doc(db, "tours", route.params.tourId);
+
+  onSnapshot(docRef, (docSnapshot) => {
+    if (docSnapshot.exists()) {
+      tour.value = docSnapshot.data();
+    } else {
+      console.log("Document does not exist");
+    }
   });
+});
 </script>

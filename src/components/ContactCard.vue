@@ -44,25 +44,25 @@
 </template>
 
 <script setup>
-  import lineQrCode from "@/assets/images/line-qr-code.png";
-  import bgImage from "@/assets/images/home-contact-bg.png";
+import lineQrCode from "@/assets/images/line-qr-code.png";
+import bgImage from "@/assets/images/home-contact-bg.png";
 
-  defineProps(["contacts", "line"]);
+defineProps(["contacts", "line"]);
 </script>
 
 <style>
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Adjust the opacity as needed */
-    z-index: 1;
-  }
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Adjust the opacity as needed */
+  z-index: 1;
+}
 
-  .text {
-    position: relative;
-    z-index: 2;
-    color: white;
-  }
+.text {
+  position: relative;
+  z-index: 2;
+  color: white;
+}
 </style>
