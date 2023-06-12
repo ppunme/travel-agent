@@ -20,44 +20,44 @@
   </div>
 </template>
 <script setup>
-  import { ref } from "vue";
-  import { getAuth, sendPasswordResetEmail } from "firebase/auth";
-  import { useField, useForm } from "vee-validate";
+import { ref } from "vue";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { useField, useForm } from "vee-validate";
 
-  const loading = ref(false);
+const loading = ref(false);
 
-  const emit = defineEmits(["update:visible", "showSuccess"]);
+const emit = defineEmits(["update:visible", "showSuccess"]);
 
-  const { handleSubmit } = useForm();
+const { handleSubmit } = useForm();
 
-  const { value: email, errorMessage: errorEmail } = useField(
-    "email",
-    validateEmail
-  );
+const { value: email, errorMessage: errorEmail } = useField(
+  "email",
+  validateEmail
+);
 
-  function validateEmail(value) {
-    if (!value) {
-      return "กรุณากรอกอีเมล";
-    }
-
-    return true;
+function validateEmail(value) {
+  if (!value) {
+    return "กรุณากรอกอีเมล";
   }
 
-  const resetPassword = handleSubmit(() => {
-    loading.value = true;
+  return true;
+}
 
-    const auth = getAuth();
-    sendPasswordResetEmail(auth, email.value)
-      .then(() => {
-        console.log("password reset email sent!");
-        emit("update:visible", false);
-        emit("showSuccess", true);
-        loading.value = false;
-      })
-      .catch((error) => {
-        console.log(error.code);
-        alert(error.message);
-        loading.value = false;
-      });
-  });
+const resetPassword = handleSubmit(() => {
+  loading.value = true;
+
+  const auth = getAuth();
+  sendPasswordResetEmail(auth, email.value)
+    .then(() => {
+      console.log("password reset email sent!");
+      emit("update:visible", false);
+      emit("showSuccess", true);
+      loading.value = false;
+    })
+    .catch((error) => {
+      console.log(error.code);
+      alert(error.message);
+      loading.value = false;
+    });
+});
 </script>

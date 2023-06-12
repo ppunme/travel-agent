@@ -118,70 +118,70 @@
 </template>
 
 <script setup>
-  import { ref, computed } from "vue";
-  import store from "@/store";
+import { ref, computed } from "vue";
+import store from "@/store";
 
-  const showMenu = ref(false);
-  const adminMenu = ref();
+const showMenu = ref(false);
+const adminMenu = ref();
 
-  const menuItems = ref([
-    {
-      label: "หน้าแรก",
-      route: "/",
-    },
-    {
-      label: "แพ็คเกจทัวร์",
-      route: "/tours",
-    },
-    {
-      label: "ติดต่อเรา",
-      route: "/contact",
-    },
-  ]);
+const menuItems = ref([
+  {
+    label: "หน้าแรก",
+    route: "/",
+  },
+  {
+    label: "แพ็คเกจทัวร์",
+    route: "/tours",
+  },
+  {
+    label: "ติดต่อเรา",
+    route: "/contact",
+  },
+]);
 
-  const socialLinks = ref([
-    {
-      icon: ["fab", "square-facebook"],
-      url: "https://www.facebook.com/wellnesslifetravel",
-    },
-    {
-      icon: ["fab", "instagram"],
-      url: "https://www.instagram.com/wellnesslifetravel",
-    },
-    { icon: ["fab", "twitter"], url: "https://www.twitter.com" },
-  ]);
+const socialLinks = ref([
+  {
+    icon: ["fab", "square-facebook"],
+    url: "https://www.facebook.com/wellnesslifetravel",
+  },
+  {
+    icon: ["fab", "instagram"],
+    url: "https://www.instagram.com/wellnesslifetravel",
+  },
+  { icon: ["fab", "twitter"], url: "https://www.twitter.com" },
+]);
 
-  const logout = () => {
-    store.dispatch("logout");
-    localStorage.removeItem("token");
-    showMenu.value = !showMenu.value;
-  };
+const logout = () => {
+  store.dispatch("logout");
+  localStorage.removeItem("token");
+  showMenu.value = !showMenu.value;
+};
 
-  const toggle = (event) => {
-    adminMenu.value.toggle(event);
-  };
+const toggle = (event) => {
+  adminMenu.value.toggle(event);
+};
 
-  const isLoggedIn = computed(() => store.state.isLoggedIn);
-  const user = computed(() => store.state.user);
+const isLoggedIn = computed(() => store.state.isLoggedIn);
+const user = computed(() => store.state.user);
 </script>
 
 <style lang="scss" scoped>
-  @import "@/assets/scss/variables.scss";
+@import "@/assets/scss/variables.scss";
 
-  .slide-fade-leave-active,
-  .slide-fade-enter-active {
-    transition: all 0.2s ease-out;
-  }
+.slide-fade-leave-active,
+.slide-fade-enter-active {
+  transition: all 0.2s ease-out;
+}
 
-  .slide-fade-enter-from,
-  .slide-fade-leave-to {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateY(-20px);
+  opacity: 0;
+}
 
-  @media screen and (min-width: 768px) {
-    .router-link-active {
-      border-bottom: 2px solid $secondary-color;
-    }
+@media screen and (min-width: 768px) {
+  .router-link-active {
+    border-bottom: 2px solid $secondary-color;
   }
+}
 </style>

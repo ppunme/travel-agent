@@ -76,53 +76,53 @@
 </template>
 
 <script setup>
-  import { ref, watch } from "vue";
+import { ref, watch } from "vue";
 
-  const props = defineProps([
-    "selectedCountry",
-    "countries",
-    "selectedSort",
-    "sort",
-    "search",
-  ]);
+const props = defineProps([
+  "selectedCountry",
+  "countries",
+  "selectedSort",
+  "sort",
+  "search",
+]);
 
-  const selectedCountryValue = ref(props.selectedCountry);
-  const selectedSortValue = ref(props.selectedSort);
-  const searchValue = ref(props.search);
+const selectedCountryValue = ref(props.selectedCountry);
+const selectedSortValue = ref(props.selectedSort);
+const searchValue = ref(props.search);
 
-  const emit = defineEmits([
-    "update:selectedCountry",
-    "update:selectedSort",
-    "update:search",
-  ]);
+const emit = defineEmits([
+  "update:selectedCountry",
+  "update:selectedSort",
+  "update:search",
+]);
 
-  watch(selectedCountryValue, (newValue) => {
-    emit("update:selectedCountry", newValue);
-  });
+watch(selectedCountryValue, (newValue) => {
+  emit("update:selectedCountry", newValue);
+});
 
-  watch(selectedSortValue, (newValue) => {
-    emit("update:selectedSort", newValue);
-  });
+watch(selectedSortValue, (newValue) => {
+  emit("update:selectedSort", newValue);
+});
 
-  watch(searchValue, (newValue) => {
-    emit("update:search", newValue);
-  });
+watch(searchValue, (newValue) => {
+  emit("update:search", newValue);
+});
 
-  const clearSearch = () => {
-    searchValue.value = "";
-  };
+const clearSearch = () => {
+  searchValue.value = "";
+};
 </script>
 
 <style lang="scss" scoped>
-  @import "@/assets/scss/variables.scss";
+@import "@/assets/scss/variables.scss";
 
-  .tool-bar {
-    background-color: #dfe9f0;
-  }
+.tool-bar {
+  background-color: #dfe9f0;
+}
 
-  .p-input-icon-right {
-    svg:last-of-type {
-      right: 1.25rem;
-    }
+.p-input-icon-right {
+  svg:last-of-type {
+    right: 1.25rem;
   }
+}
 </style>

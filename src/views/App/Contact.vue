@@ -88,45 +88,45 @@
 </template>
 
 <script setup>
-  import { data } from "@/services/ContactList";
-  import vector from "@/assets/images/vector-buildings.png";
+import { data } from "@/services/ContactList";
+import vector from "@/assets/images/vector-buildings.png";
 
-  const goToMessenger = () => {
-    window.open(
-      "https://www.facebook.com/messages/t/poonnamee.ngamrayab",
-      "_blank"
-    );
-  };
+const goToMessenger = () => {
+  window.open(
+    "https://www.facebook.com/messages/t/poonnamee.ngamrayab",
+    "_blank"
+  );
+};
 
-  const sendEmail = () => {
-    // window.open("mailto:example@example.com?subject=Inquiry", "_blank");
-    window.open("mailto:example@example.com?subject=Inquiry", "_blank");
-  };
+const sendEmail = () => {
+  // window.open("mailto:example@example.com?subject=Inquiry", "_blank");
+  window.open("mailto:example@example.com?subject=Inquiry", "_blank");
+};
 
-  const addLineID = () => {
-    window.open("line://ti/p/ppunme", "_blank");
-  };
+const addLineID = () => {
+  window.open("line://ti/p/ppunme", "_blank");
+};
 
-  const makePhoneCall = () => {
-    window.location.href = "tel:0932392359";
-  };
+const makePhoneCall = () => {
+  window.location.href = "tel:0932392359";
+};
 
-  const handleClick = (name, link) => {
-    switch (name) {
-      case "facebook":
-        window.open(link, "_blank");
-        break;
-      case "instagram":
-        window.open(link, "_blank");
-        break;
-      case "phone":
-        makePhoneCall();
-        break;
-      case "email":
-        sendEmail();
-        break;
-      default:
-        break;
-    }
-  };
+const handleClick = (name, link) => {
+  switch (name) {
+    case "facebook":
+      window.open(link, "_blank");
+      break;
+    case "instagram":
+      window.open(link, "_blank");
+      break;
+    case "phone":
+      makePhoneCall();
+      break;
+    case "email":
+      sendEmail();
+      break;
+    default:
+      break;
+  }
+};
 </script>

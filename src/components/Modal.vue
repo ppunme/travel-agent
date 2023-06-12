@@ -44,38 +44,38 @@
 </template>
 
 <script setup>
-  import { ref, watch } from "vue";
+import { ref, watch } from "vue";
 
-  const props = defineProps([
-    "visible",
-    "header",
-    "hideButton",
-    "width",
-    "tourGrid",
-    "loading",
-  ]);
-  const emit = defineEmits(["update:visible", "onSubmit"]);
+const props = defineProps([
+  "visible",
+  "header",
+  "hideButton",
+  "width",
+  "tourGrid",
+  "loading",
+]);
+const emit = defineEmits(["update:visible", "onSubmit"]);
 
-  const visibleValue = ref(props.visible);
+const visibleValue = ref(props.visible);
 
-  const onSave = () => {
-    emit("onSubmit");
-  };
+const onSave = () => {
+  emit("onSubmit");
+};
 
-  const onCancel = () => {
-    emit("update:visible", false);
-  };
+const onCancel = () => {
+  emit("update:visible", false);
+};
 
-  watch(
-    () => props.visible,
-    (newVisible) => {
-      visibleValue.value = newVisible;
-    }
-  );
+watch(
+  () => props.visible,
+  (newVisible) => {
+    visibleValue.value = newVisible;
+  }
+);
 </script>
 
 <style lang="scss" scoped>
-  .button-text {
-    font-size: 14px;
-  }
+.button-text {
+  font-size: 14px;
+}
 </style>

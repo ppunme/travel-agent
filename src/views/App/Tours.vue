@@ -5,8 +5,12 @@
     v-model:search="search"
     :countries="countries"
     :sort="sort" />
-  <div class="container mx-auto px-4 sm:px-8 md:px-10">
-    <div class="flex justify-end">
+  <div
+    class="container mx-auto px-4 sm:px-8 md:px-10"
+    :class="!isLoggedIn && 'pt-10'">
+    <div
+      v-if="isLoggedIn"
+      class="flex justify-end">
       <Button
         class="w-48 !bg-green-add !my-8"
         rounded
@@ -38,124 +42,127 @@
 </template>
 
 <script setup>
-  import { ref, watch, onMounted, computed } from "vue";
-  import { collection, onSnapshot, query } from "firebase/firestore";
-  import { db } from "@/firebase";
+import { ref, watch, onMounted, computed } from "vue";
+import { collection, onSnapshot, query } from "firebase/firestore";
+import { db } from "@/firebase";
+import store from "@/store";
 
-  import Toolbar from "@/components/Toolbar.vue";
-  import TourPackagesList from "@/components/TourPackagesList.vue";
+import Toolbar from "@/components/Toolbar.vue";
+import TourPackagesList from "@/components/TourPackagesList.vue";
 
-  const tours = ref([]);
-  const search = ref("");
-  const pageSizeOptions = ref([4, 8, 16]);
-  const pageSize = ref(4);
-  const dataLength = ref();
-  const page = ref(0);
+const tours = ref([]);
+const search = ref("");
+const pageSizeOptions = ref([4, 8, 16]);
+const pageSize = ref(4);
+const dataLength = ref();
+const page = ref(0);
 
-  const selectedCountry = ref();
-  const countries = ref([
-    { name: "ทั้งหมด", country: null },
-    { name: "ออสเตรเลีย", country: "ออสเตรเลีย" },
-    { name: "บราซิล", country: "บราซิล" },
-    { name: "จีน", country: "จีน" },
-    { name: "เชค", country: "เชค" },
-    { name: "สโลวัก", country: "สโลวัก" },
-    { name: "ฮังการี", country: "ฮังการี" },
-  ]);
+const selectedCountry = ref();
+const countries = ref([
+  { name: "ทั้งหมด", country: null },
+  { name: "ออสเตรเลีย", country: "ออสเตรเลีย" },
+  { name: "บราซิล", country: "บราซิล" },
+  { name: "จีน", country: "จีน" },
+  { name: "เชค", country: "เชค" },
+  { name: "สโลวัก", country: "สโลวัก" },
+  { name: "ฮังการี", country: "ฮังการี" },
+]);
 
-  const selectedSort = ref();
-  const sort = ref([
-    { name: "ราคา ต่ำ-สูง", field: "price", order: "asc" },
-    { name: "ราคา สูง-ต่ำ", field: "price", order: "desc" },
-    { name: "ตัวอักษร (ก-ฮ)", field: "name", order: "asc" },
-    { name: "ตัวอักษร (ฮ-ก)", field: "name", order: "desc" },
-  ]);
+const selectedSort = ref();
+const sort = ref([
+  { name: "ราคา ต่ำ-สูง", field: "price", order: "asc" },
+  { name: "ราคา สูง-ต่ำ", field: "price", order: "desc" },
+  { name: "ตัวอักษร (ก-ฮ)", field: "name", order: "asc" },
+  { name: "ตัวอักษร (ฮ-ก)", field: "name", order: "desc" },
+]);
 
-  watch(selectedCountry, (newValue) => {
-    if (newValue?.country === null) {
-      selectedCountry.value = null;
-    }
-    dataLength.value = filteredTours.value.length;
-  });
+const isLoggedIn = computed(() => store.state.isLoggedIn);
 
-  watch(search, () => {
-    dataLength.value = filteredTours.value.length;
-  });
+watch(selectedCountry, (newValue) => {
+  if (newValue?.country === null) {
+    selectedCountry.value = null;
+  }
+  dataLength.value = filteredTours.value.length;
+});
 
-  const handlePageChange = (e) => {
-    pageSize.value = e.rows;
-    page.value = e.page;
-  };
+watch(search, () => {
+  dataLength.value = filteredTours.value.length;
+});
 
-  const filteredTours = computed(() => {
-    let filtered = tours.value;
+const handlePageChange = (e) => {
+  pageSize.value = e.rows;
+  page.value = e.page;
+};
 
-    if (search.value) {
-      filtered = filtered.filter((tour) =>
-        tour.name.toLowerCase().includes(search.value.toLowerCase())
-      );
-    }
+const filteredTours = computed(() => {
+  let filtered = tours.value;
 
-    if (selectedCountry.value) {
-      filtered = filtered.filter((tour) =>
-        tour.countries.includes(selectedCountry.value.name)
-      );
-    }
+  if (search.value) {
+    filtered = filtered.filter((tour) =>
+      tour.name.toLowerCase().includes(search.value.toLowerCase())
+    );
+  }
 
-    return filtered;
-  });
+  if (selectedCountry.value) {
+    filtered = filtered.filter((tour) =>
+      tour.countries.includes(selectedCountry.value.name)
+    );
+  }
 
-  const sortedTours = computed(() => {
-    let sorted = filteredTours.value;
+  return filtered;
+});
 
-    if (selectedSort.value) {
-      sorted = sorted.slice().sort((a, b) => {
-        const fieldA = a[selectedSort.value.field];
-        const fieldB = b[selectedSort.value.field];
+const sortedTours = computed(() => {
+  let sorted = filteredTours.value;
 
-        if (fieldA < fieldB) {
-          return selectedSort.value.order === "asc" ? -1 : 1;
-        }
-        if (fieldA > fieldB) {
-          return selectedSort.value.order === "asc" ? 1 : -1;
-        }
-        return 0;
-      });
-    }
+  if (selectedSort.value) {
+    sorted = sorted.slice().sort((a, b) => {
+      const fieldA = a[selectedSort.value.field];
+      const fieldB = b[selectedSort.value.field];
 
-    return sorted;
-  });
-
-  const paginatedTours = computed(() => {
-    const startIndex = page.value * pageSize.value;
-    const endIndex = startIndex + pageSize.value;
-    return sortedTours.value.slice(startIndex, endIndex);
-  });
-
-  const loadData = async () => {
-    const collectionRef = collection(db, "tours");
-
-    let q = query(collectionRef);
-
-    onSnapshot(q, (querySnapshot) => {
-      const tourData = [];
-
-      querySnapshot.forEach((doc) => {
-        const tour = {
-          id: doc.id,
-          ...doc.data(),
-        };
-        tourData.push(tour);
-      });
-
-      tours.value = tourData;
-      dataLength.value = tourData.length;
+      if (fieldA < fieldB) {
+        return selectedSort.value.order === "asc" ? -1 : 1;
+      }
+      if (fieldA > fieldB) {
+        return selectedSort.value.order === "asc" ? 1 : -1;
+      }
+      return 0;
     });
-  };
+  }
 
-  onMounted(() => {
-    loadData();
+  return sorted;
+});
+
+const paginatedTours = computed(() => {
+  const startIndex = page.value * pageSize.value;
+  const endIndex = startIndex + pageSize.value;
+  return sortedTours.value.slice(startIndex, endIndex);
+});
+
+const loadData = async () => {
+  const collectionRef = collection(db, "tours");
+
+  let q = query(collectionRef);
+
+  onSnapshot(q, (querySnapshot) => {
+    const tourData = [];
+
+    querySnapshot.forEach((doc) => {
+      const tour = {
+        id: doc.id,
+        ...doc.data(),
+      };
+      tourData.push(tour);
+    });
+
+    tours.value = tourData;
+    dataLength.value = tourData.length;
   });
+};
+
+onMounted(() => {
+  loadData();
+});
 </script>
 
 <style lang="scss" scoped></style>
