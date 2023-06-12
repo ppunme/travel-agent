@@ -7,6 +7,7 @@ import CreateTour from "@/views/App/CreateTour.vue";
 import EditTour from "@/views/App/EditTour.vue";
 import Login from "@/views/Admin/Login.vue";
 import Register from "@/views/Admin/Register.vue";
+import NotFound from "@/layout/NotFound.vue";
 
 const routes = [
   {
@@ -49,6 +50,7 @@ const routes = [
     name: "register",
     component: Register,
   },
+  { path: "/:pathMatch(.*)", component: NotFound },
 ];
 
 const scrollBehavior = (to, from, savedPosition) => {

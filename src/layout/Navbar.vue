@@ -93,7 +93,7 @@
     <Transition name="slide-fade">
       <div
         v-if="showMenu"
-        class="md:hidden absolute inset-x-0 top-[115px] bg-[#333] z-20"
+        class="md:hidden absolute inset-x-0 top-[119px] bg-[#333] z-20"
         style="height: calc(100vh - 50px)">
         <div class="flex flex-col px-6">
           <router-link
