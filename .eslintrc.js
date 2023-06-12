@@ -24,6 +24,7 @@ module.exports = {
       "error",
       {
         singleAttributePerLine: true,
+        vueIndentScriptAndStyle: false,
         bracketSameLine: true,
       },
     ],
