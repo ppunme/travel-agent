@@ -1,44 +1,4 @@
 <template>
-  <!-- <nav class="relative">
-    <div class="container mx-auto h-36 grid grid-cols-3 content-center">
-      <div class="flex">
-        <img src="@/assets/images/logo.png" alt="" />
-        <h4 class="ml-4 self-center font-semibold w-40 logo-text">
-          Wellness Life Travel
-        </h4>
-      </div>
-      <div class="flex gap-28 justify-center">
-        <router-link class="self-center" to="/">หน้าแรก</router-link>
-        <router-link class="self-center" to="/tours">แพ็คเกจทัวร์</router-link>
-        <router-link class="self-center" to="/contact">ติดต่อเรา</router-link>
-      </div>
-      <div class="absolute right-0 top-1/2 translate-y-[-50%]">
-        <div
-          class="social-media-bg w-60 h-20 pl-4 pr-2 self-center rounded-l-[5rem] flex justify-around"
-        >
-          <font-awesome-icon
-            :icon="['fab', 'square-facebook']"
-            size="2xl"
-            style="color: #ffffff"
-            class="self-center"
-          />
-          <font-awesome-icon
-            :icon="['fab', 'instagram']"
-            size="2xl"
-            style="color: #ffffff"
-            class="self-center"
-          />
-          <font-awesome-icon
-            :icon="['fab', 'twitter']"
-            size="2xl"
-            style="color: #ffffff"
-            class="self-center"
-          />
-        </div>
-      </div>
-    </div>
-  </nav> -->
-
   <nav
     class="navbar text-primary-blue relative z-10 md:h-36 md:flex md:items-center"
   >

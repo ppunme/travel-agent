@@ -51,16 +51,14 @@
       <div
         v-for="item in selectedTours"
         :key="item.index"
-        class="flex justify-center cursor-pointer hover:opacity-80"
+        class="flex justify-center cursor-pointer hover:opacity-80 rounded-xl shadow-md square-image"
         @click="viewPackage(item.id)"
       >
-        <div class="square-image">
-          <img
-            :src="item.image"
-            :alt="item.name"
-            class="rounded-xl shadow-lg shadow-gray-300"
-          >
-        </div>
+        <img
+          :src="item.image"
+          :alt="item.name"
+          class="rounded-xl shadow-md"
+        >
       </div>
     </div>
   </div>
@@ -118,108 +116,109 @@ const viewPackage = (id) => {
   router.push(`/tours/${id}`);
 };
 
-  const onDialogUpdate = (value) => {
-    visible.value = value;
-  };
+const onDialogUpdate = (value) => {
+  visible.value = value;
+};
 
-  const onAddRow = () => {
-    selectedTours.value.push({
-      id: null,
-      image: null,
-      name: null,
-      label: null,
-      value: null,
+const onAddRow = () => {
+  selectedTours.value.push({
+    id: null,
+    image: null,
+    name: null,
+    label: null,
+    value: null,
+  });
+};
+
+const updateSelectedTours = (index, tour) => {
+  selectedTours.value.splice(index, 1, tour);
+};
+
+const handleCancel = (value) => {
+  visibleDelete.value = value;
+};
+
+const handleDelete = (index, item) => {
+  if (item.id) {
+    visibleDelete.value = true;
+    deleteIndex.value = index;
+    deleteItem.value = item.id;
+  } else {
+    selectedTours.value.splice(index, 1);
+  }
+};
+
+const confirmAction = async () => {
+  visibleDelete.value = false;
+
+  if (deleteItem.value) {
+    await updateDoc(doc(db, "tours", deleteItem.value), {
+      selected: deleteField(),
+      seq: deleteField(),
     });
-  };
 
-  const updateSelectedTours = (index, tour) => {
-    selectedTours.value.splice(index, 1, tour);
-  };
+    toast.add({ severity: "error", summary: "Item deleted", life: 2000 });
+  }
+};
 
-  const handleCancel = (value) => {
-    visibleDelete.value = value;
-  };
+const handleDrop = (e, newIndex) => {
+  e.preventDefault();
+  const oldIndex = e.dataTransfer.getData("text/plain");
+  const item = selectedTours.value.splice(oldIndex, 1)[0];
+  selectedTours.value.splice(newIndex, 0, item);
+  toast.add({ severity: "success", summary: "Rows Reordered", life: 2000 });
+};
 
-  const handleDelete = (index, item) => {
-    if (item.id) {
-      visibleDelete.value = true;
-      deleteIndex.value = index;
-      deleteItem.value = item.id;
-    } else {
-      selectedTours.value.splice(index, 1);
-    }
-  };
+const onSubmit = () => {
+  loading.value = true;
+  console.log("onSubmit", selectedTours.value);
 
-  const confirmAction = async () => {
-    visibleDelete.value = false;
-
-    if (deleteItem.value) {
-      await updateDoc(doc(db, "tours", deleteItem.value), {
-        selected: deleteField(),
-        seq: deleteField(),
-      });
-
-      toast.add({ severity: "error", summary: "Item deleted", life: 2000 });
-    }
-  };
-
-  const handleDrop = (e, newIndex) => {
-    e.preventDefault();
-    const oldIndex = e.dataTransfer.getData("text/plain");
-    const item = selectedTours.value.splice(oldIndex, 1)[0];
-    selectedTours.value.splice(newIndex, 0, item);
-    toast.add({ severity: "success", summary: "Rows Reordered", life: 2000 });
-  };
-
-  const onSubmit = () => {
-    loading.value = true;
-    console.log("onSubmit", selectedTours.value);
-
-    selectedTours.value.forEach(async (item, index) => {
-      await updateDoc(doc(db, "tours", item.id), {
-        selected: true,
-        seq: index,
-      });
-      loading.value = false;
-      visible.value = false;
+  selectedTours.value.forEach(async (item, index) => {
+    await updateDoc(doc(db, "tours", item.id), {
+      selected: true,
+      seq: index,
     });
-  };
+    loading.value = false;
+    visible.value = false;
+  });
+};
 
-  onMounted(() => {
-    onSnapshot(collection(db, "tours"), (querySnapshot) => {
-      const tourData = [];
+onMounted(() => {
+  onSnapshot(collection(db, "tours"), (querySnapshot) => {
+    const tourData = [];
 
-      querySnapshot.forEach((doc) => {
-        //console.log("doc", doc);
-        const tour = {
-          id: doc.id,
-          name: doc.data().fileName,
-          image: doc.data().image,
-          label: doc.data().fileName,
-          selected: doc.data().selected,
-          seq: doc.data().seq,
-          value: doc.id,
-        };
-        //console.log("tour", tour);
-        tourData.push(tour);
-      });
+    querySnapshot.forEach((doc) => {
+      //console.log("doc", doc);
+      const tour = {
+        id: doc.id,
+        name: doc.data().fileName,
+        image: doc.data().image,
+        label: doc.data().fileName,
+        selected: doc.data().selected,
+        seq: doc.data().seq,
+        value: doc.id,
+      };
+      //console.log("tour", tour);
+      tourData.push(tour);
+    });
 
-      const selected = tourData.filter((tour) => tour.selected);
-      const sortedSelected = selected.sort((a, b) => a.seq - b.seq);
+    const selected = tourData.filter((tour) => tour.selected);
+    const sortedSelected = selected.sort((a, b) => a.seq - b.seq);
 
     tours.value = tourData;
     selectedTours.value = sortedSelected;
-  })})
+  });
+});
 </script>
 
 <style scoped>
-  .square-image {
-    aspect-ratio: 1/1;
-  }
+.square-image {
+  aspect-ratio: 1/1;
+}
 
-  .square-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+.square-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 </style>
