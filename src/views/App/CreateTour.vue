@@ -202,7 +202,7 @@
 import { watch, ref, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 import { useField, useForm } from "vee-validate";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/firebase";
 import store from "@/store";
 
@@ -421,6 +421,7 @@ const onSubmit = handleSubmit(async (values) => {
   try {
     values.countries = values.countries.map((item) => item.name);
     values.image = tour.value.image;
+    values.createdAt = serverTimestamp();
 
     const docRef = await addDoc(collection(db, "tours"), values);
     console.log(docRef);
