@@ -8,7 +8,7 @@ import EditTour from "@/views/App/EditTour.vue";
 import Login from "@/views/Admin/Login.vue";
 import Register from "@/views/Admin/Register.vue";
 import NotFound from "@/layout/NotFound.vue";
-import Unauthorised from "@/layout/Unauthorised.vue";
+import Unauthorized from "@/layout/Unauthorized.vue";
 
 const routes = [
   {
@@ -58,7 +58,7 @@ const routes = [
     component: Register,
   },
   { path: "/:pathMatch(.*)", component: NotFound },
-  { path: "/forbidden", component: Unauthorised },
+  { path: "/unauthorized", component: Unauthorized },
 ];
 
 const scrollBehavior = (to, from, savedPosition) => {
@@ -79,7 +79,7 @@ router.beforeEach((to, from, next) => {
   console.log("token", token === null);
 
   if (to.meta.requiresAuth && token === null) {
-    router.push("/forbidden"); // Redirect to the forbidden page if not authenticated
+    router.push("/unauthorized"); // Redirect to the forbidden page if not authenticated
   } else {
     next(); // Continue navigation
   }
