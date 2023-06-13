@@ -37,11 +37,10 @@
                   :class="fileName && '!hidden'"
                   mode="basic"
                   name="image[]"
-                  accept="image/*"
-                  :maxFileSize="10000000"
                   @select="onSelectedFiles" />
                 <button
                   v-if="clearButton"
+                  type="button"
                   @click="clearFile">
                   <font-awesome-icon
                     :icon="['far', 'circle-xmark']"
@@ -211,6 +210,10 @@ import { db } from "@/firebase";
 import store from "@/store";
 
 import { data } from "@/services/CountryList";
+import {
+  isValidImageFileType,
+  isValidImageFileSize,
+} from "@/utils/GlobalFunction";
 import TourPackageCard from "@/components/TourPackageCard.vue";
 import ConfirmModal from "@/components/ConfirmModal.vue";
 
@@ -244,6 +247,29 @@ const handleEdit = () => {
 
 const onSelectedFiles = async (event) => {
   const file = event.files[0];
+  if (!isValidImageFileType(file)) {
+    store.dispatch("showToast", {
+      severity: "error",
+      summary: "ไม่สามารถอัพโหลดได้เนื่องจาก",
+      detail: "ประเภทของไฟล์ไม่ถูกต้อง ไฟล์ต้องเป็น png, jpg, jpeg เท่านั้น",
+    });
+
+    fileUpload.value.clear();
+
+    return;
+  }
+
+  if (!isValidImageFileSize(file)) {
+    store.dispatch("showToast", {
+      severity: "error",
+      summary: "ไม่สามารถอัพโหลดได้เนื่องจาก",
+      detail: "ขนาดของไฟล์ไม่ถูกต้อง ไฟล์ต้องมีขนาดไม่เกิน 2 MB",
+    });
+
+    fileUpload.value.clear();
+
+    return;
+  }
 
   const reader = new FileReader();
   let blob = await fetch(file.objectURL).then((r) => r.blob());
@@ -259,7 +285,7 @@ const onSelectedFiles = async (event) => {
   };
 };
 
-const clearFile = async () => {
+const clearFile = () => {
   fileUpload.value.clear();
   tour.value.image = null;
   tour.value.fileName = null;
@@ -449,7 +475,6 @@ const base64ToBlob = async (base64String) => {
 };
 
 onMounted(async () => {
-  console.log("aa");
   const docRef = doc(db, "tours", route.params.tourId);
 
   onSnapshot(docRef, (docSnapshot) => {

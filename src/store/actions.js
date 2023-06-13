@@ -6,6 +6,6 @@ export default {
     commit("logout");
   },
   showToast({ commit }, content) {
-    commit("setToast", { ...content, life: 3000 });
+    commit("setToast", { ...content, life: 5000 });
   },
 };
