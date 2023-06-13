@@ -37,8 +37,6 @@
                   :class="fileName && '!hidden'"
                   mode="basic"
                   name="image[]"
-                  accept="image/*"
-                  :maxFileSize="10000000"
                   @select="onSelectedFiles" />
 
                 <button
@@ -209,6 +207,10 @@ import { db } from "@/firebase";
 import store from "@/store";
 
 import { data } from "@/services/CountryList";
+import {
+  isValidImageFileType,
+  isValidImageFileSize,
+} from "@/utils/GlobalFunction";
 import TourPackageCard from "@/components/TourPackageCard.vue";
 
 const router = useRouter();
@@ -231,6 +233,30 @@ const tour = ref({
 
 const onSelectedFiles = async (event) => {
   const file = event.files[0];
+
+  if (!isValidImageFileType(file)) {
+    store.dispatch("showToast", {
+      severity: "error",
+      summary: "ไม่สามารถอัพโหลดได้เนื่องจาก",
+      detail: "ประเภทของไฟล์ไม่ถูกต้อง ไฟล์ต้องเป็น png, jpg, jpeg เท่านั้น",
+    });
+
+    fileUpload.value.clear();
+
+    return;
+  }
+
+  if (!isValidImageFileSize(file)) {
+    store.dispatch("showToast", {
+      severity: "error",
+      summary: "ไม่สามารถอัพโหลดได้เนื่องจาก",
+      detail: "ขนาดของไฟล์ไม่ถูกต้อง ไฟล์ต้องมีขนาดไม่เกิน 2 MB",
+    });
+
+    fileUpload.value.clear();
+
+    return;
+  }
 
   const reader = new FileReader();
   let blob = await fetch(file.objectURL).then((r) => r.blob());
