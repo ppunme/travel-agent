@@ -3,73 +3,16 @@
     <FileUpload
       chooseLabel="เพิ่มรูป"
       mode="basic"
-      name="demo[]"
-      url="./upload.php"
+      name="image[]"
       accept="image/*"
-      :maxFileSize="3140000"
       :auto="true"
-      invalid-file-size-message="file size should be smaller than 3.14 MB."
-      @select="customBase64Uploader" />
+      @select="onSelectedFiles" />
   </div>
   <div class="bg-neutral-100 rounded-lg p-2 mt-2 min-h-[220px]">
     <div
       v-for="(item, idx) in items"
       :key="item.id"
       :class="['file-item', { 'mb-2': idx !== items.length - 1 }]">
-      <!-- <div class="flex flex-row gap-2 lg:gap-6">
-        <div class="flex flex-col w-2/5 md:w-1/5">
-          <div class="img-container md:w-full">
-            <img
-              v-if="item"
-              :src="item.objectURL || item.img"
-              :alt="item.name"
-            />
-          </div>
-        </div>
-        <div class="flex flex-col w-3/5 md:w-4/5">
-          <div class="flex flex-col md:flex-row md:items-center md:h-full">
-            <div class="md:w-3/4">
-              <p class="ellipsis">{{ item.name }}</p>
-            </div>
-            <div class="md:w-1/4 flex justify-end items-end h-full">
-              <button
-                @click="moveItemUp(idx)"
-                type="button"
-                class="hover:opacity-90 pr-2"
-              >
-                <font-awesome-icon
-                  :icon="['fas', 'chevron-circle-up']"
-                  size="xl"
-                  class="text-primary-blue"
-                />
-              </button>
-              <button
-                @click="moveItemDown(idx)"
-                type="button"
-                class="hover:opacity-90 pr-6"
-              >
-                <font-awesome-icon
-                  :icon="['fas', 'chevron-circle-down']"
-                  size="xl"
-                  class="text-primary-blue"
-                />
-              </button>
-              <button
-                @click="onDelete(idx, item)"
-                type="button"
-                class="btn-delete"
-              >
-                <font-awesome-icon
-                  :icon="['fas', 'xmark']"
-                  size="lg"
-                  class="text-red-500"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div> -->
-
       <div class="flex flex-col md:flex-row gap-2 lg:gap-6">
         <div class="md:basis-1/5">
           <div class="img-container w-1/2 md:w-full">
@@ -118,52 +61,81 @@
 </template>
 
 <script setup>
-/* eslint-disable */
-  import { ref, watch, onMounted } from "vue";
+import { ref, watch } from "vue";
+import {
+  isValidImageFileType,
+  isValidImageFileSize,
+} from "@/utils/GlobalFunction";
+import store from "@/store";
 
-  const props = defineProps(["items"]);
-  const emit = defineEmits([
-    "handleAddImg",
-    "handleDelete",
-    "moveItemUp",
-    "moveItemDown",
-  ]);
+const props = defineProps(["items"]);
+const emit = defineEmits([
+  "handleAddImg",
+  "handleDelete",
+  "moveItemUp",
+  "moveItemDown",
+]);
 
-  const uploadedFile = ref([]);
+const uploadedFile = ref([]);
 
-  const customBase64Uploader = async (event) => {
-    const file = event.files[0];
-    const reader = new FileReader();
-    let blob = await fetch(file.objectURL).then((r) => r.blob()); //blob:url
+const onSelectedFiles = async (event) => {
+  const file = event.files[0];
 
-    reader.readAsDataURL(blob);
-    reader.onloadend = function () {
-      const base64data = reader.result;
-      uploadedFile.value.push(file);
-      emit("handleAddImg", file, base64data);
-    };
+  if (!isValidImageFileType(file)) {
+    store.dispatch("showToast", {
+      severity: "error",
+      summary: "ไม่สามารถอัพโหลดได้เนื่องจาก",
+      detail: "ประเภทของไฟล์ไม่ถูกต้อง ไฟล์ต้องเป็น png, jpg, jpeg เท่านั้น",
+    });
+
+    uploadedFile.value.clear();
+
+    return;
+  }
+
+  if (!isValidImageFileSize(file)) {
+    store.dispatch("showToast", {
+      severity: "error",
+      summary: "ไม่สามารถอัพโหลดได้เนื่องจาก",
+      detail: "ขนาดของไฟล์ไม่ถูกต้อง ไฟล์ต้องมีขนาดไม่เกิน 2 MB",
+    });
+
+    uploadedFile.value.clear();
+
+    return;
+  }
+
+  const reader = new FileReader();
+  let blob = await fetch(file.objectURL).then((r) => r.blob()); //blob:url
+
+  reader.readAsDataURL(blob);
+  reader.onloadend = function () {
+    const base64data = reader.result;
+    uploadedFile.value.push(file);
+    emit("handleAddImg", file, base64data);
   };
+};
 
-  const moveItemUp = (index) => {
-    if (index > 0) {
-      emit("moveItemUp", index);
-    }
-  };
+const moveItemUp = (index) => {
+  if (index > 0) {
+    emit("moveItemUp", index);
+  }
+};
 
-  const moveItemDown = (index) => {
-    if (index < props.items.length - 1) {
-      emit("moveItemDown", index);
-    }
-  };
+const moveItemDown = (index) => {
+  if (index < props.items.length - 1) {
+    emit("moveItemDown", index);
+  }
+};
 
-  const onDelete = (index, item) => {
-    emit("handleDelete", index, item);
-  };
+const onDelete = (index, item) => {
+  emit("handleDelete", index, item);
+};
 
-  watch(props.items.length, (newValue, oldValue) => {
-    console.log("watch:", oldValue);
-    console.log("upload file name", newValue);
-  });
+watch(props.items.length, (newValue, oldValue) => {
+  console.log("watch:", oldValue);
+  console.log("upload file name", newValue);
+});
 </script>
 
 <style></style>

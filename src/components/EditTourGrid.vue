@@ -29,21 +29,22 @@
       </div>
     </div>
   </div>
-  <div class="flex justify-center">
-    <div class="w-3/4">
-      <div
+  <div class="lg:w-3/4 mx-auto mt-6">
+    <div class="grid grid-cols-12 gap-3 items-center">
+      <template
         v-for="(item, idx) in selectedTours"
-        :key="item.id"
-        class="flex items-center mt-4">
-        <label class="w-32 pr-4">ภาพที่ {{ idx + 1 }}</label>
-        <div class="w-full flex items-center">
+        :key="item.id">
+        <div class="flex col-span-1 sm:col-span-2">
+          <span class="hidden sm:block">ภาพที่&nbsp;</span>{{ idx + 1 }}
+        </div>
+        <div class="col-span-9 sm:col-span-9">
           <Dropdown
             :modelValue="item"
             :options="tours"
             filter
             optionLabel="name"
             placeholder="Select a tour"
-            class="p-dropdown-sm w-full sm:w-14rem"
+            class="p-dropdown-sm w-full"
             @change="updateTour(idx, $event)">
             <template #option="slotProps">
               <div class="flex align-items-center">
@@ -51,26 +52,26 @@
               </div>
             </template>
           </Dropdown>
-          <button
-            type="button"
-            class="btn-delete ml-2"
-            @click="onDelete(idx, item)">
-            <font-awesome-icon
-              :icon="['fas', 'times']"
-              class="text-red-500" />
-          </button>
         </div>
-      </div>
-      <div class="mt-6">
-        <Button
-          class="w-28 !bg-green-add !border-none"
-          rounded
-          @click="addRow">
+        <button
+          type="button"
+          class="btn-delete justify-self-end col-span-2 sm:col-span-1"
+          @click="onDelete(idx, item)">
           <font-awesome-icon
-            :icon="['fas', 'plus']"
-            size="xl" /><span class="mx-auto">เพิ่ม</span>
-        </Button>
-      </div>
+            :icon="['fas', 'times']"
+            class="text-red-500" />
+        </button>
+      </template>
+    </div>
+    <div class="mt-6">
+      <Button
+        class="w-28 !bg-green-add !border-none"
+        rounded
+        @click="addRow">
+        <font-awesome-icon
+          :icon="['fas', 'plus']"
+          size="xl" /><span class="mx-auto">เพิ่ม</span>
+      </Button>
     </div>
   </div>
 </template>

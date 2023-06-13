@@ -3,12 +3,12 @@
     v-model:visible="visibleValue"
     modal
     :style="{ width: width ? width : '50vw' }"
-    :breakpoints="{ '1200px': '75vw', '641px': '95vw' }"
+    :breakpoints="{ '1281px': '75vw', '641px': '95vw' }"
     :draggable="false"
     :pt="{
       closeButton: { class: '!hidden' },
     }"
-    :class="[hideButton && 'reset-password', tourGrid && 'tour-grid']">
+    :class="[hideButton && 'reset-password']">
     <template #header>
       <h5 class="mx-auto">
         {{ header }}

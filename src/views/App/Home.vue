@@ -146,19 +146,17 @@ const onDialogUpdate = (value) => {
   visible.value = value;
 };
 
-// const confirmDelete = () => {
-//   visibleDelete.value = false;
+const confirmAction = () => {
+  visibleDelete.value = false;
 
-//   if (deleteItem.value) {
-//     items.value = items.value.filter((tour) => tour.id !== deleteItem.value);
-//     toast.add({
-//       severity: "error",
-//       summary: "Confirmed",
-//       detail: "รูปถูกลบแล้ว",
-//       life: 3000,
-//     });
-//   }
-// };
+  if (deleteItem.value) {
+    items.value = items.value.filter((tour) => tour.id !== deleteItem.value);
+    store.dispatch("showToast", {
+      severity: "success",
+      summary: "ลบข้อมูลเรียบร้อยแล้ว",
+    });
+  }
+};
 
 const moveItemUp = (index) => {
   if (index > 0) {
