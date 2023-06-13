@@ -52,8 +52,8 @@ import TourPackagesList from "@/components/TourPackagesList.vue";
 
 const tours = ref([]);
 const search = ref("");
-const pageSizeOptions = ref([4, 8, 16]);
-const pageSize = ref(4);
+const pageSizeOptions = ref([12, 24, 36]);
+const pageSize = ref(12);
 const dataLength = ref();
 const page = ref(0);
 
@@ -147,7 +147,20 @@ const loadData = async () => {
       tourData.push(tour);
     });
 
-    tours.value = tourData;
+    tours.value = tourData.sort((a, b) => {
+      const fieldA = a["createdAt"];
+      const fieldB = b["createdAt"];
+
+      if (fieldA < fieldB) {
+        return -1;
+      }
+
+      if (fieldA > fieldB) {
+        return 1;
+      }
+      return 0;
+    });
+
     dataLength.value = tourData.length;
 
     let options = [];
