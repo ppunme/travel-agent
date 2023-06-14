@@ -70,12 +70,8 @@
 
 <script setup>
 import { ref, watch, onMounted, computed } from "vue";
-import TourGrid from "@/components/TourGrid.vue";
-import ContactCard from "@/components/ContactCard.vue";
-import Modal from "@/components/Modal.vue";
-import EditCarousel from "@/components/EditCarousel.vue";
-import ConfirmModal from "@/components/ConfirmModal.vue";
-import { data } from "@/services/ContactList";
+import { db } from "@/firebase";
+import store from "@/store";
 import {
   collection,
   addDoc,
@@ -83,8 +79,13 @@ import {
   deleteDoc,
   onSnapshot,
 } from "firebase/firestore";
-import { db } from "@/firebase";
-import store from "@/store";
+
+import TourGrid from "@/components/TourGrid.vue";
+import ContactCard from "@/components/ContactCard.vue";
+import Modal from "@/components/Modal.vue";
+import EditCarousel from "@/components/EditCarousel.vue";
+import ConfirmModal from "@/components/ConfirmModal.vue";
+import { data } from "@/services/ContactList";
 
 const items = ref([]);
 const visible = ref(false);

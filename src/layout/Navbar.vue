@@ -131,7 +131,8 @@ const menuItems = ref([
   },
   {
     label: "แพ็คเกจทัวร์",
-    route: "/tours",
+    // route: "/tours",
+    route: { path: "/tours", query: { page: 1 } },
   },
   {
     label: "ติดต่อเรา",

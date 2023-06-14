@@ -36,6 +36,7 @@
       :rows="pageSize"
       :totalRecords="dataLength"
       :rowsPerPageOptions="pageSizeOptions"
+      :first="page * pageSize"
       class="py-8"
       @page="handlePageChange" />
   </div>
@@ -43,19 +44,24 @@
 
 <script setup>
 import { ref, watch, onMounted, computed } from "vue";
+import { useRoute } from "vue-router";
+
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { db } from "@/firebase";
 import store from "@/store";
 
 import Toolbar from "@/components/Toolbar.vue";
 import TourPackagesList from "@/components/TourPackagesList.vue";
+import router from "@/router";
+
+const route = useRoute();
 
 const tours = ref([]);
 const search = ref("");
 const pageSizeOptions = ref([12, 24, 36]);
 const pageSize = ref(12);
 const dataLength = ref();
-const page = ref(0);
+const page = ref(route.query.page - 1);
 
 const selectedCountry = ref();
 const countries = ref();
@@ -84,6 +90,7 @@ watch(search, () => {
 const handlePageChange = (e) => {
   pageSize.value = e.rows;
   page.value = e.page;
+  router.push({ path: "/tours", query: { page: e.page + 1 } });
 };
 
 const filteredTours = computed(() => {
