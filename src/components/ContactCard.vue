@@ -2,11 +2,11 @@
   <div class="relative">
     <img
       :src="bgImage"
-      class="absolute top-0 object-cover h-[550px] lg:h-[480px] w-full" />
-    <div class="overlay h-[550px] lg:h-[480px]" />
+      class="absolute top-0 object-cover h-[450px] sm:h-[550px] lg:h-[480px] w-full" />
+    <div class="overlay h-[450px] sm:h-[550px] lg:h-[480px]" />
 
     <div
-      class="flex flex-col lg:flex-row text-center lg:text-left text items-center h-[550px] lg:h-[480px]">
+      class="flex flex-col lg:flex-row text-center lg:text-left text items-center h-[450px] sm:h-[550px] lg:h-[480px]">
       <div class="basis-1/2">
         <div class="flex flex-col items-center lg:items-start pt-8">
           <img
