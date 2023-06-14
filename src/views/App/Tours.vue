@@ -23,6 +23,7 @@
     </div>
 
     <TourPackagesList :tours="paginatedTours" />
+
     <Paginator
       :template="{
         '639px': 'PrevPageLink CurrentPageReport NextPageLink',
@@ -92,6 +93,11 @@ const handlePageChange = (e) => {
   page.value = e.page;
   router.push({ path: "/tours", query: { page: e.page + 1 } });
 };
+
+watch(route, () => {
+  page.value = route.query.page - 1;
+  console.log(route.query.page);
+});
 
 const filteredTours = computed(() => {
   let filtered = tours.value;
