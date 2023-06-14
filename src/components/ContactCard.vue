@@ -12,7 +12,9 @@
           <img
             :src="lineQrCode"
             class="self-center w-36 sm:w-auto" />
-          <p class="self-center pt-8 lg:pt-3">
+          <p
+            class="self-center pt-8 lg:pt-3 cursor-pointer"
+            @click="addLineID">
             <font-awesome-icon
               :icon="line.icon"
               size="2xl"
@@ -46,16 +48,9 @@
 <script setup>
 import lineQrCode from "@/assets/images/line-qr-code.png";
 import bgImage from "@/assets/images/home-contact-bg.png";
+import { sendEmail, makePhoneCall, addLineID } from "@/utils/GlobalFunction";
 
 defineProps(["contacts", "line"]);
-
-const sendEmail = () => {
-  window.open("mailto:wellnesslifetravel@gmail.com?subject=Inquiry", "_blank");
-};
-
-const makePhoneCall = () => {
-  window.location.href = "tel:0932392359";
-};
 
 const handleClick = (name, link) => {
   switch (name) {
