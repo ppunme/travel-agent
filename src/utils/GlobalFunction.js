@@ -10,10 +10,12 @@ export const isValidImageFileSize = (file) => {
 };
 
 export const goToMessenger = () => {
-  window.open(
-    "https://www.facebook.com/messages/t/wellnesslifetravel",
-    "_blank"
-  );
+  //const userAgent = navigator.userAgent.toLowerCase();
+
+  const messengerURL = "https://m.me/wellnesslifetravel";
+  // const messengerURL = " fb-messenger://user-thread/2133611536658022";
+
+  window.location.href = messengerURL;
 };
 
 export const sendEmail = () => {
