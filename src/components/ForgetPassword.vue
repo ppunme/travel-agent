@@ -9,7 +9,7 @@
       placeholder="อีเมล"
       class="all-input !rounded-full w-full !mt-6" />
     <small class="p-error w-full flex justify-start">{{
-      errorEmail || "&nbsp;"
+      errorEmail || errorLogin || "&nbsp;"
     }}</small>
     <Button
       label="รีเซ็ตรหัสผ่าน"
@@ -25,6 +25,7 @@ import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { useField, useForm } from "vee-validate";
 
 const loading = ref(false);
+const errorLogin = ref("");
 
 const emit = defineEmits(["update:visible", "showSuccess"]);
 
@@ -39,6 +40,7 @@ function validateEmail(value) {
   if (!value) {
     return "กรุณากรอกอีเมล";
   }
+  errorLogin.value = "";
 
   return true;
 }
@@ -53,8 +55,8 @@ const resetPassword = handleSubmit(() => {
       emit("showSuccess", true);
       loading.value = false;
     })
-    .catch((error) => {
-      alert(error.message);
+    .catch(() => {
+      errorLogin.value = "ชื่อผู้ใช้ไม่ถูกต้อง";
       loading.value = false;
     });
 });
