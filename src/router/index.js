@@ -80,7 +80,7 @@ router.beforeEach((to, from, next) => {
   console.log("token", token === null);
 
   if (to.meta.requiresAuth && token === null) {
-    router.push("/unauthorized"); // Redirect to the forbidden page if not authenticated
+    router.push("/travel-agent/unauthorized"); // Redirect to the forbidden page if not authenticated
   } else {
     next(); // Continue navigation
   }

@@ -267,7 +267,7 @@ const confirmAction = async () => {
       summary: "ลบข้อมูลเรียบร้อยแล้ว",
     });
 
-    router.push("/tours");
+    router.push("/travel-agent/tours");
   } catch (error) {
     if (error) {
       store.dispatch("showToast", {

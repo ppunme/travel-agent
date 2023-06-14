@@ -91,7 +91,7 @@ watch(search, () => {
 const handlePageChange = (e) => {
   pageSize.value = e.rows;
   page.value = e.page;
-  router.push({ path: "/tours", query: { page: e.page + 1 } });
+  router.push({ path: "/travel-agent/tours", query: { page: e.page + 1 } });
 };
 
 watch(route, () => {

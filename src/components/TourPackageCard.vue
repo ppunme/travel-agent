@@ -87,7 +87,7 @@ const openNewRoute = async (id) => {
     };
 
     const url = router.resolve({
-      path: "/tours/preview",
+      path: "/travel-agent/tours/preview",
       query: previewData,
       target: "_blank",
     });

@@ -10,7 +10,7 @@
         The page you are looking for does not exist.
       </p>
       <router-link
-        to="/"
+        to="/travel-agent/"
         class="mt-8 px-6 py-3 text-lg text-white bg-primary-blue hover:opacity-90 rounded-full"
         >กลับสู่หน้าหลัก</router-link
       >
