@@ -68,7 +68,6 @@ import { ref, onMounted, computed } from "vue";
 import Modal from "@/components/Modal.vue";
 import ConfirmModal from "@/components/ConfirmModal.vue";
 import EditTourGrid from "@/components/EditTourGrid.vue";
-import { useToast } from "primevue/usetoast";
 import {
   doc,
   collection,
@@ -81,7 +80,6 @@ import { useRouter } from "vue-router";
 import store from "@/store";
 
 const router = useRouter();
-const toast = useToast();
 
 const tours = ref();
 const visible = ref(false);
@@ -89,6 +87,7 @@ const visibleDelete = ref(false);
 const deleteIndex = ref(null);
 const deleteItem = ref(null);
 const dataLength = ref(0);
+const changedItem = ref([]);
 
 const loading = ref(false);
 
@@ -137,7 +136,11 @@ const onAddRow = () => {
   });
 };
 
-const updateSelectedTours = (index, tour) => {
+const updateSelectedTours = async (index, tour) => {
+  if (tour.id) {
+    changedItem.value.push(selectedToursEdit.value[index].id);
+  }
+
   selectedToursEdit.value.splice(index, 1, tour);
 };
 
@@ -164,7 +167,10 @@ const confirmAction = async () => {
       seq: deleteField(),
     });
 
-    toast.add({ severity: "error", summary: "Item deleted", life: 2000 });
+    store.dispatch("showToast", {
+      severity: "success",
+      summary: "ลบข้อมูลเรียบร้อยแล้ว",
+    });
   }
 };
 
@@ -173,11 +179,21 @@ const handleDrop = (e, newIndex) => {
   const oldIndex = e.dataTransfer.getData("text/plain");
   const item = selectedToursEdit.value.splice(oldIndex, 1)[0];
   selectedToursEdit.value.splice(newIndex, 0, item);
-  toast.add({ severity: "success", summary: "Rows Reordered", life: 2000 });
+  store.dispatch("showToast", {
+    severity: "success",
+    summary: "จัดเรียงข้อมูลใหม่เรียบร้อยแล้ว",
+  });
 };
 
 const onSubmit = () => {
   loading.value = true;
+
+  changedItem.value.forEach(async (item) => {
+    await updateDoc(doc(db, "tours", item), {
+      selected: deleteField(),
+      seq: deleteField(),
+    });
+  });
 
   selectedToursEdit.value.forEach(async (item, index) => {
     await updateDoc(doc(db, "tours", item.id), {
