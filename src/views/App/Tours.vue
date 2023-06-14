@@ -14,7 +14,7 @@
       <Button
         class="w-48 !bg-green-add !my-8"
         rounded
-        @click="$router.push(`/tours/create`)">
+        @click="$router.push(`/travel-agent/tours/create`)">
         <font-awesome-icon
           :icon="['fas', 'plus']"
           size="xl" />

@@ -7,7 +7,9 @@
         v-if="route.params.tourId !== 'preview' && tour"
         class="w-18 md:w-32 !bg-[#F5A327] !mb-12"
         rounded
-        @click="$router.push(`/tours/edit/${$route.params.tourId}`)">
+        @click="
+          $router.push(`/travel-agent/tours/edit/${$route.params.tourId}`)
+        ">
         <font-awesome-icon
           :icon="['fas', 'pen']"
           size="lg" /><span class="mx-auto"

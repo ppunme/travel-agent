@@ -14,7 +14,9 @@
         label="ดูทั้งหมด"
         rounded
         class="w-32 !bg-primary-blue !border-none"
-        @click="$router.push({ path: '/tours', query: { page: 1 } })" />
+        @click="
+          $router.push({ path: '/travel-agent/tours', query: { page: 1 } })
+        " />
     </div>
   </div>
   <ContactCard

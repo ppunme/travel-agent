@@ -49,7 +49,7 @@ const router = useRouter();
 
 const openNewRoute = async (id) => {
   if (!props.management) {
-    router.push(`/tours/${id}`);
+    router.push(`/travel-agent/tours/${id}`);
   } else {
     const nameValidate = await props.nameValidate();
     const airlineValidate = await props.airlineValidate();
