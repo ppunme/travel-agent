@@ -28,7 +28,9 @@
         @handleDelete="handleDelete"
         @handleDrop="handleDrop" />
     </Modal>
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-12">
+    <div
+      v-if="dataLength > 0"
+      class="grid grid-cols-2 md:grid-cols-3 gap-12">
       <div
         v-for="item in selectedTours"
         :key="item.index"
@@ -38,6 +40,18 @@
           :src="item.image"
           :alt="item.name"
           class="rounded-xl shadow-md" />
+      </div>
+    </div>
+    <div
+      v-if="dataLength === 0"
+      class="grid grid-cols-2 md:grid-cols-3 gap-12">
+      <div
+        v-for="index in 3"
+        :key="index"
+        class="square-image">
+        <Skeleton
+          class="!h-full !rounded-xl shadow-md"
+          :class="index === 3 && 'hidden md:block'"></Skeleton>
       </div>
     </div>
   </div>
@@ -73,6 +87,7 @@ const visible = ref(false);
 const visibleDelete = ref(false);
 const deleteIndex = ref(null);
 const deleteItem = ref(null);
+const dataLength = ref(0);
 
 const loading = ref(false);
 
@@ -183,6 +198,7 @@ onMounted(() => {
 
     tours.value = tourData;
     selectedTours.value = sortedSelected;
+    dataLength.value = sortedSelected.length;
   });
 });
 </script>

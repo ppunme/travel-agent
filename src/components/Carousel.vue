@@ -26,6 +26,7 @@
       @moveItemDown="moveItemDown" />
   </Modal>
   <Carousel
+    v-if="items.length > 0"
     :value="items"
     :numVisible="1"
     :numScroll="1"
@@ -40,6 +41,11 @@
       </div>
     </template>
   </Carousel>
+  <Skeleton
+    v-if="items.length === 0"
+    width="100%"
+    class="!rounded-none !h-[60vw] md:!h-[35vw]"></Skeleton>
+
   <ConfirmModal
     header="Delete"
     :visible="visibleDelete"
