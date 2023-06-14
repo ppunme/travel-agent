@@ -69,6 +69,7 @@ const scrollBehavior = (to, from, savedPosition) => {
 
 const router = createRouter({
   history: createWebHistory(),
+  base: "/travel-agent/",
   routes,
   scrollBehavior,
 });
