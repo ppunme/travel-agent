@@ -12,27 +12,27 @@ import Unauthorized from "@/layout/Unauthorized.vue";
 
 const routes = [
   {
-    path: "/",
+    path: "/travel-agent/",
     name: "home",
     component: Home,
   },
   {
-    path: "/contact",
+    path: "/travel-agent/contact",
     name: "contact",
     component: Contact,
   },
   {
-    path: "/tours",
+    path: "/travel-agent/tours",
     name: "tours",
     component: Tours,
   },
   {
-    path: "/tours/:tourId",
+    path: "/travel-agent/tours/:tourId",
     name: "tour-detail",
     component: TourDetails,
   },
   {
-    path: "/tours/create",
+    path: "/travel-agent/tours/create",
     name: "create-tour",
     component: CreateTour,
     meta: {
@@ -40,7 +40,7 @@ const routes = [
     },
   },
   {
-    path: "/tours/edit/:tourId",
+    path: "/travel-agent/tours/edit/:tourId",
     name: "edit-tour",
     component: EditTour,
     meta: {
@@ -48,17 +48,17 @@ const routes = [
     },
   },
   {
-    path: "/admin",
+    path: "/travel-agent/admin",
     name: "login",
     component: Login,
   },
   {
-    path: "/register",
+    path: "/travel-agent/register",
     name: "register",
     component: Register,
   },
-  { path: "/:pathMatch(.*)", component: NotFound },
-  { path: "/unauthorized", component: Unauthorized },
+  { path: "/travel-agent/:pathMatch(.*)", component: NotFound },
+  { path: "/travel-agent/unauthorized", component: Unauthorized },
 ];
 
 const scrollBehavior = (to, from, savedPosition) => {
