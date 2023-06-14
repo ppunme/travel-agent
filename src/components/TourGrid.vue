@@ -6,7 +6,7 @@
       <Button
         rounded
         class="w-32 !bg-amber-500 !border-none"
-        @click="visible = true">
+        @click="openEditModal">
         <font-awesome-icon
           :icon="['fas', 'pen']"
           size="xl" />
@@ -22,7 +22,7 @@
       @onSubmit="onSubmit">
       <EditTourGrid
         :tours="tours"
-        :selectedTours="selectedTours"
+        :selectedTours="selectedToursEdit"
         @onAddRow="onAddRow"
         @updateSelectedTours="updateSelectedTours"
         @handleDelete="handleDelete"
@@ -67,8 +67,9 @@ import { useRouter } from "vue-router";
 import store from "@/store";
 
 const router = useRouter();
-
 const toast = useToast();
+
+const tours = ref();
 const visible = ref(false);
 const visibleDelete = ref(false);
 const deleteIndex = ref(null);
@@ -88,7 +89,20 @@ const selectedTours = ref([
   },
 ]);
 
-const tours = ref();
+const selectedToursEdit = ref([
+  {
+    id: "",
+    image: "",
+    name: "",
+    label: "",
+    value: "",
+  },
+]);
+
+const openEditModal = () => {
+  visible.value = true;
+  fetchData();
+};
 
 const viewPackage = (id) => {
   router.push(`/tours/${id}`);
@@ -99,7 +113,7 @@ const onDialogUpdate = (value) => {
 };
 
 const onAddRow = () => {
-  selectedTours.value.push({
+  selectedToursEdit.value.push({
     id: null,
     image: null,
     name: null,
@@ -109,7 +123,7 @@ const onAddRow = () => {
 };
 
 const updateSelectedTours = (index, tour) => {
-  selectedTours.value.splice(index, 1, tour);
+  selectedToursEdit.value.splice(index, 1, tour);
 };
 
 const handleCancel = (value) => {
@@ -122,7 +136,7 @@ const handleDelete = (index, item) => {
     deleteIndex.value = index;
     deleteItem.value = item.id;
   } else {
-    selectedTours.value.splice(index, 1);
+    selectedToursEdit.value.splice(index, 1);
   }
 };
 
@@ -142,15 +156,15 @@ const confirmAction = async () => {
 const handleDrop = (e, newIndex) => {
   e.preventDefault();
   const oldIndex = e.dataTransfer.getData("text/plain");
-  const item = selectedTours.value.splice(oldIndex, 1)[0];
-  selectedTours.value.splice(newIndex, 0, item);
+  const item = selectedToursEdit.value.splice(oldIndex, 1)[0];
+  selectedToursEdit.value.splice(newIndex, 0, item);
   toast.add({ severity: "success", summary: "Rows Reordered", life: 2000 });
 };
 
 const onSubmit = () => {
   loading.value = true;
 
-  selectedTours.value.forEach(async (item, index) => {
+  selectedToursEdit.value.forEach(async (item, index) => {
     await updateDoc(doc(db, "tours", item.id), {
       selected: true,
       seq: index,
@@ -160,7 +174,7 @@ const onSubmit = () => {
   });
 };
 
-onMounted(() => {
+const fetchData = () => {
   onSnapshot(collection(db, "tours"), (querySnapshot) => {
     const tourData = [];
 
@@ -177,13 +191,18 @@ onMounted(() => {
 
       tourData.push(tour);
     });
+    tours.value = tourData;
 
     const selected = tourData.filter((tour) => tour.selected);
     const sortedSelected = selected.sort((a, b) => a.seq - b.seq);
 
-    tours.value = tourData;
-    selectedTours.value = sortedSelected;
+    selectedTours.value = [...sortedSelected];
+    selectedToursEdit.value = [...sortedSelected];
   });
+};
+
+onMounted(() => {
+  fetchData();
 });
 </script>
 

@@ -61,7 +61,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import {
   isValidImageFileType,
   isValidImageFileSize,
@@ -131,11 +131,6 @@ const moveItemDown = (index) => {
 const onDelete = (index, item) => {
   emit("handleDelete", index, item);
 };
-
-watch(props.items.length, (newValue, oldValue) => {
-  console.log("watch:", oldValue);
-  console.log("upload file name", newValue);
-});
 </script>
 
 <style></style>
