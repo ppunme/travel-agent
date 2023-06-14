@@ -53,7 +53,7 @@
                 class="hidden" />
               <small
                 v-if="fileNameError"
-                class="p-error">
+                class="block p-error">
                 {{ fileNameError }}
               </small>
             </div>
@@ -68,7 +68,7 @@
                 :class="nameError && 'p-invalid'" />
               <small
                 v-if="nameError"
-                class="p-error">
+                class="block p-error">
                 {{ nameError }}
               </small>
             </div>
@@ -101,7 +101,7 @@
               </MultiSelect>
               <small
                 v-if="countriesError"
-                class="p-error">
+                class="block p-error">
                 {{ countriesError }}
               </small>
             </div>
@@ -114,7 +114,7 @@
                 :class="`input-number ${daysError && 'p-invalid'}`" />
               <small
                 v-if="daysError"
-                class="block w-28 p-error">
+                class="block p-error">
                 {{ daysError }}
               </small>
             </div>
@@ -126,7 +126,7 @@
                 :class="`input-number ${nightsError && 'p-invalid'}`" />
               <small
                 v-if="nightsError"
-                class="block w-28 p-error">
+                class="block p-error">
                 {{ nightsError }}
               </small>
             </div>
@@ -140,7 +140,7 @@
                 :class="`input-price ${priceError && 'p-invalid'}`" />
               <small
                 v-if="priceError"
-                class="block w-28 p-error">
+                class="block p-error">
                 {{ priceError }}
               </small>
             </div>
@@ -157,7 +157,7 @@
                 :class="airlineError && 'p-invalid'" />
               <small
                 v-if="airlineError"
-                class="p-error">
+                class="ิblock p-error">
                 {{ airlineError }}
               </small>
             </div>
@@ -170,7 +170,7 @@
             :class="detailsError && 'p-invalid'" />
           <small
             v-if="detailsError"
-            class="block w-28 p-error">
+            class="block p-error">
             {{ detailsError }}
           </small>
 
@@ -288,7 +288,7 @@ watchEffect(() => {
 });
 
 const validateName = (value) => {
-  if (!value) return "Name is required.";
+  if (!value) return "กรุณากรอกหัวข้อ";
   return true;
 };
 
@@ -303,7 +303,7 @@ watch(name, (newValue) => {
 });
 
 const validateAirline = (value) => {
-  if (!value) return "Airline is required.";
+  if (!value) return "กรุณากรอกสายการบิน";
   return true;
 };
 
@@ -318,7 +318,7 @@ watch(airline, (newValue) => {
 });
 
 const validateDays = (value) => {
-  if (!value) return "Days is required.";
+  if (!value) return "กรุณากรอกจำนวนวัน";
   return true;
 };
 
@@ -333,7 +333,7 @@ watch(days, (newValue) => {
 });
 
 const validateNights = (value) => {
-  if (!value) return "Nights is required.";
+  if (!value) return "กรุณากรอกจำนวนคืน";
   return true;
 };
 
@@ -348,7 +348,7 @@ watch(nights, (newValue) => {
 });
 
 const validatePrice = (value) => {
-  if (!value) return "Price is required.";
+  if (!value) return "กรุณากรอกราคา";
   return true;
 };
 
@@ -363,7 +363,7 @@ watch(price, (newValue) => {
 });
 
 const validateCountries = (value) => {
-  if (!value || value.length < 1) return "Countries is required.";
+  if (!value || value.length < 1) return "กรุณาเลือกประเทศ";
   return true;
 };
 
@@ -378,7 +378,7 @@ watch(countries, (newValue) => {
 });
 
 const validateDetails = (value) => {
-  if (!value) return "Details is required.";
+  if (!value) return "กรุณากรอกรายละเอียดการเดินทาง";
 
   const htmlToString = (html) => {
     const tempElement = document.createElement("div");
@@ -387,7 +387,7 @@ const validateDetails = (value) => {
   };
 
   const plainString = htmlToString(value);
-  if (!plainString) return "Details is required.";
+  if (!plainString) return "กรุณากรอกรายละเอียดการเดินทาง";
 
   return true;
 };
@@ -403,7 +403,7 @@ watch(details, (newValue) => {
 });
 
 const validateFileName = (value) => {
-  if (!value) return "File is required.";
+  if (!value) return "กรุณาอัพโหลดรูปภาพ";
   return true;
 };
 
