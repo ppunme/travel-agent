@@ -1,30 +1,40 @@
 import { createRouter, createWebHistory } from "vue-router";
+import Home from "@/views/App/Home.vue";
+import Tours from "@/views/App/Tours.vue";
+import TourDetails from "@/views/App/TourDetails.vue";
+import Contact from "@/views/App/Contact.vue";
+import CreateTour from "@/views/App/CreateTour.vue";
+import EditTour from "@/views/App/EditTour.vue";
+import Login from "@/views/Admin/Login.vue";
+import Register from "@/views/Admin/Register.vue";
+import NotFound from "@/layout/NotFound.vue";
+import Unauthorized from "@/layout/Unauthorized.vue";
 
 const routes = [
   {
     path: "/",
     name: "home",
-    component: () => import("@/views/App/Home.vue"),
+    component: Home,
   },
   {
     path: "/contact",
     name: "contact",
-    component: () => import("@/views/App/Contact.vue"),
+    component: Contact,
   },
   {
     path: "/tours",
     name: "tours",
-    component: () => import("@/views/App/Tours.vue"),
+    component: Tours,
   },
   {
     path: "/tours/:tourId",
     name: "tour-detail",
-    component: () => import("@/views/App/TourDetails.vue"),
+    component: TourDetails,
   },
   {
     path: "/tours/create",
     name: "create-tour",
-    component: () => import("@/views/App/CreateTour.vue"),
+    component: CreateTour,
     meta: {
       requiresAuth: true,
     },
@@ -32,7 +42,7 @@ const routes = [
   {
     path: "/tours/edit/:tourId",
     name: "edit-tour",
-    component: () => import("@/views/App/EditTour.vue"),
+    component: EditTour,
     meta: {
       requiresAuth: true,
     },
@@ -40,21 +50,15 @@ const routes = [
   {
     path: "/admin",
     name: "login",
-    component: () => import("@/views/Admin/Login.vue"),
+    component: Login,
   },
   {
     path: "/register",
     name: "register",
-    component: () => import("@/views/Admin/Register.vue"),
+    component: Register,
   },
-  {
-    path: "/:pathMatch(.*)",
-    component: () => import("@/layout/NotFound.vue"),
-  },
-  {
-    path: "/unauthorized",
-    component: () => import("@/layout/Unauthorized.vue"),
-  },
+  { path: "/:pathMatch(.*)", component: NotFound },
+  { path: "/unauthorized", component: Unauthorized },
 ];
 
 const scrollBehavior = (to, from, savedPosition) => {
