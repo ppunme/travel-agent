@@ -28,35 +28,57 @@
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-5 lg:gap-10">
       <img
-        v-if="route.params.tourId === 'preview'"
+        v-if="route.params.tourId === 'preview' && route.query.image"
         :src="route.query.image"
         alt=""
         class="lg:col-span-2 w-full rounded-[20px]" />
+
       <img
         v-if="route.params.tourId !== 'preview' && tour"
         :src="tour.image"
         alt=""
         class="lg:col-span-2 w-full rounded-[20px]" />
+      <Skeleton
+        v-if="route.params.tourId !== 'preview' && !tour"
+        class="lg:col-span-2 !h-[85vw] sm:!h-[75vw] md:!h-[70vw] lg:!h-full !rounded-[20px]"></Skeleton>
+
       <div class="col-span-3 flex flex-col font-medium">
-        <h1 class="pb-8 mt-8 lg:mt-0">
+        <h1
+          v-if="(route.params.tourId !== 'preview' && tour) || route.query.name"
+          class="pb-8 mt-8 lg:mt-0">
           {{
             route.params.tourId !== "preview" && tour
               ? tour.name
               : route.query.name
           }}
         </h1>
+        <Skeleton
+          v-if="route.params.tourId !== 'preview' && !tour"
+          class="!rounded-[20px] mb-8 mt-8 lg:mt-0"
+          width="100%"
+          height="4rem"></Skeleton>
+
         <div
           class="h-full border border-y-primary-border-color border-x-0 py-10 flex flex-col justify-between">
           <div>
-            <h2 class="text-primary-blue mb-10">
+            <h2
+              v-if="
+                (route.params.tourId !== 'preview' && tour) || route.query.name
+              "
+              class="text-primary-blue mb-10">
               ฿{{
                 route.params.tourId !== "preview" && tour
                   ? parseFloat(tour.price).toLocaleString()
                   : parseFloat(route.query.price).toLocaleString()
               }}
             </h2>
-            <div class="mb-4">
-              <div class="inline-block w-10">
+            <Skeleton
+              v-if="route.params.tourId !== 'preview' && !tour"
+              class="!rounded-[20px] mb-10 !w-[85%] sm:!w-[80%] lg:!w-[75%] ]"
+              height="2.75rem"></Skeleton>
+
+            <div class="flex items-center mb-4">
+              <div class="w-10">
                 <div class="w-6 text-center">
                   <font-awesome-icon
                     :icon="['fas', 'location-dot']"
@@ -64,16 +86,24 @@
                     class="text-primary-icon-color" />
                 </div>
               </div>
-              <h5 class="inline">
+              <h5
+                v-if="
+                  (route.params.tourId !== 'preview' && tour) ||
+                  route.query.name
+                ">
                 {{
                   route.params.tourId !== "preview" && tour
                     ? tour.countries.join(", ")
                     : route.query.countries
                 }}
               </h5>
+              <Skeleton
+                v-if="route.params.tourId !== 'preview' && !tour"
+                class="!rounded-[20px] !w-[60%] sm:!w-[45%] md:!w-[50%] lg:!w-[45%] xl:!w-[40%]"
+                height="1.5rem"></Skeleton>
             </div>
-            <div class="mb-10">
-              <div class="inline-block w-10">
+            <div class="flex items-center mb-10">
+              <div class="w-10">
                 <div class="w-6 text-center">
                   <font-awesome-icon
                     :icon="['fas', 'clock']"
@@ -81,7 +111,11 @@
                     class="text-primary-icon-color" />
                 </div>
               </div>
-              <h5 class="inline">
+              <h5
+                v-if="
+                  (route.params.tourId !== 'preview' && tour) ||
+                  route.query.name
+                ">
                 {{
                   route.params.tourId !== "preview" && tour
                     ? tour.days
@@ -95,9 +129,13 @@
                 }}
                 คืน
               </h5>
+              <Skeleton
+                v-if="route.params.tourId !== 'preview' && !tour"
+                class="!rounded-[20px] !w-[60%] sm:!w-[45%] md:!w-[50%] lg:!w-[45%] xl:!w-[40%]"
+                height="1.5rem"></Skeleton>
             </div>
-            <div class="mb-8 sm:mb-10">
-              <div class="inline-block w-10">
+            <div class="flex items-center mb-8 sm:mb-10">
+              <div class="w-10">
                 <div class="w-6 text-center">
                   <font-awesome-icon
                     :icon="['fas', 'plane']"
@@ -105,13 +143,21 @@
                     class="text-primary-icon-color" />
                 </div>
               </div>
-              <h5 class="inline">
+              <h5
+                v-if="
+                  (route.params.tourId !== 'preview' && tour) ||
+                  route.query.name
+                ">
                 {{
                   route.params.tourId !== "preview" && tour
                     ? tour.airline
                     : route.query.airline
                 }}
               </h5>
+              <Skeleton
+                v-if="route.params.tourId !== 'preview' && !tour"
+                class="!rounded-[20px] !w-[60%] sm:!w-[45%] md:!w-[50%] lg:!w-[45%] xl:!w-[40%]"
+                height="1.5rem"></Skeleton>
             </div>
           </div>
           <di class="flex flex-col justify-between sm:flex-row xl:block">
@@ -146,14 +192,31 @@
       </div>
     </div>
     <div
-      class="py-14 border border-y-primary-border-color border-x-0 border-t-0 font-medium">
-      <h1 class="mb-8 text-[1.75rem] sm:text-[2.5rem]">รายละเอียดการเดินทาง</h1>
+      class="py-6 lg:py-14 border border-y-primary-border-color border-x-0 border-t-0 font-medium">
+      <h1
+        v-if="(route.params.tourId !== 'preview' && tour) || route.query.name"
+        class="mb-8 text-[1.75rem] sm:text-[2.5rem]">
+        รายละเอียดการเดินทาง
+      </h1>
+      <Skeleton
+        v-if="route.params.tourId !== 'preview' && !tour"
+        class="!rounded-[20px] mb-8 !w-[79%] sm:!w-[70%] md:!w-[60%] lg:!w-[45%] xl:!w-[35%] 2xl:!w-[30%]"
+        height="2.75rem"></Skeleton>
       <div
+        v-if="(route.params.tourId !== 'preview' && tour) || route.query.name"
         v-html="
           route.params.tourId !== 'preview' && tour
             ? tour.details
             : route.query.details
         " />
+      <div v-if="route.params.tourId !== 'preview' && !tour">
+        <Skeleton
+          v-for="index in 5"
+          :key="index"
+          class="!rounded-[20px] mb-4"
+          :class="index === 5 && '!w-1/2'"
+          height="1.25rem"></Skeleton>
+      </div>
     </div>
   </div>
   <ConfirmModal
