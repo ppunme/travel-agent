@@ -164,7 +164,8 @@
             <Button
               class="w-40 sm:w-44 md:w-48 lg:w-[10.5rem] xl:w-48 !bg-[#1492DE] xl:!mr-8"
               rounded
-              target="_blank">
+              target="_blank"
+              @click="goToMessenger">
               <font-awesome-icon
                 :icon="['fab', 'facebook-messenger']"
                 size="2xl" />
@@ -172,7 +173,8 @@
             </Button>
             <Button
               class="w-40 sm:w-44 md:w-48 lg:w-[10.5rem] xl:w-48 !bg-green-line-app xl:!mr-8 !my-4 sm:!my-0"
-              rounded>
+              rounded
+              @click="addLineID">
               <font-awesome-icon
                 :icon="['fab', 'line']"
                 size="2xl" />
@@ -181,7 +183,7 @@
             <Button
               class="w-40 sm:w-44 md:w-48 lg:w-[10.5rem] xl:w-48 !bg-[#F77174]"
               rounded
-              target="_blank">
+              @click="makePhoneCall">
               <font-awesome-icon
                 :icon="['fas', 'phone']"
                 size="2xl" />
@@ -231,6 +233,11 @@ import { useRoute, useRouter } from "vue-router";
 import { doc, onSnapshot, deleteDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import store from "@/store";
+import {
+  goToMessenger,
+  addLineID,
+  makePhoneCall,
+} from "@/utils/GlobalFunction";
 
 import ConfirmModal from "@/components/ConfirmModal.vue";
 

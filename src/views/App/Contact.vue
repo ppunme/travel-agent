@@ -90,25 +90,12 @@
 <script setup>
 import { data } from "@/services/ContactList";
 import vector from "@/assets/images/vector-buildings.png";
-
-const goToMessenger = () => {
-  window.open(
-    "https://www.facebook.com/messages/t/wellnesslifetravel",
-    "_blank"
-  );
-};
-
-const sendEmail = () => {
-  window.open("mailto:wellnesslifetravel@gmail.com?subject=Inquiry", "_blank");
-};
-
-const addLineID = () => {
-  window.open("line://ti/p/wellnesslife19", "_blank");
-};
-
-const makePhoneCall = () => {
-  window.location.href = "tel:0932392359";
-};
+import {
+  goToMessenger,
+  sendEmail,
+  addLineID,
+  makePhoneCall,
+} from "@/utils/GlobalFunction";
 
 const handleClick = (name, link) => {
   switch (name) {
