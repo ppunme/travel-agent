@@ -48,10 +48,9 @@
       <div
         v-for="index in 3"
         :key="index"
-        class="square-image">
-        <Skeleton
-          class="!h-full !rounded-xl shadow-md"
-          :class="index === 3 && 'hidden md:block'"></Skeleton>
+        class="square-image"
+        :class="index === 3 && 'hidden md:block'">
+        <Skeleton class="!h-full !rounded-xl shadow-md"></Skeleton>
       </div>
     </div>
   </div>
