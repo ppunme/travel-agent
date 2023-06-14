@@ -4,7 +4,7 @@
       <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
         <div
           v-for="(item, index) in Array.from(
-            { length: 6 },
+            { length: selectedTours <= 6 ? 6 : selectedTours.length },
             (_, i) => selectedTours[i] || i
           )"
           :key="item.id"

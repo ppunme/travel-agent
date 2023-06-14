@@ -5,7 +5,7 @@
     <Button
       rounded
       class="w-32 !bg-amber-500 !border-none"
-      @click="visible = true">
+      @click="openEditModal">
       <font-awesome-icon
         :icon="['fas', 'pen']"
         size="xl" />
@@ -19,7 +19,7 @@
     @update:visible="onDialogUpdate"
     @onSubmit="onSubmit">
     <EditCarousel
-      :items="items"
+      :items="itemsEdit"
       @handleAddImg="handleAddImg"
       @handleDelete="handleDelete"
       @moveItemUp="moveItemUp"
@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-import { ref, watch, computed, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import Modal from "@/components/Modal.vue";
 import EditCarousel from "@/components/EditCarousel.vue";
 import ConfirmModal from "@/components/ConfirmModal.vue";
@@ -63,6 +63,7 @@ import {
 import { db } from "@/firebase";
 
 const items = ref([]);
+const itemsEdit = ref([]);
 
 const visible = ref(false);
 const visibleDelete = ref(false);
@@ -73,21 +74,26 @@ const loading = ref(false);
 
 const isLoggedIn = computed(() => store.state.isLoggedIn);
 
+const openEditModal = () => {
+  visible.value = true;
+  fetchData();
+};
+
 const handleCancel = (value) => {
   visibleDelete.value = value;
 };
 
 const moveItemUp = (index) => {
   if (index > 0) {
-    const item = items.value.splice(index, 1)[0];
-    items.value.splice(index - 1, 0, item);
+    const item = itemsEdit.value.splice(index, 1)[0];
+    itemsEdit.value.splice(index - 1, 0, item);
   }
 };
 
 const moveItemDown = (index) => {
-  if (index < items.value.length - 1) {
-    const item = items.value.splice(index, 1)[0];
-    items.value.splice(index + 1, 0, item);
+  if (index < itemsEdit.value.length - 1) {
+    const item = itemsEdit.value.splice(index, 1)[0];
+    itemsEdit.value.splice(index + 1, 0, item);
   }
 };
 
@@ -97,25 +103,35 @@ const handleDelete = (index, item) => {
     deleteIndex.value = index;
     deleteItem.value = item.id;
   } else {
-    items.value.splice(index, 1);
+    itemsEdit.value.splice(index, 1);
+  }
+};
+
+const confirmAction = () => {
+  visibleDelete.value = false;
+
+  if (deleteItem.value) {
+    itemsEdit.value = itemsEdit.value.filter(
+      (tour) => tour.id !== deleteItem.value
+    );
+    store.dispatch("showToast", {
+      severity: "success",
+      summary: "ลบข้อมูลเรียบร้อยแล้ว",
+    });
   }
 };
 
 const handleAddImg = async (file, base64data) => {
-  items.value.push({ name: file.name, img: base64data });
+  itemsEdit.value.push({ name: file.name, img: base64data });
 };
 
 const onSubmit = async () => {
   loading.value = true;
   try {
     await clearCollection();
-    items.value.forEach(async (item, index) => {
+    itemsEdit.value.forEach(async (item, index) => {
       const submitData = { ...item, seq: index };
-      console.log("submitData2", submitData);
-
-      const docRef = await addDoc(collection(db, "carousel"), submitData);
-      //console.log(docRef);
-      console.log("Document written with ID: ", docRef.id);
+      await addDoc(collection(db, "carousel"), submitData);
     });
     loading.value = false;
     visible.value = false;
@@ -128,18 +144,6 @@ const onDialogUpdate = (value) => {
   visible.value = value;
 };
 
-const confirmAction = () => {
-  visibleDelete.value = false;
-
-  if (deleteItem.value) {
-    items.value = items.value.filter((tour) => tour.id !== deleteItem.value);
-    store.dispatch("showToast", {
-      severity: "success",
-      summary: "ลบข้อมูลเรียบร้อยแล้ว",
-    });
-  }
-};
-
 const clearCollection = async () => {
   const collectionRef = collection(db, "carousel");
   const snapshot = await getDocs(collectionRef);
@@ -149,7 +153,7 @@ const clearCollection = async () => {
   });
 };
 
-onMounted(async () => {
+const fetchData = () => {
   onSnapshot(collection(db, "carousel"), (querySnapshot) => {
     const carouselList = [];
     querySnapshot.forEach((doc) => {
@@ -161,13 +165,15 @@ onMounted(async () => {
       };
       carouselList.push(list);
     });
-    items.value = carouselList.sort((a, b) => a.seq - b.seq);
-  });
-});
 
-watch(items.value, (newValue, oldValue) => {
-  console.log("watch:", oldValue);
-  console.log("upload file name", newValue);
+    const sortedList = carouselList.sort((a, b) => a.seq - b.seq);
+    items.value = [...sortedList];
+    itemsEdit.value = [...sortedList];
+  });
+};
+
+onMounted(() => {
+  fetchData();
 });
 </script>
 
