@@ -34,5 +34,4 @@
 import TourPackageCard from "./TourPackageCard.vue";
 
 const props = defineProps(["tours"]);
-console.log(props.tours);
 </script>

@@ -1,40 +1,30 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "@/views/App/Home.vue";
-import Tours from "@/views/App/Tours.vue";
-import TourDetails from "@/views/App/TourDetails.vue";
-import Contact from "@/views/App/Contact.vue";
-import CreateTour from "@/views/App/CreateTour.vue";
-import EditTour from "@/views/App/EditTour.vue";
-import Login from "@/views/Admin/Login.vue";
-import Register from "@/views/Admin/Register.vue";
-import NotFound from "@/layout/NotFound.vue";
-import Unauthorized from "@/layout/Unauthorized.vue";
 
 const routes = [
   {
     path: "/",
     name: "home",
-    component: Home,
+    component: () => import("@/views/App/Home.vue"),
   },
   {
     path: "/contact",
     name: "contact",
-    component: Contact,
+    component: () => import("@/views/App/Contact.vue"),
   },
   {
     path: "/tours",
     name: "tours",
-    component: Tours,
+    component: () => import("@/views/App/Tours.vue"),
   },
   {
     path: "/tours/:tourId",
     name: "tour-detail",
-    component: TourDetails,
+    component: () => import("@/views/App/TourDetails.vue"),
   },
   {
     path: "/tours/create",
     name: "create-tour",
-    component: CreateTour,
+    component: () => import("@/views/App/CreateTour.vue"),
     meta: {
       requiresAuth: true,
     },
@@ -42,7 +32,7 @@ const routes = [
   {
     path: "/tours/edit/:tourId",
     name: "edit-tour",
-    component: EditTour,
+    component: () => import("@/views/App/EditTour.vue"),
     meta: {
       requiresAuth: true,
     },
@@ -50,15 +40,21 @@ const routes = [
   {
     path: "/admin",
     name: "login",
-    component: Login,
+    component: () => import("@/views/Admin/Login.vue"),
   },
   {
     path: "/register",
     name: "register",
-    component: Register,
+    component: () => import("@/views/Admin/Register.vue"),
   },
-  { path: "/:pathMatch(.*)", component: NotFound },
-  { path: "/unauthorized", component: Unauthorized },
+  {
+    path: "/:pathMatch(.*)",
+    component: () => import("@/layout/NotFound.vue"),
+  },
+  {
+    path: "/unauthorized",
+    component: () => import("@/layout/Unauthorized.vue"),
+  },
 ];
 
 const scrollBehavior = (to, from, savedPosition) => {
