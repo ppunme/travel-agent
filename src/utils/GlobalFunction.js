@@ -33,7 +33,7 @@ export const addLineID = () => {
 
   // Check if the user agent is on a mobile device
   if (/iphone|ipad|ipod|android/.test(userAgent)) {
-    const lineURL = "https://line.me/ti/p/yAu-lrPUbX";
+    const lineURL = "https://line.me/ti/p/56jgUOIvkZ";
 
     // Open the Line application
     window.location.href = lineURL;
