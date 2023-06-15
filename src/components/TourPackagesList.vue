@@ -8,7 +8,12 @@
       <TourPackageCard :item="item" />
     </div>
   </div>
-  <div v-if="!props.loading && tours.length === 0">no data</div>
+  <div
+    v-if="!props.loading && tours.length === 0"
+    class="flex flex-col items-center justify-center min-h-[calc(100vh_-_37.9rem)]">
+    <p class="text-2xl font-semibold mt-4">ไม่พบข้อมูล</p>
+    <p class="mt-2 text-gray-600">ผลการค้นหาไม่ตรงกับข้อมูลใดๆ</p>
+  </div>
   <div
     v-if="props.loading"
     class="grid grid-cols-1 grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 sm:gap-8 md:gap-10">

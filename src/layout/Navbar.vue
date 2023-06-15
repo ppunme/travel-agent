@@ -9,11 +9,11 @@
           class="w-20 sm:w-auto" />
         <div>
           <h4
-            class="sm:text-3xl ml-4 self-center font-semibold w-[18rem] text-primary-blue">
+            class="text-lg sm:text-2xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl ml-4 self-center font-semibold w-[18rem] text-primary-blue">
             Wellness Life Travel
           </h4>
           <h6
-            class="sm:text-md ml-4 self-center font-semibold w-[18rem] text-primary-blue">
+            class="text-sm sm:text-md md:text-md lg:text-sm 2xl:text-md ml-4 self-center font-semibold w-[18rem] text-primary-blue">
             เวลเนส ไลฟ์ ทราเวล
           </h6>
         </div>
