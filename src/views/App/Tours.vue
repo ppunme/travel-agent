@@ -99,7 +99,6 @@ const handlePageChange = (e) => {
 
 watch(route, () => {
   page.value = route.query.page - 1;
-  console.log(route.query.page);
 });
 
 const filteredTours = computed(() => {

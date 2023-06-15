@@ -423,9 +423,7 @@ const onSubmit = handleSubmit(async (values) => {
     values.image = tour.value.image;
     values.createdAt = serverTimestamp();
 
-    const docRef = await addDoc(collection(db, "tours"), values);
-    console.log(docRef);
-    console.log("Document written with ID: ", docRef.id);
+    await addDoc(collection(db, "tours"), values);
 
     tour.value = {
       image: null,
