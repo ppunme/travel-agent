@@ -142,7 +142,10 @@ const onSubmit = async () => {
     loading.value = false;
     visible.value = false;
   } catch (e) {
-    console.log(e);
+    store.dispatch("showToast", {
+      severity: "error",
+      summary: e.message,
+    });
   }
 };
 

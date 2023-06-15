@@ -77,7 +77,6 @@ const router = createRouter({
 // Navigation guard to check if the route requires authentication
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem("token");
-  console.log("token", token === null);
 
   if (to.meta.requiresAuth && token === null) {
     router.push("/travel-agent/unauthorized"); // Redirect to the forbidden page if not authenticated
