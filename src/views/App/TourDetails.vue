@@ -269,7 +269,7 @@ const confirmAction = async () => {
       summary: "ลบข้อมูลเรียบร้อยแล้ว",
     });
 
-    router.push("/travel-agent/tours");
+    router.push({ path: "/travel-agent/tours", query: { page: 1 } });
   } catch (error) {
     if (error) {
       store.dispatch("showToast", {
