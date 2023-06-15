@@ -505,7 +505,11 @@ onMounted(async () => {
         imageObjectURL.value = objectURL;
       });
     } else {
-      console.log("Document does not exist");
+      store.dispatch("showToast", {
+        severity: "error",
+        summary: "ไม่พบข้อมูล",
+        detail: "กรุณาลองใหม่อีกครั้ง",
+      });
     }
   });
 });
