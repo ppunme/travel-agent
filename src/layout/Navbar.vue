@@ -115,6 +115,7 @@
             class="py-4">
             <Button
               label="Logout"
+              class="!bg-primary-blue !border-none"
               @click="logout" />
           </div>
         </div>
