@@ -2,7 +2,9 @@
   <nav
     class="navbar text-primary-blue relative z-10 md:h-36 md:flex md:items-center">
     <div class="flex justify-between items-center py-4 px-3 md:px-0 md:w-full">
-      <div class="flex items-center lg:ml-20">
+      <div
+        class="flex items-center lg:ml-20 cursor-pointer"
+        @click="$router.push('/travel-agent')">
         <img
           src="@/assets/images/logo.png"
           alt="logo"
