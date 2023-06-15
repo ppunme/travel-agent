@@ -449,7 +449,7 @@ const onSubmit = handleSubmit(async (values) => {
       summary: "บันทึกข้อมูลเรียบร้อยแล้ว",
     });
 
-    router.push("/travel-agent/tours");
+    router.push({ path: "/travel-agent/tours", query: { page: 1 } });
   } catch (error) {
     store.dispatch("showToast", {
       severity: "error",
@@ -472,6 +472,6 @@ const onCancel = () => {
   };
   clearFile();
   resetForm();
-  router.push("/travel-agent/tours");
+  router.push({ path: "/travel-agent/tours", query: { page: 1 } });
 };
 </script>

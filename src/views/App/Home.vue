@@ -21,7 +21,7 @@
   </div>
   <ContactCard
     :contacts="data.contacts"
-    :line="data.line" />
+    :line="data.contacts[0]" />
 </template>
 
 <script setup>

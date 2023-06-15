@@ -41,7 +41,7 @@
           class="text-white hover:text-gray-400 ml-4">
           <font-awesome-icon
             :icon="social.icon"
-            size="2xl" />
+            :class="index === 2 ? 'text-[1.65em]' : 'text-[2em]'" />
         </a>
       </div>
       <div
@@ -155,7 +155,7 @@ const socialLinks = ref([
     icon: ["fab", "instagram"],
     url: "https://www.instagram.com/wellnesslifetravel",
   },
-  { icon: ["fab", "twitter"], url: "https://www.twitter.com" },
+  { icon: ["fas", "phone"], url: "tel:0932392359" },
 ]);
 
 const logout = () => {

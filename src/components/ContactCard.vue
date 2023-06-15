@@ -11,7 +11,7 @@
         <div class="flex flex-col items-center lg:items-start pt-8">
           <img
             :src="lineQrCode"
-            class="self-center w-36 sm:w-auto" />
+            class="self-center w-36 sm:w-48" />
           <p
             class="self-center pt-8 lg:pt-3 cursor-pointer"
             @click="addLineID">
@@ -28,9 +28,10 @@
 
       <div class="basis-1/2 flex flex-col justify-center">
         <div
-          v-for="item in contacts"
+          v-for="(item, index) in contacts"
           :key="item.id"
           class="contact-item hover:cursor-pointer hover:opacity-90 py-3"
+          :class="index === 0 && '!hidden'"
           @click="handleClick(item.name, item.link)">
           <font-awesome-icon
             :icon="item.icon"

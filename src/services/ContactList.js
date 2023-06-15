@@ -1,34 +1,34 @@
 const contacts = [
   {
     id: 1,
+    name: "line",
+    link: "wellnesslife19",
+    icon: ["fab", "line"],
+  },
+  {
+    id: 2,
     name: "facebook",
     link: "https://www.facebook.com/wellnesslifetravel",
     icon: ["fab", "facebook"],
   },
   {
-    id: 2,
+    id: 3,
     name: "instagram",
     link: "https://www.instagram.com/wellnesslifetravel",
     icon: ["fab", "instagram"],
   },
   {
-    id: 3,
+    id: 4,
     name: "phone",
     link: "093-249-2359",
     icon: ["fas", "phone"],
   },
   {
-    id: 4,
+    id: 5,
     name: "email",
     link: "wellnesslifetravel@gmail.com",
     icon: ["fas", "envelope"],
   },
 ];
 
-const line = {
-  id: 1,
-  name: "line",
-  link: "wellnesslife19",
-  icon: ["fab", "line"],
-};
-export const data = { contacts, line };
+export const data = { contacts };

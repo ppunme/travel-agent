@@ -22,7 +22,9 @@
       </Button>
     </div>
 
-    <TourPackagesList :tours="paginatedTours" />
+    <TourPackagesList
+      :tours="paginatedTours"
+      :loading="loading" />
 
     <Paginator
       :template="{
@@ -57,6 +59,7 @@ import router from "@/router";
 
 const route = useRoute();
 
+const loading = ref(false);
 const tours = ref([]);
 const search = ref("");
 const pageSizeOptions = ref([12, 24, 36]);
@@ -145,6 +148,7 @@ const paginatedTours = computed(() => {
 });
 
 const loadData = async () => {
+  loading.value = true;
   const collectionRef = collection(db, "tours");
 
   let q = query(collectionRef);
@@ -192,6 +196,7 @@ const loadData = async () => {
     });
 
     countries.value = filerOptions;
+    loading.value = false;
   });
 };
 

@@ -64,12 +64,6 @@
               class="w-140" />
           </div>
           <div>
-            <div class="contact-item">
-              <font-awesome-icon
-                :icon="data.line.icon"
-                class="contact-icon sm:w-8" />
-              <span class="contact-text">{{ data.line.link }}</span>
-            </div>
             <div
               v-for="item in data.contacts"
               :key="item.id"
@@ -99,6 +93,9 @@ import {
 
 const handleClick = (name, link) => {
   switch (name) {
+    case "line":
+      addLineID();
+      break;
     case "facebook":
       window.open(link, "_blank");
       break;
