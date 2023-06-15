@@ -7,10 +7,16 @@
           src="@/assets/images/logo.png"
           alt="logo"
           class="w-20 sm:w-auto" />
-        <h4
-          class="sm:text-3xl ml-4 self-center font-semibold w-40 text-primary-blue">
-          Wellness Life Travel
-        </h4>
+        <div>
+          <h4
+            class="sm:text-3xl ml-4 self-center font-semibold w-[18rem] text-primary-blue">
+            Wellness Life Travel
+          </h4>
+          <h6
+            class="sm:text-md ml-4 self-center font-semibold w-[18rem] text-primary-blue">
+            เวลเนส ไลฟ์ ทราเวล
+          </h6>
+        </div>
       </div>
       <div
         class="hidden md:flex md:justify-center md:items-center sm:gap-8 lg:gap-16 xl:gap-28">
