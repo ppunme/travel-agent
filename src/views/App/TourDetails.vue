@@ -240,6 +240,7 @@ import {
   addLineID,
   makePhoneCall,
 } from "@/utils/GlobalFunction";
+import { pageview } from "vue-gtag";
 
 import ConfirmModal from "@/components/ConfirmModal.vue";
 
@@ -287,6 +288,11 @@ onMounted(async () => {
   onSnapshot(docRef, (docSnapshot) => {
     if (docSnapshot.exists()) {
       tour.value = docSnapshot.data();
+      console.log(tour.value);
+
+      pageview({
+        page_title: `Tour Detail - ${tour.value.name}`,
+      });
     } else {
       store.dispatch("showToast", {
         severity: "error",
