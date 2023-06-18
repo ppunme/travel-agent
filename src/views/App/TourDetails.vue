@@ -176,7 +176,7 @@
             <Button
               class="w-40 sm:w-44 md:w-48 lg:w-[10.5rem] xl:w-48 !bg-green-line-app xl:!mr-8 !my-4 sm:!my-0"
               rounded
-              @click="addLineID">
+              @click="addLine">
               <font-awesome-icon
                 :icon="['fab', 'line']"
                 size="2xl" />
@@ -241,6 +241,7 @@ import {
   makePhoneCall,
 } from "@/utils/GlobalFunction";
 import { pageview } from "vue-gtag";
+import { line } from "@/utils/VueGtag";
 
 import ConfirmModal from "@/components/ConfirmModal.vue";
 
@@ -251,6 +252,11 @@ const tour = ref();
 const visibleDelete = ref(false);
 
 const isLoggedIn = computed(() => store.state.isLoggedIn);
+
+const addLine = () => {
+  line(`Tour Detail - ${tour.value.name}`);
+  addLineID();
+};
 
 const handleCancel = (value) => {
   visibleDelete.value = value;
@@ -288,7 +294,6 @@ onMounted(async () => {
   onSnapshot(docRef, (docSnapshot) => {
     if (docSnapshot.exists()) {
       tour.value = docSnapshot.data();
-      console.log(tour.value);
 
       pageview({
         page_title: `Tour Detail - ${tour.value.name}`,
