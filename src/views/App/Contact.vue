@@ -82,6 +82,7 @@
 </template>
 
 <script setup>
+import { onMounted } from "vue";
 import { data } from "@/services/ContactList";
 import vector from "@/assets/images/vector-buildings.png";
 import {
@@ -90,6 +91,7 @@ import {
   addLineID,
   makePhoneCall,
 } from "@/utils/GlobalFunction";
+import { pageview } from "vue-gtag";
 
 const handleClick = (name, link) => {
   switch (name) {
@@ -112,4 +114,11 @@ const handleClick = (name, link) => {
       break;
   }
 };
+
+onMounted(async () => {
+  pageview({
+    page_title: "Contact",
+    page_path: "Contact",
+  });
+});
 </script>
