@@ -25,8 +25,17 @@
 </template>
 
 <script setup>
+import { onMounted } from "vue";
 import Carousel from "@/components/Carousel.vue";
 import TourGrid from "@/components/TourGrid.vue";
 import ContactCard from "@/components/ContactCard.vue";
 import { data } from "@/services/ContactList";
+import { pageview } from "vue-gtag";
+
+onMounted(async () => {
+  pageview({
+    page_title: "Home",
+    page_path: "Home",
+  });
+});
 </script>
