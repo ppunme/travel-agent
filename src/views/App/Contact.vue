@@ -12,7 +12,7 @@
           <Button
             class="w-48 !bg-green-line-app"
             rounded
-            @click="addLineID">
+            @click="handleLine">
             <font-awesome-icon
               :icon="['fab', 'line']"
               size="2xl" /><span class="mx-auto">แอดไลน์</span>
@@ -23,7 +23,7 @@
             class="w-48 !bg-[#1492DE]"
             rounded
             target="_blank"
-            @click="goToMessenger">
+            @click="handleMessenger">
             <font-awesome-icon
               :icon="['fab', 'facebook-messenger']"
               size="2xl" /><span class="mx-auto">ส่งข้อความ</span>
@@ -33,7 +33,7 @@
           <Button
             class="w-48 !bg-[#F77174] !mr-8"
             rounded
-            @click="makePhoneCall">
+            @click="handlePhone">
             <font-awesome-icon
               :icon="['fas', 'phone']"
               size="2xl" />
@@ -45,7 +45,7 @@
             class="w-48 !bg-[#D42E35]"
             rounded
             target="_blank"
-            @click="sendEmail">
+            @click="handleEmail">
             <font-awesome-icon
               :icon="['fas', 'envelope']"
               size="2xl" /><span class="mx-auto">ส่งอีเมล</span>
@@ -92,27 +92,57 @@ import {
   makePhoneCall,
 } from "@/utils/GlobalFunction";
 import { pageview } from "vue-gtag";
+import {
+  line,
+  facebook,
+  messenger,
+  phone,
+  email,
+  instagram,
+} from "@/utils/VueGtag";
 
 const handleClick = (name, link) => {
   switch (name) {
     case "line":
-      addLineID();
+      handleLine();
       break;
     case "facebook":
+      facebook("contact");
       window.open(link, "_blank");
       break;
     case "instagram":
+      instagram("contact");
       window.open(link, "_blank");
       break;
     case "phone":
-      makePhoneCall();
+      handlePhone();
       break;
     case "email":
-      sendEmail();
+      handleEmail();
       break;
     default:
       break;
   }
+};
+
+const handleLine = () => {
+  line("contact");
+  addLineID();
+};
+
+const handleMessenger = () => {
+  messenger("contact");
+  goToMessenger();
+};
+
+const handlePhone = () => {
+  phone("contact");
+  makePhoneCall();
+};
+
+const handleEmail = () => {
+  email("contact");
+  sendEmail();
 };
 
 onMounted(async () => {

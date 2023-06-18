@@ -167,7 +167,7 @@
               class="w-40 sm:w-44 md:w-48 lg:w-[10.5rem] xl:w-48 !bg-[#1492DE] xl:!mr-8"
               rounded
               target="_blank"
-              @click="goToMessenger">
+              @click="handleMessenger">
               <font-awesome-icon
                 :icon="['fab', 'facebook-messenger']"
                 size="2xl" />
@@ -176,7 +176,7 @@
             <Button
               class="w-40 sm:w-44 md:w-48 lg:w-[10.5rem] xl:w-48 !bg-green-line-app xl:!mr-8 !my-4 sm:!my-0"
               rounded
-              @click="addLine">
+              @click="handleLine">
               <font-awesome-icon
                 :icon="['fab', 'line']"
                 size="2xl" />
@@ -185,7 +185,7 @@
             <Button
               class="w-40 sm:w-44 md:w-48 lg:w-[10.5rem] xl:w-48 !bg-[#F77174]"
               rounded
-              @click="makePhoneCall">
+              @click="handlePhone">
               <font-awesome-icon
                 :icon="['fas', 'phone']"
                 size="2xl" />
@@ -241,7 +241,7 @@ import {
   makePhoneCall,
 } from "@/utils/GlobalFunction";
 import { pageview } from "vue-gtag";
-import { line } from "@/utils/VueGtag";
+import { line, messenger, phone } from "@/utils/VueGtag";
 
 import ConfirmModal from "@/components/ConfirmModal.vue";
 
@@ -253,9 +253,19 @@ const visibleDelete = ref(false);
 
 const isLoggedIn = computed(() => store.state.isLoggedIn);
 
-const addLine = () => {
+const handleLine = () => {
   line(`Tour Detail - ${tour.value.name}`);
   addLineID();
+};
+
+const handleMessenger = () => {
+  messenger(`Tour Detail - ${tour.value.name}`);
+  goToMessenger();
+};
+
+const handlePhone = () => {
+  phone(`Tour Detail - ${tour.value.name}`);
+  makePhoneCall();
 };
 
 const handleCancel = (value) => {

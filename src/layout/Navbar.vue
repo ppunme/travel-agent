@@ -34,17 +34,15 @@
       <div
         v-if="!isLoggedIn"
         class="hidden lg:flex items-center bg-primary-blue w-60 h-20 pl-4 pr-2 rounded-l-[5rem] justify-around">
-        <a
+        <div
           v-for="(social, index) in socialLinks"
           :key="index"
-          :href="social.url"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-white hover:text-gray-400 ml-4">
+          class="text-white cursor-pointer hover:text-gray-400 ml-4"
+          @click="handleClick(social.name, social.url)">
           <font-awesome-icon
             :icon="social.icon"
             :class="index === 2 ? 'text-[1.65em]' : 'text-[2em]'" />
-        </a>
+        </div>
       </div>
       <div
         v-if="isLoggedIn"
@@ -129,6 +127,8 @@
 <script setup>
 import { ref, computed } from "vue";
 import store from "@/store";
+import { makePhoneCall } from "@/utils/GlobalFunction";
+import { facebook, phone, instagram } from "@/utils/VueGtag";
 
 const showMenu = ref(false);
 const adminMenu = ref();
@@ -152,14 +152,36 @@ const menuItems = ref([
 const socialLinks = ref([
   {
     icon: ["fab", "square-facebook"],
+    name: "facebook",
     url: "https://www.facebook.com/wellnesslifetravel",
   },
   {
     icon: ["fab", "instagram"],
+    name: "instagram",
     url: "https://www.instagram.com/wellnesslifetravel",
   },
-  { icon: ["fas", "phone"], url: "tel:0932392359" },
+  { icon: ["fas", "phone"], name: "phone", url: "tel:0932392359" },
 ]);
+
+const handleClick = (name, link) => {
+  console.log("handleClick: ", link);
+  switch (name) {
+    case "facebook":
+      facebook("contact");
+      window.open(link, "_blank");
+      break;
+    case "instagram":
+      instagram("contact");
+      window.open(link, "_blank");
+      break;
+    case "phone":
+      phone("contact");
+      makePhoneCall();
+      break;
+    default:
+      break;
+  }
+};
 
 const logout = () => {
   store.dispatch("logout");
