@@ -14,6 +14,7 @@ import { watch, ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import store from "@/store";
 import { useToast } from "primevue/usetoast";
+import { useHead } from "@vueuse/head";
 
 import Navbar from "@/layout/Navbar.vue";
 import Footer from "./layout/Footer.vue";
@@ -22,6 +23,14 @@ const route = useRoute();
 const toast = useToast();
 
 const admin = ref(false);
+
+const siteData = ref({
+  title: "Wellness Life Travel",
+});
+
+useHead({
+  title: computed(() => siteData.value.title),
+});
 
 const toastMessage = computed(() => store.state.toast);
 

@@ -7,6 +7,7 @@ import { gtag } from "./utils/VueGtag";
 import PrimeVue from "primevue/config";
 import { usePrimeVue, componentPrimeVue } from "./utils/PrimeVue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { createHead } from "@vueuse/head";
 
 import "./assets/scss/main.scss";
 import "primevue/resources/themes/lara-light-blue/theme.css";
@@ -14,6 +15,7 @@ import "primevue/resources/primevue.min.css";
 import "./utils/FontAwesome";
 
 export const app = createApp(App);
+const head = createHead();
 
 gtag.forEach(([tag, config]) => app.use(tag, config));
 
@@ -26,5 +28,6 @@ app
   .use(router)
   .use(store)
   .use(PrimeVue, { ripple: true })
+  .use(head)
   .component("font-awesome-icon", FontAwesomeIcon)
   .mount("#app");
