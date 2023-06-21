@@ -4,7 +4,7 @@
     <div class="flex justify-between items-center py-4 px-3 md:px-0 md:w-full">
       <div
         class="flex items-center lg:ml-20 cursor-pointer"
-        @click="$router.push('/travel-agent')">
+        @click="$router.push('/')">
         <img
           src="@/assets/images/logo.png"
           alt="logo"
