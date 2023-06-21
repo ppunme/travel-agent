@@ -41,6 +41,9 @@ dependencies:
   vue-gtag:
     specifier: ^2.0.1
     version: 2.0.1(vue@3.3.0)
+  vue-meta:
+    specifier: ^2.4.0
+    version: 2.4.0
   vue-router:
     specifier: ^4.1.6
     version: 4.1.6(vue@3.3.0)
@@ -4220,6 +4223,11 @@ packages:
     resolution: {integrity: sha512-95k0GDqvBjZavkuvzx/YqVLv/6YYa17fz6ILMSf7neqQITCPbnfEnQvEgMPNjH4kgobe7+WIL0yJEHku+H3qtQ==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /deepmerge@4.3.1:
+    resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}
+    engines: {node: '>=0.10.0'}
+    dev: false
 
   /default-gateway@6.0.3:
     resolution: {integrity: sha512-fwSOJsbbNzZ/CUFpqFBqYfYNLj1NbMPm8MMCIzHjC83iSJRBEGmDUxU+WP661BaBQImeC2yHwXtz+P/O9o+XEg==}
@@ -8739,6 +8747,12 @@ packages:
       watchpack: 2.4.0
       webpack: 5.86.0
     dev: true
+
+  /vue-meta@2.4.0:
+    resolution: {integrity: sha512-XEeZUmlVeODclAjCNpWDnjgw+t3WA6gdzs6ENoIAgwO1J1d5p1tezDhtteLUFwcaQaTtayRrsx7GL6oXp/m2Jw==}
+    dependencies:
+      deepmerge: 4.3.1
+    dev: false
 
   /vue-router@4.1.6(vue@3.3.0):
     resolution: {integrity: sha512-DYWYwsG6xNPmLq/FmZn8Ip+qrhFEzA14EI12MsMgVxvHFDYvlr4NXpVF5hrRH1wVcDP8fGi5F4rxuJSl8/r+EQ==}

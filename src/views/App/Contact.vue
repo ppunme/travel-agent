@@ -148,7 +148,6 @@ const handleEmail = () => {
 onMounted(async () => {
   pageview({
     page_title: "Contact",
-    page_path: "Contact",
   });
 });
 </script>

@@ -203,8 +203,7 @@ const loadData = async () => {
 onMounted(() => {
   loadData();
   pageview({
-    page_title: "All Tours",
-    page_path: "All Tours",
+    page_title: "All-Tours",
   });
 });
 </script>

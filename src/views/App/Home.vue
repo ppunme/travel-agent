@@ -35,7 +35,6 @@ import { pageview } from "vue-gtag";
 onMounted(async () => {
   pageview({
     page_title: "Home",
-    page_path: "Home",
   });
 });
 </script>

@@ -3,7 +3,7 @@ import App from "./App.vue";
 import router from "./router/index.js";
 import store from "./store";
 
-import { Gtag } from "./utils/VueGtag";
+import { gtag } from "./utils/VueGtag";
 import PrimeVue from "primevue/config";
 import { usePrimeVue, componentPrimeVue } from "./utils/PrimeVue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -15,7 +15,7 @@ import "./utils/FontAwesome";
 
 export const app = createApp(App);
 
-Gtag.forEach(([tag, config]) => app.use(tag, config));
+gtag.forEach(([tag, config]) => app.use(tag, config));
 
 usePrimeVue.forEach((item) => app.use(item));
 componentPrimeVue.forEach(([name, component]) =>
