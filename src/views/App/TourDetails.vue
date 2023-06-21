@@ -233,6 +233,9 @@
 import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { doc, onSnapshot, deleteDoc } from "firebase/firestore";
+import { pageview } from "vue-gtag";
+import { useHead } from "@vueuse/head";
+
 import { db } from "@/firebase";
 import store from "@/store";
 import {
@@ -240,9 +243,7 @@ import {
   addLineID,
   makePhoneCall,
 } from "@/utils/GlobalFunction";
-import { pageview } from "vue-gtag";
 import { line, messenger, phone } from "@/utils/VueGtag";
-
 import ConfirmModal from "@/components/ConfirmModal.vue";
 
 const route = useRoute();
@@ -298,15 +299,86 @@ const confirmAction = async () => {
   }
 };
 
+const base64ToBlob = async (base64String) => {
+  return await fetch(base64String).then((response) => response.blob());
+};
+
 onMounted(async () => {
   const docRef = doc(db, "tours", route.params.tourId);
-
-  onSnapshot(docRef, (docSnapshot) => {
+  console.log(route);
+  onSnapshot(docRef, async (docSnapshot) => {
     if (docSnapshot.exists()) {
       tour.value = docSnapshot.data();
 
+      const image = await base64ToBlob(tour.value.image).then((blob) => {
+        return URL.createObjectURL(blob);
+      });
+
       pageview({
         page_title: `Tour Detail - ${tour.value.name}`,
+      });
+
+      useHead({
+        title: `${tour.value.name} ${tour.value.days} วัน ${tour.value.nights} คืน - Wellness Life Travel`,
+        meta: [
+          // default
+          {
+            name: "description",
+            content: `${tour.value.name} ${tour.value.countries.join(" ")} ${
+              tour.value.days
+            } วัน ${tour.value.nights} คืน ${tour.value.airline}`,
+          },
+          {
+            name: "keywords",
+            content: `${tour.value.name},${tour.value.countries.join(",")},${
+              tour.value.days
+            }วัน,${tour.value.nights}คืน,${tour.value.airline}`,
+          },
+
+          // facebook
+          {
+            property: "og:title",
+            content: `${tour.value.name} ${tour.value.days} วัน ${tour.value.nights} คืน - Wellness Life Travel`,
+          },
+          {
+            property: "og:image",
+            content: image,
+          },
+          {
+            property: "og:description",
+            content: `${tour.value.name} ${tour.value.countries.join(" ")} ${
+              tour.value.days
+            } วัน ${tour.value.nights} คืน ${tour.value.airline}`,
+          },
+          {
+            property: "og:url",
+            content: `https://www.wellnesslifetravelth.com${route.path}`,
+          },
+          { property: "og:site_name", content: "wellnesslifetravelth.com" },
+          { property: "og:type", content: "product" },
+
+          // twitter
+          {
+            property: "twitter:title",
+            content: `${tour.value.name} ${tour.value.days} วัน ${tour.value.nights} คืน - Wellness Life Travel`,
+          },
+          {
+            property: "twitter:image",
+            content: image,
+          },
+          {
+            property: "twitter:description",
+            content: `${tour.value.name} ${tour.value.countries.join(" ")} ${
+              tour.value.days
+            } วัน ${tour.value.nights} คืน ${tour.value.airline}`,
+          },
+          {
+            property: "twitter:domain",
+            content: `https://www.wellnesslifetravelth.com${route.path}`,
+          },
+          { property: "twitter:site", content: "wellnesslifetravelth.com" },
+          { property: "twitter:card", content: "summary_large_image" },
+        ],
       });
     } else {
       store.dispatch("showToast", {

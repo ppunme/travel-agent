@@ -51,12 +51,13 @@ import { useRoute } from "vue-router";
 
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { db } from "@/firebase";
-import store from "@/store";
+import { pageview } from "vue-gtag";
+import { useHead } from "@vueuse/head";
 
+import store from "@/store";
 import Toolbar from "@/components/Toolbar.vue";
 import TourPackagesList from "@/components/TourPackagesList.vue";
 import router from "@/router";
-import { pageview } from "vue-gtag";
 
 const route = useRoute();
 
@@ -78,6 +79,52 @@ const sort = ref([
   { name: "ตัวอักษร (ก-ฮ)", field: "name", order: "asc" },
   { name: "ตัวอักษร (ฮ-ก)", field: "name", order: "desc" },
 ]);
+
+useHead({
+  title: "All Tours - Wellness Life Travel",
+  meta: [
+    // default
+    {
+      name: "description",
+      content: "All Tours",
+    },
+    {
+      name: "keywords",
+      content: "All Tours,ทัวร์ทั้งหมด,โปรแกรมทัวร์",
+    },
+
+    // facebook
+    { property: "og:title", content: "All Tours - Wellness Life Travel" },
+    { property: "og:image", content: require("@/assets/images/logo.png") },
+    {
+      property: "og:description",
+      content: "All Tours",
+    },
+    {
+      property: "og:url",
+      content: "https://www.wellnesslifetravelth.com/tours?page=1",
+    },
+    { property: "og:site_name", content: "wellnesslifetravelth.com" },
+    { property: "og:type", content: "website" },
+
+    // twitter
+    {
+      property: "twitter:title",
+      content: "All Tours - Wellness Life Travel",
+    },
+    { property: "twitter:image", content: require("@/assets/images/logo.png") },
+    {
+      property: "twitter:description",
+      content: "All Tours",
+    },
+    {
+      property: "twitter:domain",
+      content: "https://www.wellnesslifetravelth.com/tours?page=1",
+    },
+    { property: "twitter:site", content: "wellnesslifetravelth.com" },
+    { property: "twitter:card", content: "summary_large_image" },
+  ],
+});
 
 const isLoggedIn = computed(() => store.state.isLoggedIn);
 
@@ -203,7 +250,7 @@ const loadData = async () => {
 onMounted(() => {
   loadData();
   pageview({
-    page_title: "All-Tours",
+    page_title: "All Tours",
   });
 });
 </script>

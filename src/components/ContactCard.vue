@@ -50,7 +50,7 @@
 import lineQrCode from "@/assets/images/line-qr-code.png";
 import bgImage from "@/assets/images/home-contact-bg.png";
 import { sendEmail, makePhoneCall, addLineID } from "@/utils/GlobalFunction";
-import { line, facebook, phone, email, instagram } from "@/utils/VueGtag";
+import { facebook, phone, email, instagram } from "@/utils/VueGtag";
 
 defineProps(["contacts", "line"]);
 
