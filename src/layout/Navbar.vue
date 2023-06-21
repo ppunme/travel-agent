@@ -136,16 +136,16 @@ const adminMenu = ref();
 const menuItems = ref([
   {
     label: "หน้าแรก",
-    route: "/travel-agent/",
+    route: "/",
   },
   {
     label: "แพ็คเกจทัวร์",
     // route: "/tours",
-    route: { path: "/travel-agent/tours", query: { page: 1 } },
+    route: { path: "/tours", query: { page: 1 } },
   },
   {
     label: "ติดต่อเรา",
-    route: "/travel-agent/contact",
+    route: "/contact",
   },
 ]);
 

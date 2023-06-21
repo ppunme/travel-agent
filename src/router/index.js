@@ -12,27 +12,27 @@ import Unauthorized from "@/layout/Unauthorized.vue";
 
 const routes = [
   {
-    path: "/travel-agent/",
+    path: "/",
     name: "home",
     component: Home,
   },
   {
-    path: "/travel-agent/contact",
+    path: "/contact",
     name: "contact",
     component: Contact,
   },
   {
-    path: "/travel-agent/tours",
+    path: "/tours",
     name: "tours",
     component: Tours,
   },
   {
-    path: "/travel-agent/tours/:tourId",
+    path: "/tours/:tourId",
     name: "tour-detail",
     component: TourDetails,
   },
   {
-    path: "/travel-agent/tours/create",
+    path: "/tours/create",
     name: "create-tour",
     component: CreateTour,
     meta: {
@@ -40,7 +40,7 @@ const routes = [
     },
   },
   {
-    path: "/travel-agent/tours/edit/:tourId",
+    path: "/tours/edit/:tourId",
     name: "edit-tour",
     component: EditTour,
     meta: {
@@ -48,17 +48,17 @@ const routes = [
     },
   },
   {
-    path: "/travel-agent/admin",
+    path: "/admin",
     name: "login",
     component: Login,
   },
   {
-    path: "/travel-agent/register",
+    path: "/register",
     name: "register",
     component: Register,
   },
-  { path: "/travel-agent/:pathMatch(.*)", component: NotFound },
-  { path: "/travel-agent/unauthorized", component: Unauthorized },
+  { path: "/:pathMatch(.*)", component: NotFound },
+  { path: "/unauthorized", component: Unauthorized },
 ];
 
 const scrollBehavior = (to, from, savedPosition) => {
@@ -69,7 +69,7 @@ const scrollBehavior = (to, from, savedPosition) => {
 
 const router = createRouter({
   history: createWebHistory(),
-  base: "/travel-agent/",
+  base: "/",
   routes,
   scrollBehavior,
 });
@@ -79,7 +79,7 @@ router.beforeEach((to, from, next) => {
   const token = localStorage.getItem("token");
 
   if (to.meta.requiresAuth && token === null) {
-    router.push("/travel-agent/unauthorized"); // Redirect to the forbidden page if not authenticated
+    router.push("/unauthorized"); // Redirect to the forbidden page if not authenticated
   } else {
     next(); // Continue navigation
   }

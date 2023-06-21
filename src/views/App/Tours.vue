@@ -14,7 +14,7 @@
       <Button
         class="w-48 !bg-green-add !my-8"
         rounded
-        @click="$router.push(`/travel-agent/tours/create`)">
+        @click="$router.push(`/tours/create`)">
         <font-awesome-icon
           :icon="['fas', 'plus']"
           size="xl" />
@@ -142,7 +142,7 @@ watch(search, () => {
 const handlePageChange = (e) => {
   pageSize.value = e.rows;
   page.value = e.page;
-  router.push({ path: "/travel-agent/tours", query: { page: e.page + 1 } });
+  router.push({ path: "/tours", query: { page: e.page + 1 } });
 };
 
 watch(route, () => {

@@ -3,7 +3,7 @@ const { defineConfig } = require("@vue/cli-service");
 const path = require("path");
 
 module.exports = defineConfig({
-  publicPath: "/travel-agent/",
+  publicPath: "/",
   transpileDependencies: true,
   configureWebpack: {
     resolve: {

@@ -118,7 +118,7 @@ const openEditModal = () => {
 };
 
 const viewPackage = (id) => {
-  router.push(`/travel-agent/tours/${id}`);
+  router.push(`/tours/${id}`);
 };
 
 const onDialogUpdate = (value) => {
