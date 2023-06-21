@@ -12,10 +12,10 @@
 <script setup>
 import { watch, ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
-import store from "@/store";
 import { useToast } from "primevue/usetoast";
 import { useHead } from "@vueuse/head";
 
+import store from "@/store";
 import Navbar from "@/layout/Navbar.vue";
 import Footer from "./layout/Footer.vue";
 
@@ -24,12 +24,45 @@ const toast = useToast();
 
 const admin = ref(false);
 
-const siteData = ref({
-  title: "Wellness Life Travel",
-});
-
 useHead({
-  title: computed(() => siteData.value.title),
+  title: "Wellness Life Travel",
+  meta: [
+    // default
+    {
+      name: "description",
+      content: "รับจัดทัวร์ ในประเทศ และ ต่างประเทศ",
+    },
+    {
+      name: "keywords",
+      content:
+        "ทัวร์,การเดินทาง,ทัวร์นำเที่ยว,การผจญภัย,สถานที่ท่องเที่ยว,การสำรวจ,วันหยุดพักผ่อน,วันหยุด,การเดินทางชมสถานที่,ทัวร์ราคาถูก,ทัวร์คุณภาพ",
+    },
+
+    // facebook
+    { property: "og:title", content: "Wellness Life Travel" },
+    { property: "og:image", content: require("@/assets/images/logo.png") },
+    {
+      property: "og:description",
+      content: "รับจัดทัวร์ ในประเทศ และ ต่างประเทศ",
+    },
+    { property: "og:url", content: "https://www.wellnesslifetravelth.com" },
+    { property: "og:site_name", content: "wellnesslifetravelth.com" },
+    { property: "og:type", content: "website" },
+
+    // twitter
+    { property: "twitter:title", content: "Wellness Life Travel" },
+    { property: "twitter:image", content: require("@/assets/images/logo.png") },
+    {
+      property: "twitter:description",
+      content: "รับจัดทัวร์ ในประเทศ และ ต่างประเทศ",
+    },
+    {
+      property: "twitter:domain",
+      content: "https://www.wellnesslifetravelth.com",
+    },
+    { property: "twitter:site", content: "wellnesslifetravelth.com" },
+    { property: "twitter:card", content: "summary_large_image" },
+  ],
 });
 
 const toastMessage = computed(() => store.state.toast);
