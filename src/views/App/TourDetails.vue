@@ -7,9 +7,7 @@
         v-if="route.params.tourId !== 'preview' && tour"
         class="w-18 md:w-32 !bg-[#F5A327] !mb-12"
         rounded
-        @click="
-          $router.push(`/tours/edit/${$route.params.tourId}`)
-        ">
+        @click="$router.push(`/tours/edit/${$route.params.tourId}`)">
         <font-awesome-icon
           :icon="['fas', 'pen']"
           size="lg" /><span class="mx-auto"
@@ -305,7 +303,7 @@ const base64ToBlob = async (base64String) => {
 
 onMounted(async () => {
   const docRef = doc(db, "tours", route.params.tourId);
-  console.log(route);
+
   onSnapshot(docRef, async (docSnapshot) => {
     if (docSnapshot.exists()) {
       tour.value = docSnapshot.data();
