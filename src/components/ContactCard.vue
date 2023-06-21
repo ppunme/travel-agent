@@ -50,21 +50,26 @@
 import lineQrCode from "@/assets/images/line-qr-code.png";
 import bgImage from "@/assets/images/home-contact-bg.png";
 import { sendEmail, makePhoneCall, addLineID } from "@/utils/GlobalFunction";
+import { line, facebook, phone, email, instagram } from "@/utils/VueGtag";
 
 defineProps(["contacts", "line"]);
 
 const handleClick = (name, link) => {
   switch (name) {
     case "facebook":
+      facebook("contact");
       window.open(link, "_blank");
       break;
     case "instagram":
+      instagram("home");
       window.open(link, "_blank");
       break;
     case "phone":
+      phone("contact");
       makePhoneCall();
       break;
     case "email":
+      email("contact");
       sendEmail();
       break;
     default:

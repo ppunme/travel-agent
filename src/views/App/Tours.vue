@@ -56,6 +56,7 @@ import store from "@/store";
 import Toolbar from "@/components/Toolbar.vue";
 import TourPackagesList from "@/components/TourPackagesList.vue";
 import router from "@/router";
+import { pageview } from "vue-gtag";
 
 const route = useRoute();
 
@@ -201,6 +202,9 @@ const loadData = async () => {
 
 onMounted(() => {
   loadData();
+  pageview({
+    page_title: "All-Tours",
+  });
 });
 </script>
 
