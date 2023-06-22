@@ -80,58 +80,6 @@ const sort = ref([
   { name: "ตัวอักษร (ฮ-ก)", field: "name", order: "desc" },
 ]);
 
-useHead({
-  title: "All Tours - Wellness Life Travel",
-  meta: [
-    // default
-    {
-      name: "description",
-      content: "All Tours",
-    },
-    {
-      name: "keywords",
-      content: "All Tours,ทัวร์ทั้งหมด,โปรแกรมทัวร์",
-    },
-
-    // facebook
-    { property: "og:title", content: "All Tours - Wellness Life Travel" },
-    {
-      property: "og:image",
-      content: `https://www.wellnesslifetravelth.com${require("@/assets/images/logo.png")}`,
-    },
-    {
-      property: "og:description",
-      content: "All Tours",
-    },
-    {
-      property: "og:url",
-      content: "https://www.wellnesslifetravelth.com/tours?page=1",
-    },
-    { property: "og:site_name", content: "wellnesslifetravelth.com" },
-    { property: "og:type", content: "website" },
-
-    // twitter
-    {
-      property: "twitter:title",
-      content: "All Tours - Wellness Life Travel",
-    },
-    {
-      property: "twitter:image",
-      content: `https://www.wellnesslifetravelth.com${require("@/assets/images/logo.png")}`,
-    },
-    {
-      property: "twitter:description",
-      content: "All Tours",
-    },
-    {
-      property: "twitter:domain",
-      content: "https://www.wellnesslifetravelth.com/tours?page=1",
-    },
-    { property: "twitter:site", content: "wellnesslifetravelth.com" },
-    { property: "twitter:card", content: "summary_large_image" },
-  ],
-});
-
 const isLoggedIn = computed(() => store.state.isLoggedIn);
 
 watch(selectedCountry, (newValue) => {
@@ -255,8 +203,61 @@ const loadData = async () => {
 
 onMounted(() => {
   loadData();
+
   pageview({
     page_title: "All Tours",
+  });
+
+  useHead({
+    title: "All Tours - Wellness Life Travel",
+    meta: [
+      // default
+      {
+        name: "description",
+        content: "All Tours",
+      },
+      {
+        name: "keywords",
+        content: "All Tours,ทัวร์ทั้งหมด,โปรแกรมทัวร์",
+      },
+
+      // facebook
+      { property: "og:title", content: "All Tours - Wellness Life Travel" },
+      {
+        property: "og:image",
+        content: `https://www.wellnesslifetravelth.com${require("@/assets/images/logo.png")}`,
+      },
+      {
+        property: "og:description",
+        content: "All Tours",
+      },
+      {
+        property: "og:url",
+        content: "https://www.wellnesslifetravelth.com/tours?page=1",
+      },
+      { property: "og:site_name", content: "wellnesslifetravelth.com" },
+      { property: "og:type", content: "website" },
+
+      // twitter
+      {
+        property: "twitter:title",
+        content: "All Tours - Wellness Life Travel",
+      },
+      {
+        property: "twitter:image",
+        content: `https://www.wellnesslifetravelth.com${require("@/assets/images/logo.png")}`,
+      },
+      {
+        property: "twitter:description",
+        content: "All Tours",
+      },
+      {
+        property: "twitter:domain",
+        content: "https://www.wellnesslifetravelth.com/tours?page=1",
+      },
+      { property: "twitter:site", content: "wellnesslifetravelth.com" },
+      { property: "twitter:card", content: "summary_large_image" },
+    ],
   });
 });
 </script>
