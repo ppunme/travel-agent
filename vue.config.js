@@ -25,4 +25,23 @@ module.exports = defineConfig({
       return args;
     });
   },
+  pluginOptions: {
+    sitemap: {
+      baseURL: "https://wellnesslifetravelth.com",
+      routes: [
+        {
+          path: "/",
+          name: "home",
+        },
+        {
+          path: "/contact",
+          name: "contact",
+        },
+        {
+          path: "/tours",
+          name: "tours",
+        },
+      ],
+    },
+  },
 });
