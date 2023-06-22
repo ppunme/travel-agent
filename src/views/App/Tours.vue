@@ -67,7 +67,7 @@ const search = ref("");
 const pageSizeOptions = ref([12, 24, 36]);
 const pageSize = ref(12);
 const dataLength = ref();
-const page = ref(route.query.page - 1);
+const page = ref(route.query.page ? route.query.page - 1 : 0);
 
 const selectedCountry = ref();
 const countries = ref();
@@ -95,7 +95,10 @@ useHead({
 
     // facebook
     { property: "og:title", content: "All Tours - Wellness Life Travel" },
-    { property: "og:image", content: require("@/assets/images/logo.png") },
+    {
+      property: "og:image",
+      content: `https://www.wellnesslifetravelth.com${require("@/assets/images/logo.png")}`,
+    },
     {
       property: "og:description",
       content: "All Tours",
@@ -112,7 +115,10 @@ useHead({
       property: "twitter:title",
       content: "All Tours - Wellness Life Travel",
     },
-    { property: "twitter:image", content: require("@/assets/images/logo.png") },
+    {
+      property: "twitter:image",
+      content: `https://www.wellnesslifetravelth.com${require("@/assets/images/logo.png")}`,
+    },
     {
       property: "twitter:description",
       content: "All Tours",

@@ -40,7 +40,10 @@ useHead({
 
     // facebook
     { property: "og:title", content: "Wellness Life Travel" },
-    { property: "og:image", content: require("@/assets/images/logo.png") },
+    {
+      property: "og:image",
+      content: `https://www.wellnesslifetravelth.com${require("@/assets/images/logo.png")}`,
+    },
     {
       property: "og:description",
       content: "รับจัดทัวร์ ในประเทศ และ ต่างประเทศ",
@@ -51,7 +54,10 @@ useHead({
 
     // twitter
     { property: "twitter:title", content: "Wellness Life Travel" },
-    { property: "twitter:image", content: require("@/assets/images/logo.png") },
+    {
+      property: "twitter:image",
+      content: `https://www.wellnesslifetravelth.com${require("@/assets/images/logo.png")}`,
+    },
     {
       property: "twitter:description",
       content: "รับจัดทัวร์ ในประเทศ และ ต่างประเทศ",

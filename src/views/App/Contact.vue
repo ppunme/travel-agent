@@ -58,11 +58,7 @@
           class="bg-[#2890E3] md:pl-10 xl:pl-20 h-96 md:h-120 lg:h-148 xl:h-128 rounded-xl flex justify-center md:justify-normal items-center relative">
           <div
             class="bg-[#F1C31E] w-24 md:w-28 h-16 md:h-20 absolute -top-7 left-10 xl:left-20 rounded-xl shadow-md" />
-          <div class="hidden md:block absolute -bottom-10 right-0 w-96">
-            <img
-              :src="vector"
-              class="w-140" />
-          </div>
+          <div class="hidden md:block absolute -bottom-10 right-0 w-96"></div>
           <div>
             <div
               v-for="item in data.contacts"
@@ -87,7 +83,6 @@ import { pageview } from "vue-gtag";
 import { useHead } from "@vueuse/head";
 
 import { data } from "@/services/ContactList";
-import vector from "@/assets/images/vector-buildings.png";
 import {
   goToMessenger,
   sendEmail,
@@ -118,7 +113,10 @@ useHead({
 
     // facebook
     { property: "og:title", content: "Contact - Wellness Life Travel" },
-    { property: "og:image", content: require("@/assets/images/logo.png") },
+    {
+      property: "og:image",
+      content: `https://www.wellnesslifetravelth.com${require("@/assets/images/logo.png")}`,
+    },
     {
       property: "og:description",
       content: "Contact",
@@ -135,7 +133,10 @@ useHead({
       property: "twitter:title",
       content: "Contact - Wellness Life Travel",
     },
-    { property: "twitter:image", content: require("@/assets/images/logo.png") },
+    {
+      property: "twitter:image",
+      content: `https://www.wellnesslifetravelth.com${require("@/assets/images/logo.png")}`,
+    },
     {
       property: "twitter:description",
       content: "Contact",
