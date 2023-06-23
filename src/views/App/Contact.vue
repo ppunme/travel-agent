@@ -78,7 +78,6 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
 import { pageview } from "vue-gtag";
 import { useHead } from "@vueuse/head";
 
@@ -97,6 +96,54 @@ import {
   email,
   instagram,
 } from "@/utils/VueGtag";
+
+const handleClick = (name, link) => {
+  switch (name) {
+    case "line":
+      handleLine();
+      break;
+    case "facebook":
+      facebook("contact");
+      window.open(link, "_blank");
+      break;
+    case "instagram":
+      instagram("contact");
+      window.open(link, "_blank");
+      break;
+    case "phone":
+      handlePhone();
+      break;
+    case "email":
+      handleEmail();
+      break;
+    default:
+      break;
+  }
+};
+
+const handleLine = () => {
+  line("contact");
+  addLineID();
+};
+
+const handleMessenger = () => {
+  messenger("contact");
+  goToMessenger();
+};
+
+const handlePhone = () => {
+  phone("contact");
+  makePhoneCall();
+};
+
+const handleEmail = () => {
+  email("contact");
+  sendEmail();
+};
+
+pageview({
+  page_title: "Contact",
+});
 
 useHead({
   title: "Contact - Wellness Life Travel",
@@ -148,55 +195,5 @@ useHead({
     { property: "twitter:site", content: "wellnesslifetravelth.com" },
     { property: "twitter:card", content: "summary_large_image" },
   ],
-});
-
-const handleClick = (name, link) => {
-  switch (name) {
-    case "line":
-      handleLine();
-      break;
-    case "facebook":
-      facebook("contact");
-      window.open(link, "_blank");
-      break;
-    case "instagram":
-      instagram("contact");
-      window.open(link, "_blank");
-      break;
-    case "phone":
-      handlePhone();
-      break;
-    case "email":
-      handleEmail();
-      break;
-    default:
-      break;
-  }
-};
-
-const handleLine = () => {
-  line("contact");
-  addLineID();
-};
-
-const handleMessenger = () => {
-  messenger("contact");
-  goToMessenger();
-};
-
-const handlePhone = () => {
-  phone("contact");
-  makePhoneCall();
-};
-
-const handleEmail = () => {
-  email("contact");
-  sendEmail();
-};
-
-onMounted(async () => {
-  pageview({
-    page_title: "Contact",
-  });
 });
 </script>

@@ -32,8 +32,8 @@
       v-if="dataLength > 0"
       class="grid grid-cols-2 md:grid-cols-3 gap-12">
       <div
-        v-for="item in selectedTours"
-        :key="item.index"
+        v-for="(item, index) in selectedTours"
+        :key="index"
         class="flex justify-center cursor-pointer hover:opacity-80 rounded-xl shadow-md square-image"
         @click="viewPackage(item.id)">
         <img
@@ -188,10 +188,12 @@ const onSubmit = () => {
   loading.value = true;
 
   changedItem.value.forEach(async (item) => {
-    await updateDoc(doc(db, "tours", item), {
-      selected: deleteField(),
-      seq: deleteField(),
-    });
+    if (item?.selected && item?.seq) {
+      await updateDoc(doc(db, "tours", item), {
+        selected: deleteField(),
+        seq: deleteField(),
+      });
+    }
   });
 
   selectedToursEdit.value.forEach(async (item, index) => {

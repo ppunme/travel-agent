@@ -1,15 +1,12 @@
 import VueGtag, { event } from "vue-gtag";
 
-const gtag = [
-  [
-    VueGtag,
-    {
-      config: {
-        id: process.env.VUE_APP_GA_MEASUREMENT_ID,
-      },
-    },
-  ],
-];
+const gtag = VueGtag;
+
+const gconfig = {
+  config: {
+    id: process.env.VUE_APP_GA_MEASUREMENT_ID,
+  },
+};
 
 const line = (page) => {
   event(`Line button - ${page}`, {
@@ -53,4 +50,4 @@ const instagram = (page) => {
   });
 };
 
-export { gtag, line, messenger, phone, email, facebook, instagram };
+export { gtag, gconfig, line, messenger, phone, email, facebook, instagram };

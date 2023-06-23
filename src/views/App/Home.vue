@@ -23,7 +23,6 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
 import { pageview } from "vue-gtag";
 import { useHead } from "@vueuse/head";
 
@@ -32,56 +31,54 @@ import Carousel from "@/components/Carousel.vue";
 import TourGrid from "@/components/TourGrid.vue";
 import ContactCard from "@/components/ContactCard.vue";
 
-onMounted(async () => {
-  pageview({
-    page_title: "Home",
-  });
+pageview({
+  page_title: "Home",
+});
 
-  useHead({
-    title: "Wellness Life Travel",
-    meta: [
-      // default
-      {
-        name: "description",
-        content: "รับจัดทัวร์ ในประเทศ และ ต่างประเทศ",
-      },
-      {
-        name: "keywords",
-        content:
-          "ทัวร์,การเดินทาง,ทัวร์นำเที่ยว,การผจญภัย,สถานที่ท่องเที่ยว,การสำรวจ,วันหยุดพักผ่อน,วันหยุด,การเดินทางชมสถานที่,ทัวร์ราคาถูก,ทัวร์คุณภาพ",
-      },
+useHead({
+  title: "Wellness Life Travel",
+  meta: [
+    // default
+    {
+      name: "description",
+      content: "รับจัดทัวร์ ในประเทศ และ ต่างประเทศ",
+    },
+    {
+      name: "keywords",
+      content:
+        "ทัวร์,การเดินทาง,ทัวร์นำเที่ยว,การผจญภัย,สถานที่ท่องเที่ยว,การสำรวจ,วันหยุดพักผ่อน,วันหยุด,การเดินทางชมสถานที่,ทัวร์ราคาถูก,ทัวร์คุณภาพ",
+    },
 
-      // facebook
-      { property: "og:title", content: "Wellness Life Travel" },
-      {
-        property: "og:image",
-        content: `https://www.wellnesslifetravelth.com${require("@/assets/images/logo.png")}`,
-      },
-      {
-        property: "og:description",
-        content: "รับจัดทัวร์ ในประเทศ และ ต่างประเทศ",
-      },
-      { property: "og:url", content: "https://www.wellnesslifetravelth.com" },
-      { property: "og:site_name", content: "wellnesslifetravelth.com" },
-      { property: "og:type", content: "website" },
+    // facebook
+    { property: "og:title", content: "Wellness Life Travel" },
+    {
+      property: "og:image",
+      content: `https://www.wellnesslifetravelth.com${require("@/assets/images/logo.png")}`,
+    },
+    {
+      property: "og:description",
+      content: "รับจัดทัวร์ ในประเทศ และ ต่างประเทศ",
+    },
+    { property: "og:url", content: "https://www.wellnesslifetravelth.com" },
+    { property: "og:site_name", content: "wellnesslifetravelth.com" },
+    { property: "og:type", content: "website" },
 
-      // twitter
-      { property: "twitter:title", content: "Wellness Life Travel" },
-      {
-        property: "twitter:image",
-        content: `https://www.wellnesslifetravelth.com${require("@/assets/images/logo.png")}`,
-      },
-      {
-        property: "twitter:description",
-        content: "รับจัดทัวร์ ในประเทศ และ ต่างประเทศ",
-      },
-      {
-        property: "twitter:domain",
-        content: "https://www.wellnesslifetravelth.com",
-      },
-      { property: "twitter:site", content: "wellnesslifetravelth.com" },
-      { property: "twitter:card", content: "summary_large_image" },
-    ],
-  });
+    // twitter
+    { property: "twitter:title", content: "Wellness Life Travel" },
+    {
+      property: "twitter:image",
+      content: `https://www.wellnesslifetravelth.com${require("@/assets/images/logo.png")}`,
+    },
+    {
+      property: "twitter:description",
+      content: "รับจัดทัวร์ ในประเทศ และ ต่างประเทศ",
+    },
+    {
+      property: "twitter:domain",
+      content: "https://www.wellnesslifetravelth.com",
+    },
+    { property: "twitter:site", content: "wellnesslifetravelth.com" },
+    { property: "twitter:card", content: "summary_large_image" },
+  ],
 });
 </script>
