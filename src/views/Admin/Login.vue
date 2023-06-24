@@ -118,7 +118,7 @@ const login = () => {
   signInWithEmailAndPassword(auth, email.value, password.value)
     .then(() => {
       localStorage.setItem("token", auth.currentUser.accessToken);
-      router.push("/travel-agent");
+      router.push("/");
       resetForm();
       loading.value = false;
     })

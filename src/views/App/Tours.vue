@@ -14,7 +14,7 @@
       <Button
         class="w-48 !bg-green-add !my-8"
         rounded
-        @click="$router.push(`/travel-agent/tours/create`)">
+        @click="$router.push(`/tours/create`)">
         <font-awesome-icon
           :icon="['fas', 'plus']"
           size="xl" />
@@ -67,7 +67,7 @@ const search = ref("");
 const pageSizeOptions = ref([12, 24, 36]);
 const pageSize = ref(12);
 const dataLength = ref();
-const page = ref(route.query.page - 1);
+const page = ref(route.query.page ? route.query.page - 1 : 0);
 
 const selectedCountry = ref();
 const countries = ref();
@@ -79,52 +79,6 @@ const sort = ref([
   { name: "ตัวอักษร (ก-ฮ)", field: "name", order: "asc" },
   { name: "ตัวอักษร (ฮ-ก)", field: "name", order: "desc" },
 ]);
-
-useHead({
-  title: "All Tours - Wellness Life Travel",
-  meta: [
-    // default
-    {
-      name: "description",
-      content: "All Tours",
-    },
-    {
-      name: "keywords",
-      content: "All Tours,ทัวร์ทั้งหมด,โปรแกรมทัวร์",
-    },
-
-    // facebook
-    { property: "og:title", content: "All Tours - Wellness Life Travel" },
-    { property: "og:image", content: require("@/assets/images/logo.png") },
-    {
-      property: "og:description",
-      content: "All Tours",
-    },
-    {
-      property: "og:url",
-      content: "https://www.wellnesslifetravelth.com/tours?page=1",
-    },
-    { property: "og:site_name", content: "wellnesslifetravelth.com" },
-    { property: "og:type", content: "website" },
-
-    // twitter
-    {
-      property: "twitter:title",
-      content: "All Tours - Wellness Life Travel",
-    },
-    { property: "twitter:image", content: require("@/assets/images/logo.png") },
-    {
-      property: "twitter:description",
-      content: "All Tours",
-    },
-    {
-      property: "twitter:domain",
-      content: "https://www.wellnesslifetravelth.com/tours?page=1",
-    },
-    { property: "twitter:site", content: "wellnesslifetravelth.com" },
-    { property: "twitter:card", content: "summary_large_image" },
-  ],
-});
 
 const isLoggedIn = computed(() => store.state.isLoggedIn);
 
@@ -142,7 +96,7 @@ watch(search, () => {
 const handlePageChange = (e) => {
   pageSize.value = e.rows;
   page.value = e.page;
-  router.push({ path: "/travel-agent/tours", query: { page: e.page + 1 } });
+  router.push({ path: "/tours", query: { page: e.page + 1 } });
 };
 
 watch(route, () => {
@@ -247,11 +201,64 @@ const loadData = async () => {
   });
 };
 
+pageview({
+  page_title: "All Tours",
+});
+
+useHead({
+  title: "All Tours - Wellness Life Travel",
+  meta: [
+    // default
+    {
+      name: "description",
+      content: "All Tours",
+    },
+    {
+      name: "keywords",
+      content: "All Tours,ทัวร์ทั้งหมด,โปรแกรมทัวร์",
+    },
+
+    // facebook
+    { property: "og:title", content: "All Tours - Wellness Life Travel" },
+    {
+      property: "og:image",
+      content: "https://www.wellnesslifetravelth.com/logo.png",
+    },
+    {
+      property: "og:description",
+      content: "All Tours",
+    },
+    {
+      property: "og:url",
+      content: "https://www.wellnesslifetravelth.com/tours?page=1",
+    },
+    { property: "og:site_name", content: "wellnesslifetravelth.com" },
+    { property: "og:type", content: "website" },
+
+    // twitter
+    {
+      name: "twitter:title",
+      content: "All Tours - Wellness Life Travel",
+    },
+    {
+      name: "twitter:image",
+      content: "https://www.wellnesslifetravelth.com/logo.png",
+    },
+    {
+      name: "twitter:description",
+      content: "All Tours",
+    },
+    {
+      name: "twitter:domain",
+      content: "https://www.wellnesslifetravelth.com/tours?page=1",
+    },
+    { name: "twitter:site", content: "wellnesslifetravelth.com" },
+    { name: "twitter:card", content: "summary_large_image" },
+  ],
+});
+
 onMounted(() => {
   loadData();
-  pageview({
-    page_title: "All Tours",
-  });
 });
 </script>
 

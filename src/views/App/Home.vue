@@ -14,9 +14,7 @@
         label="ดูทั้งหมด"
         rounded
         class="w-32 !bg-primary-blue !border-none"
-        @click="
-          $router.push({ path: '/travel-agent/tours', query: { page: 1 } })
-        " />
+        @click="$router.push({ path: '/tours', query: { page: 1 } })" />
     </div>
   </div>
   <ContactCard
@@ -25,7 +23,6 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
 import { pageview } from "vue-gtag";
 import { useHead } from "@vueuse/head";
 
@@ -33,6 +30,10 @@ import { data } from "@/services/ContactList";
 import Carousel from "@/components/Carousel.vue";
 import TourGrid from "@/components/TourGrid.vue";
 import ContactCard from "@/components/ContactCard.vue";
+
+pageview({
+  page_title: "Home",
+});
 
 useHead({
   title: "Wellness Life Travel",
@@ -50,7 +51,10 @@ useHead({
 
     // facebook
     { property: "og:title", content: "Wellness Life Travel" },
-    { property: "og:image", content: require("@/assets/images/logo.png") },
+    {
+      property: "og:image",
+      content: "https://www.wellnesslifetravelth.com/logo.png",
+    },
     {
       property: "og:description",
       content: "รับจัดทัวร์ ในประเทศ และ ต่างประเทศ",
@@ -60,24 +64,21 @@ useHead({
     { property: "og:type", content: "website" },
 
     // twitter
-    { property: "twitter:title", content: "Wellness Life Travel" },
-    { property: "twitter:image", content: require("@/assets/images/logo.png") },
+    { name: "twitter:title", content: "Wellness Life Travel" },
     {
-      property: "twitter:description",
+      name: "twitter:image",
+      content: "https://www.wellnesslifetravelth.com/logo.png",
+    },
+    {
+      name: "twitter:description",
       content: "รับจัดทัวร์ ในประเทศ และ ต่างประเทศ",
     },
     {
-      property: "twitter:domain",
+      name: "twitter:domain",
       content: "https://www.wellnesslifetravelth.com",
     },
-    { property: "twitter:site", content: "wellnesslifetravelth.com" },
-    { property: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:site", content: "wellnesslifetravelth.com" },
+    { name: "twitter:card", content: "summary_large_image" },
   ],
-});
-
-onMounted(async () => {
-  pageview({
-    page_title: "Home",
-  });
 });
 </script>
