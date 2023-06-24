@@ -357,25 +357,25 @@ onMounted(async () => {
 
           // twitter
           {
-            property: "twitter:title",
+            name: "twitter:title",
             content: `${tour.value.name} ${tour.value.days} วัน ${tour.value.nights} คืน - Wellness Life Travel`,
           },
           {
-            property: "twitter:image",
+            name: "twitter:image",
             content: image,
           },
           {
-            property: "twitter:description",
+            name: "twitter:description",
             content: `${tour.value.name} ${tour.value.countries.join(" ")} ${
               tour.value.days
             } วัน ${tour.value.nights} คืน ${tour.value.airline}`,
           },
           {
-            property: "twitter:domain",
+            name: "twitter:domain",
             content: `https://www.wellnesslifetravelth.com${route.path}`,
           },
-          { property: "twitter:site", content: "wellnesslifetravelth.com" },
-          { property: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:site", content: "wellnesslifetravelth.com" },
+          { name: "twitter:card", content: "summary_large_image" },
         ],
       });
     } else {

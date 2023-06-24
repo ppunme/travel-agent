@@ -222,7 +222,7 @@ useHead({
     { property: "og:title", content: "All Tours - Wellness Life Travel" },
     {
       property: "og:image",
-      content: `https://www.wellnesslifetravelth.com${require("@/assets/images/logo.png")}`,
+      content: "https://www.wellnesslifetravelth.com/logo.png",
     },
     {
       property: "og:description",
@@ -237,23 +237,23 @@ useHead({
 
     // twitter
     {
-      property: "twitter:title",
+      name: "twitter:title",
       content: "All Tours - Wellness Life Travel",
     },
     {
-      property: "twitter:image",
-      content: `https://www.wellnesslifetravelth.com${require("@/assets/images/logo.png")}`,
+      name: "twitter:image",
+      content: "https://www.wellnesslifetravelth.com/logo.png",
     },
     {
-      property: "twitter:description",
+      name: "twitter:description",
       content: "All Tours",
     },
     {
-      property: "twitter:domain",
+      name: "twitter:domain",
       content: "https://www.wellnesslifetravelth.com/tours?page=1",
     },
-    { property: "twitter:site", content: "wellnesslifetravelth.com" },
-    { property: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:site", content: "wellnesslifetravelth.com" },
+    { name: "twitter:card", content: "summary_large_image" },
   ],
 });
 

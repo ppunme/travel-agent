@@ -162,7 +162,7 @@ useHead({
     { property: "og:title", content: "Contact - Wellness Life Travel" },
     {
       property: "og:image",
-      content: `https://www.wellnesslifetravelth.com${require("@/assets/images/logo.png")}`,
+      content: "https://www.wellnesslifetravelth.com/logo.png",
     },
     {
       property: "og:description",
@@ -177,23 +177,23 @@ useHead({
 
     // twitter
     {
-      property: "twitter:title",
+      name: "twitter:title",
       content: "Contact - Wellness Life Travel",
     },
     {
-      property: "twitter:image",
-      content: `https://www.wellnesslifetravelth.com${require("@/assets/images/logo.png")}`,
+      name: "twitter:image",
+      content: "https://www.wellnesslifetravelth.com/logo.png",
     },
     {
-      property: "twitter:description",
+      name: "twitter:description",
       content: "Contact",
     },
     {
-      property: "twitter:domain",
+      name: "twitter:domain",
       content: "https://www.wellnesslifetravelth.com/contact",
     },
-    { property: "twitter:site", content: "wellnesslifetravelth.com" },
-    { property: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:site", content: "wellnesslifetravelth.com" },
+    { name: "twitter:card", content: "summary_large_image" },
   ],
 });
 </script>
