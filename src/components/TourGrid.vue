@@ -84,7 +84,7 @@ const tours = ref();
 const visible = ref(false);
 const visibleDelete = ref(false);
 const deleteIndex = ref(null);
-const deleteItem = ref(null);
+const deleteItems = ref([]);
 const dataLength = ref(0);
 const changedItem = ref([]);
 
@@ -114,6 +114,7 @@ const selectedToursEdit = ref([
 
 const openEditModal = () => {
   visible.value = true;
+  deleteItems.value = [];
   fetchData();
 };
 
@@ -139,7 +140,6 @@ const updateSelectedTours = async (index, tour) => {
   if (tour.id) {
     changedItem.value.push(selectedToursEdit.value[index].id);
   }
-
   selectedToursEdit.value.splice(index, 1, tour);
 };
 
@@ -151,7 +151,10 @@ const handleDelete = (index, item) => {
   if (item.id) {
     visibleDelete.value = true;
     deleteIndex.value = index;
-    deleteItem.value = item.id;
+
+    if (!deleteItems.value.includes(item.id)) {
+      deleteItems.value.push(item.id);
+    }
   } else {
     selectedToursEdit.value.splice(index, 1);
   }
@@ -160,11 +163,8 @@ const handleDelete = (index, item) => {
 const confirmAction = async () => {
   visibleDelete.value = false;
 
-  if (deleteItem.value) {
-    await updateDoc(doc(db, "tours", deleteItem.value), {
-      selected: deleteField(),
-      seq: deleteField(),
-    });
+  if (deleteItems.value.length > 0) {
+    selectedToursEdit.value.splice(deleteIndex.value, 1);
 
     store.dispatch("showToast", {
       severity: "success",
@@ -187,6 +187,15 @@ const handleDrop = (e, newIndex) => {
 const onSubmit = () => {
   loading.value = true;
 
+  if (deleteItems.value.length > 0) {
+    deleteItems.value.forEach(async (item) => {
+      await updateDoc(doc(db, "tours", item), {
+        selected: deleteField(),
+        seq: deleteField(),
+      });
+    });
+  }
+
   changedItem.value.forEach(async (item) => {
     if (item?.selected && item?.seq) {
       await updateDoc(doc(db, "tours", item), {
@@ -196,6 +205,7 @@ const onSubmit = () => {
     }
   });
 
+  console.log("selectedTourEdit", selectedToursEdit.value);
   selectedToursEdit.value.forEach(async (item, index) => {
     await updateDoc(doc(db, "tours", item.id), {
       selected: true,
