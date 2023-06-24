@@ -65,7 +65,7 @@ const onSave = () => {
   setTimeout(() => {
     loading.value = false;
     emit("confirmAction");
-  }, 1000);
+  }, 600);
 };
 
 const onCancel = () => {

@@ -49,7 +49,7 @@ const router = useRouter();
 
 const openNewRoute = async (id) => {
   if (!props.management) {
-    router.push(`/travel-agent/tours/${id}`);
+    router.push(`/tours/${id}`);
   } else {
     const nameValidate = await props.nameValidate();
     const airlineValidate = await props.airlineValidate();
@@ -87,7 +87,7 @@ const openNewRoute = async (id) => {
     };
 
     const url = router.resolve({
-      path: "/travel-agent/tours/preview",
+      path: "/tours/preview",
       query: previewData,
       target: "_blank",
     });

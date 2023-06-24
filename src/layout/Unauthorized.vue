@@ -7,7 +7,7 @@
       You are not authorized to access this page.
     </p>
     <router-link
-      to="/travel-agent/"
+      to="/"
       class="mt-8 px-6 py-3 text-lg text-white bg-primary-blue hover:opacity-90 rounded-full"
       >กลับสู่หน้าหลัก</router-link
     >

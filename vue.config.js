@@ -3,7 +3,7 @@ const { defineConfig } = require("@vue/cli-service");
 const path = require("path");
 
 module.exports = defineConfig({
-  publicPath: "/travel-agent/",
+  publicPath: "/",
   transpileDependencies: true,
   configureWebpack: {
     resolve: {
@@ -24,5 +24,24 @@ module.exports = defineConfig({
       args[0].title = "Wellness Life Travel";
       return args;
     });
+  },
+  pluginOptions: {
+    sitemap: {
+      baseURL: "https://wellnesslifetravelth.com",
+      routes: [
+        {
+          path: "/",
+          name: "home",
+        },
+        {
+          path: "/contact",
+          name: "contact",
+        },
+        {
+          path: "/tours",
+          name: "tours",
+        },
+      ],
+    },
   },
 });

@@ -460,7 +460,7 @@ const onSubmit = handleSubmit(async (values) => {
       summary: "บันทึกข้อมูลเรียบร้อยแล้ว",
     });
 
-    router.push(`/travel-agent/tours/${route.params.tourId}`);
+    router.push(`/tours/${route.params.tourId}`);
   } catch (error) {
     if (error) {
       store.dispatch("showToast", {
@@ -473,7 +473,7 @@ const onSubmit = handleSubmit(async (values) => {
 });
 
 const onCancel = () => {
-  router.push(`/travel-agent/tours/${route.params.tourId}`);
+  router.push(`/tours/${route.params.tourId}`);
 };
 
 const base64ToBlob = async (base64String) => {

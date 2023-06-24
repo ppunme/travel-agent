@@ -118,7 +118,7 @@ const confirmAction = () => {
 
   if (deleteItem.value) {
     itemsEdit.value = itemsEdit.value.filter(
-      (tour) => tour.id !== deleteItem.value
+      (carousel) => carousel.id !== deleteItem.value
     );
     store.dispatch("showToast", {
       severity: "success",
