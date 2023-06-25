@@ -180,16 +180,28 @@ body,
   }
 }
 
-.p-multiselect-filter-container,
-.p-dropdown-filter-container {
+.p-dropdown-header {
+  padding: 0.5rem !important;
+
+  .p-dropdown-filter-container {
+    .p-inputtext {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      padding-left: 1.25rem;
+      border-radius: 9999px;
+    }
+  }
+}
+
+
+.p-multiselect-filter-container {
   .p-inputtext {
     border-radius: 9999px;
     padding-left: 1.25rem;
     padding-right: 2.5rem !important;
   }
 
-  .p-multiselect-filter-icon,
-  .p-dropdown-filter-icon {
+  .p-multiselect-filter-icon {
     right: 1.25rem !important;
   }
 }

@@ -41,7 +41,7 @@
           <Dropdown
             :modelValue="item"
             :options="filteredOptions(item)"
-            filtered
+            filter
             optionLabel="name"
             placeholder="Select a tour"
             class="p-dropdown-sm w-full"
@@ -88,12 +88,20 @@ const emit = defineEmits([
 
 const filteredOptions = computed(() => {
   return (item) => {
-    const filteredItems = props.tours.filter(
-      (tour) => !props.selectedTours.some((selected) => selected.id === tour.id)
-    );
-    const newFilteredItems = [item].concat(filteredItems);
-
-    return newFilteredItems;
+    console.log("item", item);
+    if (item.name !== null) {
+      const filteredItems = props.tours.filter(
+        (tour) =>
+          !props.selectedTours.some((selected) => selected.id === tour.id)
+      );
+      const newFilteredItems = [item].concat(filteredItems);
+      return newFilteredItems;
+    } else {
+      return props.tours.filter(
+        (tour) =>
+          !props.selectedTours.some((selected) => selected.id === tour.id)
+      );
+    }
   };
 });
 
