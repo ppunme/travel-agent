@@ -97,8 +97,6 @@ const filteredOptions = computed(() => {
   };
 });
 
-console.log("filter", filteredOptions);
-
 const addRow = () => {
   emit("onAddRow");
 };

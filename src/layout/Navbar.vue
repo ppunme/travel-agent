@@ -164,7 +164,6 @@ const socialLinks = ref([
 ]);
 
 const handleClick = (name, link) => {
-  console.log("handleClick: ", link);
   switch (name) {
     case "facebook":
       facebook("contact");

@@ -205,7 +205,6 @@ const onSubmit = () => {
     }
   });
 
-  console.log("selectedTourEdit", selectedToursEdit.value);
   selectedToursEdit.value.forEach(async (item, index) => {
     await updateDoc(doc(db, "tours", item.id), {
       selected: true,
