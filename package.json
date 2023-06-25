@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "node scripts/gh-pages-deploy.mjs",
+    "deploy-gd": "node scripts/godaddy-deploy.mjs",
+    "deploy-gh": "node scripts/gh-pages-deploy.mjs",
     "sitemap": "vue-cli-service sitemap"
   },
   "dependencies": {
