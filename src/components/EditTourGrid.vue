@@ -40,8 +40,8 @@
         <div class="col-span-9 sm:col-span-9">
           <Dropdown
             :modelValue="item"
-            :options="tours"
-            filter
+            :options="filteredOptions(item)"
+            filtered
             optionLabel="name"
             placeholder="Select a tour"
             class="p-dropdown-sm w-full"
@@ -77,13 +77,27 @@
 </template>
 
 <script setup>
-defineProps(["selectedTours", "tours"]);
+import { computed } from "vue";
+const props = defineProps(["selectedTours", "tours"]);
 const emit = defineEmits([
   "onAddRow",
   "updateSelectedTours",
   "handleDelete",
   "handleDrop",
 ]);
+
+const filteredOptions = computed(() => {
+  return (item) => {
+    const filteredItems = props.tours.filter(
+      (tour) => !props.selectedTours.some((selected) => selected.id === tour.id)
+    );
+    const newFilteredItems = [item].concat(filteredItems);
+
+    return newFilteredItems;
+  };
+});
+
+console.log("filter", filteredOptions);
 
 const addRow = () => {
   emit("onAddRow");
