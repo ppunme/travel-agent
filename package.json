@@ -5,10 +5,11 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build-prerender": "vue-cli-service build:prerender",
     "lint": "vue-cli-service lint",
+    "sitemap": "vue-cli-service sitemap",
     "deploy-gd": "node scripts/godaddy-deploy.mjs",
-    "deploy-gh": "node scripts/gh-pages-deploy.mjs",
-    "sitemap": "vue-cli-service sitemap"
+    "deploy-gh": "node scripts/gh-pages-deploy.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
@@ -30,10 +31,13 @@
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
+    "@prerenderer/renderer-puppeteer": "^1.2.2",
+    "@prerenderer/webpack-plugin": "^5.3.6",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "autoprefixer": "^10.4.14",
+    "connect-history-api-fallback": "^2.0.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -54,5 +58,10 @@
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]
+  ],
+  "vuePlugins": {
+    "service": [
+      "build.prerender.js"
+    ]
+  }
 }

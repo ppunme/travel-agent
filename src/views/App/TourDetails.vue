@@ -228,7 +228,7 @@
     @confirmAction="confirmAction" />
 </template>
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, nextTick } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { doc, onSnapshot, deleteDoc } from "firebase/firestore";
 import { pageview } from "vue-gtag";
@@ -306,7 +306,7 @@ onMounted(async () => {
 
   onSnapshot(docRef, async (docSnapshot) => {
     if (docSnapshot.exists()) {
-      tour.value = docSnapshot.data();
+      tour.value = await docSnapshot.data();
 
       const image = await base64ToBlob(tour.value.image).then((blob) => {
         return URL.createObjectURL(blob);
@@ -377,6 +377,10 @@ onMounted(async () => {
           { name: "twitter:site", content: "wellnesslifetravelth.com" },
           { name: "twitter:card", content: "summary_large_image" },
         ],
+      });
+
+      nextTick(() => {
+        document.dispatchEvent(new Event("render-complete"));
       });
     } else {
       store.dispatch("showToast", {
