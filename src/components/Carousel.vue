@@ -35,7 +35,16 @@
     class="home-carousel">
     <template #item="slotProps">
       <div class="img-container w-full">
+        <p>{{ slotProps.data.name }}</p>
+        <!-- <img
+          :src="slotProps.data.img"
+          :alt="slotProps.data.name" /> -->
         <img
+          v-if="slotProps.data.id"
+          :id="'carousel' + slotProps.data.name"
+          :alt="slotProps.data.name" />
+        <img
+          v-if="!slotProps.data.id"
           :src="slotProps.data.img"
           :alt="slotProps.data.name" />
       </div>
@@ -54,11 +63,12 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, watch, computed, onMounted } from "vue";
 import Modal from "@/components/Modal.vue";
 import EditCarousel from "@/components/EditCarousel.vue";
 import ConfirmModal from "@/components/ConfirmModal.vue";
 import store from "@/store";
+import { db, storage } from "@/firebase";
 import {
   collection,
   addDoc,
@@ -66,7 +76,11 @@ import {
   deleteDoc,
   onSnapshot,
 } from "firebase/firestore";
-import { db } from "@/firebase";
+import {
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 
 const items = ref([]);
 const itemsEdit = ref([]);
@@ -75,6 +89,8 @@ const visible = ref(false);
 const visibleDelete = ref(false);
 const deleteIndex = ref(null);
 const deleteItem = ref(null);
+
+const uploadedFiles = ref([]);
 
 const loading = ref(false);
 
@@ -129,16 +145,37 @@ const confirmAction = () => {
 
 const handleAddImg = async (file, base64data) => {
   itemsEdit.value.push({ name: file.name, img: base64data });
+  uploadedFiles.value.push(file);
+};
+
+const onDialogUpdate = (value) => {
+  visible.value = value;
+};
+
+// Upload file to Firebase Storage
+const upload = async () => {
+  if (!uploadedFiles.value) {
+    return;
+  }
+
+  uploadedFiles.value.forEach(async (file) => {
+    const fileRef = storageRef(storage, file.name);
+    await uploadBytes(fileRef, file).then((snapshot) => {
+      console.log("Uploaded a blob or file!", snapshot);
+    });
+  });
 };
 
 const onSubmit = async () => {
   loading.value = true;
   try {
+    upload();
     await clearCollection();
     itemsEdit.value.forEach(async (item, index) => {
-      const submitData = { ...item, seq: index };
+      const submitData = { name: item.name, seq: index };
       await addDoc(collection(db, "carousel"), submitData);
     });
+
     loading.value = false;
     visible.value = false;
   } catch (e) {
@@ -147,10 +184,6 @@ const onSubmit = async () => {
       summary: e.message,
     });
   }
-};
-
-const onDialogUpdate = (value) => {
-  visible.value = value;
 };
 
 const clearCollection = async () => {
@@ -183,6 +216,41 @@ const fetchData = () => {
 
 onMounted(() => {
   fetchData();
+
+  getDownloadURL(
+    storageRef(storage, "6DD18702-061A-40CC-8E0A-8A65949FA703.jpeg")
+  )
+    .then((url) => {
+      const img = document.getElementById(
+        "carousel6DD18702-061A-40CC-8E0A-8A65949FA703.jpeg"
+      );
+      img.setAttribute("src", url);
+    })
+    .catch((error) => {
+      console.log(error.message);
+      // Handle any errors
+    });
+});
+
+watch(items.value.length, (items) => {
+  if (items.value.length > 0) {
+    items.value.forEach((item) => {
+      console.log("item", item);
+      getDownloadURL(
+        storageRef(storage, "6DD18702-061A-40CC-8E0A-8A65949FA703.jpeg")
+      )
+        .then((url) => {
+          const img = document.getElementById(
+            "carousel6DD18702-061A-40CC-8E0A-8A65949FA703.jpeg"
+          );
+          img.setAttribute("src", url);
+        })
+        .catch((error) => {
+          console.log(error.message);
+          // Handle any errors
+        });
+    });
+  }
 });
 </script>
 
