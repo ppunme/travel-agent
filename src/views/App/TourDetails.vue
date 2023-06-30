@@ -228,7 +228,7 @@
     @confirmAction="confirmAction" />
 </template>
 <script setup>
-import { ref, onMounted, computed, nextTick } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { doc, onSnapshot, deleteDoc } from "firebase/firestore";
 import { pageview } from "vue-gtag";
@@ -379,10 +379,6 @@ onMounted(async () => {
           { name: "twitter:site", content: "wellnesslifetravelth.com" },
           { name: "twitter:card", content: "summary_large_image" },
         ],
-      });
-
-      nextTick(() => {
-        document.dispatchEvent(new Event("render-complete"));
       });
     } else {
       store.dispatch("showToast", {

@@ -30,7 +30,6 @@ module.exports = (api) => {
     api.chainWebpack((config) => {
       config.plugin("prerender").use(PrerendererWebpackPlugin, [
         {
-          indexPath: "index.html",
           routes: ["/", "/contact", "/tours"].concat(
             tour.map((item) => `/tours/${item}`)
           ),
