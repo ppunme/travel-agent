@@ -47,7 +47,7 @@
         label="ดูทั้งหมด"
         rounded
         class="w-32 !bg-primary-blue !border-none"
-        @click="$router.push({ path: '/tours', query: { page: 1 } })" />
+        @click="$router.push('/tours')" />
     </div>
   </div>
   <ContactCard
@@ -77,6 +77,7 @@ import { data } from "@/services/ContactList";
 import Carousel from "@/components/Carousel.vue";
 import TourGrid from "@/components/TourGrid.vue";
 import ContactCard from "@/components/ContactCard.vue";
+import Button from "primevue/button";
 
 const router = useRouter();
 
@@ -362,22 +363,6 @@ const fetchTourData = () => {
   });
 };
 
-onMounted(() => {
-  Promise.all([fetchCarouselData(), fetchTourData()])
-    .then(() => {
-      nextTick(() => {
-        document.dispatchEvent(new Event("render-complete"));
-      });
-    })
-    .catch(() => {
-      store.dispatch("showToast", {
-        severity: "error",
-        summary: "พบข้อผิดพลาดในการแสดงข้อมูล",
-        detail: "กรุณาลองใหม่อีกครั้ง",
-      });
-    });
-});
-
 pageview({
   page_title: "Home",
 });
@@ -427,5 +412,21 @@ useHead({
     { name: "twitter:site", content: "wellnesslifetravelth.com" },
     { name: "twitter:card", content: "summary_large_image" },
   ],
+});
+
+onMounted(() => {
+  Promise.all([fetchCarouselData(), fetchTourData()])
+    .then(() => {
+      nextTick(() => {
+        document.dispatchEvent(new Event("render-complete"));
+      });
+    })
+    .catch(() => {
+      store.dispatch("showToast", {
+        severity: "error",
+        summary: "พบข้อผิดพลาดในการแสดงข้อมูล",
+        detail: "กรุณาลองใหม่อีกครั้ง",
+      });
+    });
 });
 </script>

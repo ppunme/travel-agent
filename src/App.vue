@@ -17,6 +17,7 @@ import { useToast } from "primevue/usetoast";
 import store from "@/store";
 import Navbar from "@/layout/Navbar.vue";
 import Footer from "./layout/Footer.vue";
+import Toast from "primevue/toast";
 
 const route = useRoute();
 const toast = useToast();

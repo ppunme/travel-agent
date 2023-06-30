@@ -58,6 +58,8 @@ import store from "@/store";
 import Toolbar from "@/components/Toolbar.vue";
 import TourPackagesList from "@/components/TourPackagesList.vue";
 import router from "@/router";
+import Button from "primevue/button";
+import Paginator from "primevue/paginator";
 
 const route = useRoute();
 

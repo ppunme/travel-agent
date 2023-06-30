@@ -97,6 +97,7 @@ import {
   email,
   instagram,
 } from "@/utils/VueGtag";
+import Button from "primevue/button";
 
 const handleClick = (name, link) => {
   switch (name) {
@@ -142,63 +143,63 @@ const handleEmail = () => {
   sendEmail();
 };
 
+pageview({
+  page_title: "Contact",
+});
+
+useHead({
+  title: "Contact - Wellness Life Travel",
+  meta: [
+    // default
+    {
+      name: "description",
+      content: "Contact",
+    },
+    {
+      name: "keywords",
+      content: "Contact,ติดต่อ",
+    },
+
+    // facebook
+    { property: "og:title", content: "Contact - Wellness Life Travel" },
+    {
+      property: "og:image",
+      content: "https://www.wellnesslifetravelth.com/logo.png",
+    },
+    {
+      property: "og:description",
+      content: "Contact",
+    },
+    {
+      property: "og:url",
+      content: "https://www.wellnesslifetravelth.com/contact",
+    },
+    { property: "og:site_name", content: "wellnesslifetravelth.com" },
+    { property: "og:type", content: "website" },
+
+    // twitter
+    {
+      name: "twitter:title",
+      content: "Contact - Wellness Life Travel",
+    },
+    {
+      name: "twitter:image",
+      content: "https://www.wellnesslifetravelth.com/logo.png",
+    },
+    {
+      name: "twitter:description",
+      content: "Contact",
+    },
+    {
+      name: "twitter:domain",
+      content: "https://www.wellnesslifetravelth.com/contact",
+    },
+    { name: "twitter:site", content: "wellnesslifetravelth.com" },
+    { name: "twitter:card", content: "summary_large_image" },
+  ],
+});
+
 onMounted(() => {
-  pageview({
-    page_title: "Contact",
-  });
-
-  useHead({
-    title: "Contact - Wellness Life Travel",
-    meta: [
-      // default
-      {
-        name: "description",
-        content: "Contact",
-      },
-      {
-        name: "keywords",
-        content: "Contact,ติดต่อ",
-      },
-
-      // facebook
-      { property: "og:title", content: "Contact - Wellness Life Travel" },
-      {
-        property: "og:image",
-        content: "https://www.wellnesslifetravelth.com/logo.png",
-      },
-      {
-        property: "og:description",
-        content: "Contact",
-      },
-      {
-        property: "og:url",
-        content: "https://www.wellnesslifetravelth.com/contact",
-      },
-      { property: "og:site_name", content: "wellnesslifetravelth.com" },
-      { property: "og:type", content: "website" },
-
-      // twitter
-      {
-        name: "twitter:title",
-        content: "Contact - Wellness Life Travel",
-      },
-      {
-        name: "twitter:image",
-        content: "https://www.wellnesslifetravelth.com/logo.png",
-      },
-      {
-        name: "twitter:description",
-        content: "Contact",
-      },
-      {
-        name: "twitter:domain",
-        content: "https://www.wellnesslifetravelth.com/contact",
-      },
-      { name: "twitter:site", content: "wellnesslifetravelth.com" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  });
-
   nextTick(() => {
     document.dispatchEvent(new Event("render-complete"));
   });

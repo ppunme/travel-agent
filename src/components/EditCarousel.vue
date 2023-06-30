@@ -67,6 +67,8 @@ import {
   isValidImageFileSize,
 } from "@/utils/GlobalFunction";
 import store from "@/store";
+import ConfirmDialog from "primevue/confirmdialog";
+import FileUpload from "primevue/fileupload";
 
 const props = defineProps(["items"]);
 const emit = defineEmits([

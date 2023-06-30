@@ -129,6 +129,9 @@ import { ref, computed } from "vue";
 import store from "@/store";
 import { makePhoneCall } from "@/utils/GlobalFunction";
 import { facebook, phone, instagram } from "@/utils/VueGtag";
+import Avatar from "primevue/avatar";
+import Button from "primevue/button";
+import Menu from "primevue/menu";
 
 const showMenu = ref(false);
 const adminMenu = ref();
@@ -140,8 +143,7 @@ const menuItems = ref([
   },
   {
     label: "แพ็คเกจทัวร์",
-    // route: "/tours",
-    route: { path: "/tours", query: { page: 1 } },
+    route: "/tours",
   },
   {
     label: "ติดต่อเรา",

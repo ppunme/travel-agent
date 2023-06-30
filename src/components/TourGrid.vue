@@ -66,6 +66,9 @@
 import Modal from "@/components/Modal.vue";
 import ConfirmModal from "@/components/ConfirmModal.vue";
 import EditTourGrid from "@/components/EditTourGrid.vue";
+import Button from "primevue/button";
+import Skeleton from "primevue/skeleton";
+import Toast from "primevue/toast";
 
 defineProps([
   "isLoggedIn",

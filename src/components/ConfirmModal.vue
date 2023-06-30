@@ -53,6 +53,8 @@
 
 <script setup>
 import { ref, watch } from "vue";
+import Button from "primevue/button";
+import Dialog from "primevue/dialog";
 
 const props = defineProps(["visible", "header"]);
 const emit = defineEmits(["handleCancel", "confirmAction"]);

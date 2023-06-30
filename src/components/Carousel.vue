@@ -57,6 +57,9 @@
 import Modal from "@/components/Modal.vue";
 import EditCarousel from "@/components/EditCarousel.vue";
 import ConfirmModal from "@/components/ConfirmModal.vue";
+import Button from "primevue/button";
+import Carousel from "primevue/carousel";
+import Skeleton from "primevue/skeleton";
 
 defineProps([
   "isLoggedIn",

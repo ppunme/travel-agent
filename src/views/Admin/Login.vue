@@ -70,6 +70,9 @@ import Modal from "@/components/Modal.vue";
 import ForgetPassword from "@/components/ForgetPassword.vue";
 import SuccessReset from "@/components/SuccessReset.vue";
 import { useField, useForm } from "vee-validate";
+import Button from "primevue/button";
+import InputText from "primevue/inputtext";
+import Password from "primevue/password";
 
 const errorLogin = ref("");
 
