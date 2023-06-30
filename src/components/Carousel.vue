@@ -25,7 +25,6 @@
       @moveItemUp="moveItemUp"
       @moveItemDown="moveItemDown" />
   </Modal>
-  <p>{{ items }}</p>
   <Carousel
     v-if="items.length > 0"
     :value="items"
@@ -40,11 +39,6 @@
           v-if="slotProps.data.id"
           :src="slotProps.data.imgUrl"
           :alt="slotProps.data.name" />
-
-        <!-- <img
-          v-if="!slotProps.data.id"
-          :src="slotProps.data.img"
-          :alt="slotProps.data.name" /> -->
       </div>
     </template>
   </Carousel>
@@ -193,24 +187,24 @@ const clearCollection = async () => {
   });
 };
 
-const fetch1 = () => {
-  return new Promise((resolve) => {
-    onSnapshot(collection(db, "carousel"), (querySnapshot) => {
-      let carouselList = [];
-      querySnapshot.forEach((doc) => {
-        const list = {
-          id: doc.id,
-          name: doc.data().name,
-          seq: doc.data().seq,
-        };
-        carouselList.push(list);
-      });
-      resolve(carouselList);
-    });
-  });
-};
+// const fetch1 = () => {
+//   return new Promise((resolve) => {
+//     onSnapshot(collection(db, "carousel"), (querySnapshot) => {
+//       let carouselList = [];
+//       querySnapshot.forEach((doc) => {
+//         const list = {
+//           id: doc.id,
+//           name: doc.data().name,
+//           seq: doc.data().seq,
+//         };
+//         carouselList.push(list);
+//       });
+//       resolve(carouselList);
+//     });
+//   });
+// };
 
-const aa = ref([]);
+// const aa = ref([]);
 
 // const sortedAA = computed(() => {
 //   let sorted = aa.value;
@@ -218,34 +212,34 @@ const aa = ref([]);
 //   return sorted;
 // });
 
-const fetch2 = (carouselList) => {
-  let count = 0;
-  for (let i = 0; i < carouselList.length; i++) {
-    count++;
-    getDownloadURL(storageRef(storage, carouselList[i].name))
-      .then((url) => {
-        carouselList[i] = { ...carouselList[i], imgUrl: url };
-        aa.value.push({ ...carouselList[i], imgUrl: url });
-      })
-      .catch((error) => {
-        console.log(error.message);
-        // Handle any errors
-      });
-  }
+// const fetch2 = (carouselList) => {
+//   let count = 0;
+//   for (let i = 0; i < carouselList.length; i++) {
+//     count++;
+//     getDownloadURL(storageRef(storage, carouselList[i].name))
+//       .then((url) => {
+//         carouselList[i] = { ...carouselList[i], imgUrl: url };
+//         aa.value.push({ ...carouselList[i], imgUrl: url });
+//       })
+//       .catch((error) => {
+//         console.log(error.message);
+//         // Handle any errors
+//       });
+//   }
 
-  if (count === carouselList.length) {
-    console.log("aa", aa.value);
-    let sorted = aa.value;
-    console.log(
-      "sorted",
-      sorted.slice().sort((a, b) => a.seq - b.seq)
-    );
-    sorted = sorted.slice().sort((a, b) => a.seq - b.seq);
+//   if (count === carouselList.length) {
+//     console.log("aa", aa.value);
+//     let sorted = aa.value;
+//     console.log(
+//       "sorted",
+//       sorted.slice().sort((a, b) => a.seq - b.seq)
+//     );
+//     sorted = sorted.slice().sort((a, b) => a.seq - b.seq);
 
-    items.value = sorted;
-    itemsEdit.value = sorted;
-  }
-};
+//     items.value = sorted;
+//     itemsEdit.value = sorted;
+//   }
+// };
 
 // const fetchData = () => {
 //   onSnapshot(collection(db, "carousel"), (querySnapshot) => {
@@ -282,11 +276,47 @@ const fetch2 = (carouselList) => {
 //   });
 // };
 
-onMounted(() => {
-  // fetchData();
-  fetch1().then((res) => {
-    fetch2(res);
+const fetchData = () => {
+  onSnapshot(collection(db, "carousel"), async (querySnapshot) => {
+    let carouselList = [];
+    querySnapshot.forEach((doc) => {
+      const list = {
+        id: doc.id,
+        name: doc.data().name,
+        seq: doc.data().seq,
+      };
+      carouselList.push(list);
+    });
+
+    try {
+      const promises = carouselList.map((carouselItem) => {
+        return getDownloadURL(storageRef(storage, carouselItem.name))
+          .then((url) => {
+            carouselItem.imgUrl = url;
+          })
+          .catch((error) => {
+            console.log(error.message);
+            // Handle any errors
+          });
+      });
+
+      await Promise.all(promises);
+
+      const sortedList = carouselList.sort((a, b) => a.seq - b.seq);
+      items.value = sortedList;
+      itemsEdit.value = sortedList;
+    } catch (error) {
+      console.log(error.message);
+      // Handle any errors
+    }
   });
+};
+
+onMounted(() => {
+  fetchData();
+  // fetch1().then((res) => {
+  //   fetch2(res);
+  // });
 });
 </script>
 
