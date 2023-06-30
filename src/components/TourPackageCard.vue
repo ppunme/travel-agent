@@ -1,5 +1,5 @@
 <template>
-  <div class="tour-card border rounded-[20px]">
+  <div class="tour-card rounded-[20px] shadow-lg">
     <img
       v-if="item.image"
       :src="item.image"

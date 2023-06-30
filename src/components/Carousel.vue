@@ -25,6 +25,7 @@
       @moveItemUp="moveItemUp"
       @moveItemDown="moveItemDown" />
   </Modal>
+  <p>{{ items }}</p>
   <Carousel
     v-if="items.length > 0"
     :value="items"
@@ -35,18 +36,15 @@
     class="home-carousel">
     <template #item="slotProps">
       <div class="img-container w-full">
-        <p>{{ slotProps.data.name }}</p>
-        <!-- <img
-          :src="slotProps.data.img"
-          :alt="slotProps.data.name" /> -->
         <img
           v-if="slotProps.data.id"
-          :id="'carousel' + slotProps.data.name"
+          :src="slotProps.data.imgUrl"
           :alt="slotProps.data.name" />
-        <img
+
+        <!-- <img
           v-if="!slotProps.data.id"
           :src="slotProps.data.img"
-          :alt="slotProps.data.name" />
+          :alt="slotProps.data.name" /> -->
       </div>
     </template>
   </Carousel>
@@ -63,7 +61,7 @@
 </template>
 
 <script setup>
-import { ref, watch, computed, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import Modal from "@/components/Modal.vue";
 import EditCarousel from "@/components/EditCarousel.vue";
 import ConfirmModal from "@/components/ConfirmModal.vue";
@@ -98,7 +96,7 @@ const isLoggedIn = computed(() => store.state.isLoggedIn);
 
 const openEditModal = () => {
   visible.value = true;
-  fetchData();
+  //fetchData();
 };
 
 const handleCancel = (value) => {
@@ -195,62 +193,100 @@ const clearCollection = async () => {
   });
 };
 
-const fetchData = () => {
-  onSnapshot(collection(db, "carousel"), (querySnapshot) => {
-    const carouselList = [];
-    querySnapshot.forEach((doc) => {
-      const list = {
-        id: doc.id,
-        name: doc.data().name,
-        img: doc.data().img,
-        seq: doc.data().seq,
-      };
-      carouselList.push(list);
+const fetch1 = () => {
+  return new Promise((resolve) => {
+    onSnapshot(collection(db, "carousel"), (querySnapshot) => {
+      let carouselList = [];
+      querySnapshot.forEach((doc) => {
+        const list = {
+          id: doc.id,
+          name: doc.data().name,
+          seq: doc.data().seq,
+        };
+        carouselList.push(list);
+      });
+      resolve(carouselList);
     });
-
-    const sortedList = carouselList.sort((a, b) => a.seq - b.seq);
-    items.value = [...sortedList];
-    itemsEdit.value = [...sortedList];
   });
 };
 
-onMounted(() => {
-  fetchData();
+const aa = ref([]);
 
-  getDownloadURL(
-    storageRef(storage, "6DD18702-061A-40CC-8E0A-8A65949FA703.jpeg")
-  )
-    .then((url) => {
-      const img = document.getElementById(
-        "carousel6DD18702-061A-40CC-8E0A-8A65949FA703.jpeg"
-      );
-      img.setAttribute("src", url);
-    })
-    .catch((error) => {
-      console.log(error.message);
-      // Handle any errors
-    });
-});
+// const sortedAA = computed(() => {
+//   let sorted = aa.value;
+//   sorted = sorted.slice().sort((a, b) => a.seq - b.seq);
+//   return sorted;
+// });
 
-watch(items.value.length, (items) => {
-  if (items.value.length > 0) {
-    items.value.forEach((item) => {
-      console.log("item", item);
-      getDownloadURL(
-        storageRef(storage, "6DD18702-061A-40CC-8E0A-8A65949FA703.jpeg")
-      )
-        .then((url) => {
-          const img = document.getElementById(
-            "carousel6DD18702-061A-40CC-8E0A-8A65949FA703.jpeg"
-          );
-          img.setAttribute("src", url);
-        })
-        .catch((error) => {
-          console.log(error.message);
-          // Handle any errors
-        });
-    });
+const fetch2 = (carouselList) => {
+  let count = 0;
+  for (let i = 0; i < carouselList.length; i++) {
+    count++;
+    getDownloadURL(storageRef(storage, carouselList[i].name))
+      .then((url) => {
+        carouselList[i] = { ...carouselList[i], imgUrl: url };
+        aa.value.push({ ...carouselList[i], imgUrl: url });
+      })
+      .catch((error) => {
+        console.log(error.message);
+        // Handle any errors
+      });
   }
+
+  if (count === carouselList.length) {
+    console.log("aa", aa.value);
+    let sorted = aa.value;
+    console.log(
+      "sorted",
+      sorted.slice().sort((a, b) => a.seq - b.seq)
+    );
+    sorted = sorted.slice().sort((a, b) => a.seq - b.seq);
+
+    items.value = sorted;
+    itemsEdit.value = sorted;
+  }
+};
+
+// const fetchData = () => {
+//   onSnapshot(collection(db, "carousel"), (querySnapshot) => {
+//     let carouselList = [];
+//     querySnapshot.forEach((doc) => {
+//       const list = {
+//         id: doc.id,
+//         name: doc.data().name,
+//         seq: doc.data().seq,
+//       };
+//       carouselList.push(list);
+//     });
+
+//     for (let i = 0; i < carouselList.length; i++) {
+//       getDownloadURL(storageRef(storage, carouselList[i].name))
+//         .then((url) => {
+//           carouselList[i] = { ...carouselList[i], imgUrl: url };
+//         })
+//         .catch((error) => {
+//           console.log(error.message);
+//           // Handle any errors
+//         });
+//     }
+
+//     //console.log("carousel", carouselList);
+
+//     const sortedList = carouselList.sort((a, b) => a.seq - b.seq);
+//     //console.log("sortedList", sortedList);
+
+//     items.value = sortedList;
+//     //console.log("items", items.value);
+
+//     itemsEdit.value = sortedList;
+//   });
+// };
+
+onMounted(() => {
+  // fetchData();
+  fetch1().then((res) => {
+    fetch2(res);
+  });
 });
 </script>
 
