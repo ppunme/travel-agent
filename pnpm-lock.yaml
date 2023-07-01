@@ -121,6 +121,9 @@ devDependencies:
   '@vue/cli-service':
     specifier: ~5.0.0
     version: 5.0.8(@babel/core@7.21.8)(sass-loader@13.2.2)(vue@3.3.0)
+  copy-webpack-plugin:
+    specifier: ^11.0.0
+    version: 11.0.0(webpack@5.86.0)
 
 packages:
 
@@ -4014,6 +4017,21 @@ packages:
     resolution: {integrity: sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==}
     engines: {node: '>= 0.6'}
 
+  /copy-webpack-plugin@11.0.0(webpack@5.86.0):
+    resolution: {integrity: sha512-fX2MWpamkW0hZxMEg0+mYnA40LTosOSa5TqZ9GYIBzyJa9C3QUaMPSE2xAi/buNr8u89SfD9wHSQVBzrRa/SOQ==}
+    engines: {node: '>= 14.15.0'}
+    peerDependencies:
+      webpack: ^5.1.0
+    dependencies:
+      fast-glob: 3.2.12
+      glob-parent: 6.0.2
+      globby: 13.1.4
+      normalize-path: 3.0.0
+      schema-utils: 4.0.1
+      serialize-javascript: 6.0.1
+      webpack: 5.86.0
+    dev: true
+
   /copy-webpack-plugin@9.1.0(webpack@5.86.0):
     resolution: {integrity: sha512-rxnR7PaGigJzhqETHGmAcxKnLZSR5u1Y3/bcIv/1FnqXedcL/E2ewK7ZCNrArJKCiSv8yVXhTqetJh8inDvfsA==}
     engines: {node: '>= 12.13.0'}
@@ -5276,7 +5294,6 @@ packages:
       ignore: 5.2.4
       merge2: 1.4.1
       slash: 4.0.0
-    dev: false
 
   /globule@1.3.4:
     resolution: {integrity: sha512-OPTIfhMBh7JbBYDpa5b+Q5ptmMWKwcNcFSR/0c6t8V4f3ZAVBEsKNY37QdVqmLRYSMhOUGYrY0QhSoEpzGr/Eg==}
@@ -7842,15 +7859,6 @@ packages:
       ajv-keywords: 3.5.2(ajv@6.12.6)
     dev: true
 
-  /schema-utils@3.1.2:
-    resolution: {integrity: sha512-pvjEHOgWc9OWA/f/DE3ohBWTD6EleVLf7iFUkoSwAxttdBhB9QUebQgxER2kWueOvRJXPHNnyrvvh9eZINB8Eg==}
-    engines: {node: '>= 10.13.0'}
-    dependencies:
-      '@types/json-schema': 7.0.11
-      ajv: 6.12.6
-      ajv-keywords: 3.5.2(ajv@6.12.6)
-    dev: true
-
   /schema-utils@3.2.0:
     resolution: {integrity: sha512-0zTyLGyDJYd/MBxG1AhJkKa6fpEBds4OQO2ut0w7OYG+ZGhGea09lijvzsqegYSik88zc7cUtIlnnO+/BvD6gQ==}
     engines: {node: '>= 10.13.0'}
@@ -8032,7 +8040,6 @@ packages:
   /slash@4.0.0:
     resolution: {integrity: sha512-3dOsAHXXUkQTpOYcoAxLIorMTp4gIQr5IW3iVb7A7lFIp0VHhnynm9izx6TssdrIcVIESAlVjtnO2K8bg+Coew==}
     engines: {node: '>=12'}
-    dev: false
 
   /slash@5.0.1:
     resolution: {integrity: sha512-ywNzUOiXwetmLvTUiCBZpLi+vxqN3i+zDqjs2HHfUSV3wN4UJxVVKWrS1JZDeiJIeBFNgB5pmioC2g0IUTL+rQ==}
@@ -8512,7 +8519,7 @@ packages:
       loader-runner: 4.3.0
       loader-utils: 2.0.4
       neo-async: 2.6.2
-      schema-utils: 3.1.2
+      schema-utils: 3.2.0
       webpack: 5.86.0
     dev: true
 

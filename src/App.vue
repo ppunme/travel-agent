@@ -13,6 +13,7 @@
 import { watch, ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import { useToast } from "primevue/usetoast";
+import { useHead } from "@vueuse/head";
 
 import store from "@/store";
 import Navbar from "@/layout/Navbar.vue";
@@ -66,6 +67,8 @@ watch(route, (newRoute) => {
     admin.value = false;
   }
 });
+
+useHead({ htmlAttrs: { lang: "th" } });
 
 onMounted(() => {
   const token = localStorage.getItem("token");
