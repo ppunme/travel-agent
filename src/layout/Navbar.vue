@@ -214,7 +214,7 @@ const user = computed(() => store.state.user);
 }
 
 @media screen and (min-width: 768px) {
-  .router-link-active {
+  .router-link-exact-active {
     border-bottom: 2px solid $secondary-color;
   }
 }
