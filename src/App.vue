@@ -1,29 +1,18 @@
 <template>
-  <header v-if="!admin">
-    <!-- Navigation links -->
-    <Navbar />
-  </header>
-  <!-- Router view for each route -->
   <router-view />
   <Toast />
-  <Footer v-if="!admin" />
 </template>
 
 <script setup>
-import { watch, ref, onMounted, computed } from "vue";
-import { useRoute } from "vue-router";
+import { watch, onMounted, computed } from "vue";
 import { useToast } from "primevue/usetoast";
 import { useHead } from "@vueuse/head";
 
 import store from "@/store";
-import Navbar from "@/layout/Navbar.vue";
-import Footer from "./layout/Footer.vue";
+
 import Toast from "primevue/toast";
 
-const route = useRoute();
 const toast = useToast();
-
-const admin = ref(false);
 
 const toastMessage = computed(() => store.state.toast);
 
@@ -58,14 +47,6 @@ const getEmail = (token) => {
 
 watch(toastMessage, (newRoute) => {
   toast.add(newRoute);
-});
-
-watch(route, (newRoute) => {
-  if (newRoute.path.includes("admin")) {
-    admin.value = true;
-  } else {
-    admin.value = false;
-  }
 });
 
 useHead({ htmlAttrs: { lang: "th" } });
