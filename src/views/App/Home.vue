@@ -70,9 +70,14 @@ import {
   updateDoc,
   deleteField,
 } from "firebase/firestore";
+import {
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 
 import store from "@/store";
-import { db } from "@/firebase";
+import { db, storage } from "@/firebase";
 import { data } from "@/services/ContactList";
 import Carousel from "@/components/Carousel.vue";
 import TourGrid from "@/components/TourGrid.vue";
@@ -91,6 +96,8 @@ const visible = ref(false);
 const visibleDelete = ref(false);
 const deleteIndex = ref(null);
 const deleteItem = ref(null);
+
+const uploadedFiles = ref([]);
 
 const loading = ref(false);
 
@@ -146,6 +153,7 @@ const moveItemDown = (index) => {
 
 const handleAddImg = async (file, base64data) => {
   itemsEdit.value.push({ name: file.name, img: base64data });
+  uploadedFiles.value.push(file);
 };
 
 const clearCollection = async () => {
@@ -157,14 +165,30 @@ const clearCollection = async () => {
   });
 };
 
+// Upload file to Firebase Storage
+const upload = async () => {
+  if (!uploadedFiles.value) {
+    return;
+  }
+
+  uploadedFiles.value.forEach(async (file) => {
+    const fileRef = storageRef(storage, file.name);
+    await uploadBytes(fileRef, file).then((snapshot) => {
+      console.log("Uploaded a blob or file!", snapshot);
+    });
+  });
+};
+
 const onSubmit = async () => {
   loading.value = true;
   try {
+    upload();
     await clearCollection();
     itemsEdit.value.forEach(async (item, index) => {
-      const submitData = { ...item, seq: index };
+      const submitData = { name: item.name, seq: index };
       await addDoc(collection(db, "carousel"), submitData);
     });
+
     loading.value = false;
     visible.value = false;
   } catch (e) {
@@ -312,21 +336,38 @@ const onTourSubmit = () => {
 
 const fetchCarouselData = () => {
   return new Promise((resolve) => {
-    onSnapshot(collection(db, "carousel"), (querySnapshot) => {
-      const carouselList = [];
+    onSnapshot(collection(db, "carousel"), async (querySnapshot) => {
+      let carouselList = [];
+
       querySnapshot.forEach((doc) => {
         const list = {
           id: doc.id,
           name: doc.data().name,
-          img: doc.data().img,
           seq: doc.data().seq,
         };
         carouselList.push(list);
       });
 
-      const sortedList = carouselList.sort((a, b) => a.seq - b.seq);
-      items.value = [...sortedList];
-      itemsEdit.value = [...sortedList];
+      try {
+        const promises = carouselList.map((carouselItem) => {
+          return getDownloadURL(storageRef(storage, carouselItem.name))
+            .then((url) => {
+              carouselItem.imgUrl = url;
+            })
+            .catch((error) => {
+              console.log(error.message);
+            });
+        });
+
+        await Promise.all(promises);
+
+        const sortedList = carouselList.sort((a, b) => a.seq - b.seq);
+        items.value = sortedList;
+        itemsEdit.value = sortedList;
+      } catch (error) {
+        console.log(error.message);
+      }
+
       resolve();
     });
   });

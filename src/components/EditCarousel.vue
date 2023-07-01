@@ -5,10 +5,13 @@
       mode="basic"
       name="image[]"
       accept="image/*"
-      :auto="true"
       @select="onSelectedFiles" />
   </div>
+
   <div class="bg-neutral-100 rounded-lg p-2 mt-2 min-h-[220px]">
+    <img
+      id="myimg"
+      class="w-48" />
     <div
       v-for="(item, idx) in items"
       :key="item.id"
@@ -17,7 +20,11 @@
         <div class="md:basis-1/5">
           <div class="img-container w-1/2 md:w-full">
             <img
-              v-if="item"
+              v-if="item.id"
+              :id="item.name"
+              :alt="item.name" />
+            <img
+              v-if="!item.id"
               :src="item.objectURL || item.img"
               :alt="item.name" />
           </div>
@@ -61,7 +68,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted } from "vue";
 import {
   isValidImageFileType,
   isValidImageFileSize,
@@ -69,6 +76,8 @@ import {
 import store from "@/store";
 import ConfirmDialog from "primevue/confirmdialog";
 import FileUpload from "primevue/fileupload";
+import { ref as storageRef, getDownloadURL } from "firebase/storage";
+import { storage } from "@/firebase";
 
 const props = defineProps(["items"]);
 const emit = defineEmits([
@@ -78,7 +87,7 @@ const emit = defineEmits([
   "moveItemDown",
 ]);
 
-const uploadedFile = ref([]);
+// const uploadedFile = ref([]);
 
 const onSelectedFiles = async (event) => {
   const file = event.files[0];
@@ -90,7 +99,7 @@ const onSelectedFiles = async (event) => {
       detail: "ประเภทของไฟล์ไม่ถูกต้อง ไฟล์ต้องเป็น png, jpg, jpeg เท่านั้น",
     });
 
-    uploadedFile.value.clear();
+    // uploadedFile.value.clear();
 
     return;
   }
@@ -102,7 +111,7 @@ const onSelectedFiles = async (event) => {
       detail: "ขนาดของไฟล์ไม่ถูกต้อง ไฟล์ต้องมีขนาดไม่เกิน 2 MB",
     });
 
-    uploadedFile.value.clear();
+    //uploadedFile.value.clear();
 
     return;
   }
@@ -110,10 +119,12 @@ const onSelectedFiles = async (event) => {
   const reader = new FileReader();
   let blob = await fetch(file.objectURL).then((r) => r.blob()); //blob:url
 
+  //uploadedFile.value.push(file);
+
   reader.readAsDataURL(blob);
   reader.onloadend = function () {
     const base64data = reader.result;
-    uploadedFile.value.push(file);
+
     emit("handleAddImg", file, base64data);
   };
 };
@@ -133,6 +144,20 @@ const moveItemDown = (index) => {
 const onDelete = (index, item) => {
   emit("handleDelete", index, item);
 };
+
+onMounted(() => {
+  props.items.forEach((item) => {
+    getDownloadURL(storageRef(storage, item.name))
+      .then((url) => {
+        const img = document.getElementById(item.name);
+        img.setAttribute("src", url);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        // Handle any errors
+      });
+  });
+});
 </script>
 
 <style></style>

@@ -1,9 +1,11 @@
 let firebaseApp;
 let db;
+let storage;
 
 const initializeFirebase = async () => {
   const { initializeApp } = await import("firebase/app");
   const { getFirestore } = await import("firebase/firestore");
+  const { getStorage } = await import("firebase/storage");
 
   const firebaseConfig = {
     apiKey: process.env.VUE_APP_API_KEY,
@@ -16,8 +18,9 @@ const initializeFirebase = async () => {
 
   firebaseApp = initializeApp(firebaseConfig);
   db = getFirestore(firebaseApp);
+  storage = getStorage(firebaseApp);
 };
 
 initializeFirebase();
 
-export { firebaseApp, db };
+export { firebaseApp, db, storage };

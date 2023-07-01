@@ -1,14 +1,14 @@
 <template>
   <nav
-    class="navbar text-primary-blue relative z-10 md:h-36 md:flex md:items-center">
-    <div class="flex justify-between items-center py-4 px-3 md:px-0 md:w-full">
+    class="navbar text-primary-blue relative z-10 md:h-28 md:flex md:items-center">
+    <div class="flex justify-between items-center px-3 md:px-0 md:w-full">
       <div
         class="flex items-center lg:ml-20 cursor-pointer"
         @click="$router.push('/')">
         <img
           src="@/assets/images/logo.png"
           alt="logo"
-          class="w-20 sm:w-auto" />
+          class="w-16 sm:w-20" />
         <div>
           <h4
             class="text-lg sm:text-2xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl ml-4 self-center font-semibold w-[11rem] sm:w-[15rem] lg:w-[12rem] xl:w-[15rem] 2xl:w-[18rem] text-primary-blue">

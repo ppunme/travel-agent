@@ -36,7 +36,8 @@
     <template #item="slotProps">
       <div class="img-container w-full">
         <img
-          :src="slotProps.data.img"
+          v-if="slotProps.data.id"
+          :src="slotProps.data.imgUrl"
           :alt="slotProps.data.name" />
       </div>
     </template>
