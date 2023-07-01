@@ -46,7 +46,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, computed } from "vue";
+import { ref, watch, onMounted, computed, nextTick } from "vue";
 import { useRoute } from "vue-router";
 
 import { collection, onSnapshot, query } from "firebase/firestore";
@@ -58,6 +58,8 @@ import store from "@/store";
 import Toolbar from "@/components/Toolbar.vue";
 import TourPackagesList from "@/components/TourPackagesList.vue";
 import router from "@/router";
+import Button from "primevue/button";
+import Paginator from "primevue/paginator";
 
 const route = useRoute();
 
@@ -148,7 +150,7 @@ const paginatedTours = computed(() => {
   return sortedTours.value.slice(startIndex, endIndex);
 });
 
-const loadData = async () => {
+const loadData = () => {
   loading.value = true;
   const collectionRef = collection(db, "tours");
 
@@ -198,6 +200,10 @@ const loadData = async () => {
 
     countries.value = filerOptions;
     loading.value = false;
+
+    nextTick(() => {
+      document.dispatchEvent(new Event("render-complete"));
+    });
   });
 };
 

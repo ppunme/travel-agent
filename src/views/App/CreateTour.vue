@@ -212,6 +212,13 @@ import {
   isValidImageFileSize,
 } from "@/utils/GlobalFunction";
 import TourPackageCard from "@/components/TourPackageCard.vue";
+import Button from "primevue/button";
+import Chip from "primevue/chip";
+import Editor from "primevue/editor";
+import FileUpload from "primevue/fileupload";
+import InputText from "primevue/inputtext";
+import InputNumber from "primevue/inputnumber";
+import MultiSelect from "primevue/multiselect";
 
 const router = useRouter();
 const { handleSubmit, resetForm } = useForm();
@@ -447,7 +454,7 @@ const onSubmit = handleSubmit(async (values) => {
       summary: "บันทึกข้อมูลเรียบร้อยแล้ว",
     });
 
-    router.push({ path: "/tours", query: { page: 1 } });
+    router.push("/tours");
   } catch (error) {
     store.dispatch("showToast", {
       severity: "error",
@@ -470,6 +477,6 @@ const onCancel = () => {
   };
   clearFile();
   resetForm();
-  router.push({ path: "/tours", query: { page: 1 } });
+  router.push("/tours");
 };
 </script>

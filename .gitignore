@@ -132,3 +132,5 @@ dist
 scripts
 
 ssh
+
+src/views/Admin/Register.vue

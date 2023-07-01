@@ -1,5 +1,5 @@
 <template>
-  <div class="tour-card border rounded-[20px]">
+  <div class="tour-card rounded-[20px] shadow-lg">
     <img
       v-if="item.image"
       :src="item.image"
@@ -30,6 +30,7 @@
 
 <script setup>
 import { useRouter } from "vue-router";
+import Button from "primevue/button";
 
 const props = defineProps([
   "item",

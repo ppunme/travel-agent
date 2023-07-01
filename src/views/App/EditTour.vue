@@ -221,6 +221,13 @@ import {
 } from "@/utils/GlobalFunction";
 import TourPackageCard from "@/components/TourPackageCard.vue";
 import ConfirmModal from "@/components/ConfirmModal.vue";
+import Button from "primevue/button";
+import Chip from "primevue/chip";
+import Editor from "primevue/editor";
+import FileUpload from "primevue/fileupload";
+import InputText from "primevue/inputtext";
+import InputNumber from "primevue/inputnumber";
+import MultiSelect from "primevue/multiselect";
 
 const route = useRoute();
 const router = useRouter();

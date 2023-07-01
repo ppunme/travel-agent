@@ -243,6 +243,8 @@ import {
 } from "@/utils/GlobalFunction";
 import { line, messenger, phone } from "@/utils/VueGtag";
 import ConfirmModal from "@/components/ConfirmModal.vue";
+import Button from "primevue/button";
+import Skeleton from "primevue/skeleton";
 
 const route = useRoute();
 const router = useRouter();
@@ -285,7 +287,7 @@ const confirmAction = async () => {
       summary: "ลบข้อมูลเรียบร้อยแล้ว",
     });
 
-    router.push({ path: "/tours", query: { page: 1 } });
+    router.push("/tours");
   } catch (error) {
     if (error) {
       store.dispatch("showToast", {
@@ -306,7 +308,7 @@ onMounted(async () => {
 
   onSnapshot(docRef, async (docSnapshot) => {
     if (docSnapshot.exists()) {
-      tour.value = docSnapshot.data();
+      tour.value = await docSnapshot.data();
 
       const image = await base64ToBlob(tour.value.image).then((blob) => {
         return URL.createObjectURL(blob);

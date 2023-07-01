@@ -36,7 +36,8 @@
     <template #item="slotProps">
       <div class="img-container w-full">
         <img
-          :src="slotProps.data.img"
+          v-if="slotProps.data.id"
+          :src="slotProps.data.imgUrl"
           :alt="slotProps.data.name" />
       </div>
     </template>
@@ -54,136 +55,30 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
 import Modal from "@/components/Modal.vue";
 import EditCarousel from "@/components/EditCarousel.vue";
 import ConfirmModal from "@/components/ConfirmModal.vue";
-import store from "@/store";
-import {
-  collection,
-  addDoc,
-  getDocs,
-  deleteDoc,
-  onSnapshot,
-} from "firebase/firestore";
-import { db } from "@/firebase";
+import Button from "primevue/button";
+import Carousel from "primevue/carousel";
+import Skeleton from "primevue/skeleton";
 
-const items = ref([]);
-const itemsEdit = ref([]);
-
-const visible = ref(false);
-const visibleDelete = ref(false);
-const deleteIndex = ref(null);
-const deleteItem = ref(null);
-
-const loading = ref(false);
-
-const isLoggedIn = computed(() => store.state.isLoggedIn);
-
-const openEditModal = () => {
-  visible.value = true;
-  fetchData();
-};
-
-const handleCancel = (value) => {
-  visibleDelete.value = value;
-};
-
-const moveItemUp = (index) => {
-  if (index > 0) {
-    const item = itemsEdit.value.splice(index, 1)[0];
-    itemsEdit.value.splice(index - 1, 0, item);
-  }
-};
-
-const moveItemDown = (index) => {
-  if (index < itemsEdit.value.length - 1) {
-    const item = itemsEdit.value.splice(index, 1)[0];
-    itemsEdit.value.splice(index + 1, 0, item);
-  }
-};
-
-const handleDelete = (index, item) => {
-  if (item.id) {
-    visibleDelete.value = true;
-    deleteIndex.value = index;
-    deleteItem.value = item.id;
-  } else {
-    itemsEdit.value.splice(index, 1);
-  }
-};
-
-const confirmAction = () => {
-  visibleDelete.value = false;
-
-  if (deleteItem.value) {
-    itemsEdit.value = itemsEdit.value.filter(
-      (carousel) => carousel.id !== deleteItem.value
-    );
-    store.dispatch("showToast", {
-      severity: "success",
-      summary: "ลบข้อมูลเรียบร้อยแล้ว",
-    });
-  }
-};
-
-const handleAddImg = async (file, base64data) => {
-  itemsEdit.value.push({ name: file.name, img: base64data });
-};
-
-const onSubmit = async () => {
-  loading.value = true;
-  try {
-    await clearCollection();
-    itemsEdit.value.forEach(async (item, index) => {
-      const submitData = { ...item, seq: index };
-      await addDoc(collection(db, "carousel"), submitData);
-    });
-    loading.value = false;
-    visible.value = false;
-  } catch (e) {
-    store.dispatch("showToast", {
-      severity: "error",
-      summary: e.message,
-    });
-  }
-};
-
-const onDialogUpdate = (value) => {
-  visible.value = value;
-};
-
-const clearCollection = async () => {
-  const collectionRef = collection(db, "carousel");
-  const snapshot = await getDocs(collectionRef);
-
-  snapshot.forEach((item) => {
-    deleteDoc(item.ref);
-  });
-};
-
-const fetchData = () => {
-  onSnapshot(collection(db, "carousel"), (querySnapshot) => {
-    const carouselList = [];
-    querySnapshot.forEach((doc) => {
-      const list = {
-        id: doc.id,
-        name: doc.data().name,
-        img: doc.data().img,
-        seq: doc.data().seq,
-      };
-      carouselList.push(list);
-    });
-
-    const sortedList = carouselList.sort((a, b) => a.seq - b.seq);
-    items.value = [...sortedList];
-    itemsEdit.value = [...sortedList];
-  });
-};
-
-onMounted(() => {
-  fetchData();
-});
+defineProps([
+  "isLoggedIn",
+  "visible",
+  "loading",
+  "itemsEdit",
+  "items",
+  "visibleDelete",
+  "openEditModal",
+  "handleCancel",
+  "moveItemUp",
+  "moveItemDown",
+  "handleDelete",
+  "confirmAction",
+  "handleAddImg",
+  "onSubmit",
+  "onDialogUpdate",
+]);
 </script>
 
 <style lang="scss">

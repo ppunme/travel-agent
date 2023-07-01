@@ -1,23 +1,23 @@
 <template>
   <nav
-    class="navbar text-primary-blue relative z-10 md:h-36 md:flex md:items-center">
-    <div class="flex justify-between items-center py-4 px-3 md:px-0 md:w-full">
+    class="navbar text-primary-blue relative z-10 md:h-28 md:flex md:items-center">
+    <div class="flex justify-between items-center px-3 md:px-0 md:w-full">
       <div
         class="flex items-center lg:ml-20 cursor-pointer"
         @click="$router.push('/')">
         <img
           src="@/assets/images/logo.png"
           alt="logo"
-          class="w-20 sm:w-auto" />
+          class="w-16 sm:w-20" />
         <div>
           <h4
             class="text-lg sm:text-2xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl ml-4 self-center font-semibold w-[11rem] sm:w-[15rem] lg:w-[12rem] xl:w-[15rem] 2xl:w-[18rem] text-primary-blue">
             Wellness Life Travel
           </h4>
-          <h6
+          <h5
             class="text-sm sm:text-md md:text-md lg:text-sm 2xl:text-md ml-4 self-center font-semibold w-[11rem] sm:w-[15rem] lg:w-[12rem] xl:w-[15rem] 2xl:w-[18rem] text-primary-blue">
             เวลเนส ไลฟ์ ทราเวล
-          </h6>
+          </h5>
         </div>
       </div>
       <div
@@ -79,6 +79,7 @@
       <div class="md:hidden">
         <button
           class="flex items-center space-x-2 focus:outline-none"
+          aria-label="Open Menu"
           @click="showMenu = !showMenu">
           <div class="w-9 h-9 flex items-center justify-center relative">
             <span
@@ -129,6 +130,9 @@ import { ref, computed } from "vue";
 import store from "@/store";
 import { makePhoneCall } from "@/utils/GlobalFunction";
 import { facebook, phone, instagram } from "@/utils/VueGtag";
+import Avatar from "primevue/avatar";
+import Button from "primevue/button";
+import Menu from "primevue/menu";
 
 const showMenu = ref(false);
 const adminMenu = ref();
@@ -140,8 +144,7 @@ const menuItems = ref([
   },
   {
     label: "แพ็คเกจทัวร์",
-    // route: "/tours",
-    route: { path: "/tours", query: { page: 1 } },
+    route: "/tours",
   },
   {
     label: "ติดต่อเรา",

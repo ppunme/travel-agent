@@ -2,7 +2,8 @@
   <div class="relative">
     <img
       :src="bgImage"
-      class="absolute top-0 object-cover h-[450px] sm:h-[550px] lg:h-[480px] w-full" />
+      class="absolute top-0 object-cover h-[450px] sm:h-[550px] lg:h-[480px] w-full"
+      alt="Contact Section Background" />
     <div class="overlay h-[450px] sm:h-[550px] lg:h-[480px]" />
 
     <div
@@ -11,7 +12,8 @@
         <div class="flex flex-col items-center lg:items-start pt-8">
           <img
             :src="lineQrCode"
-            class="self-center w-36 sm:w-48" />
+            class="self-center w-36 sm:w-48"
+            alt="Line Qr Code" />
           <p
             class="self-center pt-8 lg:pt-3 cursor-pointer"
             @click="addLineID">

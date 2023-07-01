@@ -78,6 +78,7 @@
 </template>
 
 <script setup>
+import { onMounted, nextTick } from "vue";
 import { pageview } from "vue-gtag";
 import { useHead } from "@vueuse/head";
 
@@ -96,6 +97,7 @@ import {
   email,
   instagram,
 } from "@/utils/VueGtag";
+import Button from "primevue/button";
 
 const handleClick = (name, link) => {
   switch (name) {
@@ -195,5 +197,11 @@ useHead({
     { name: "twitter:site", content: "wellnesslifetravelth.com" },
     { name: "twitter:card", content: "summary_large_image" },
   ],
+});
+
+onMounted(() => {
+  nextTick(() => {
+    document.dispatchEvent(new Event("render-complete"));
+  });
 });
 </script>

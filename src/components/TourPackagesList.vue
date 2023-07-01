@@ -38,6 +38,7 @@
 
 <script setup>
 import TourPackageCard from "./TourPackageCard.vue";
+import Skeleton from "primevue/skeleton";
 
 const props = defineProps(["tours", "loading"]);
 </script>

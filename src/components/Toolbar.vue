@@ -77,6 +77,8 @@
 
 <script setup>
 import { ref, watch } from "vue";
+import Dropdown from "primevue/dropdown";
+import InputText from "primevue/inputtext";
 
 const props = defineProps([
   "selectedCountry",

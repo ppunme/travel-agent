@@ -78,6 +78,9 @@
 
 <script setup>
 import { computed } from "vue";
+import Button from "primevue/button";
+import Dropdown from "primevue/dropdown";
+
 const props = defineProps(["selectedTours", "tours"]);
 const emit = defineEmits([
   "onAddRow",

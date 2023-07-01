@@ -23,6 +23,8 @@
 import { ref } from "vue";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { useField, useForm } from "vee-validate";
+import Button from "primevue/button";
+import InputText from "primevue/inputtext";
 
 const loading = ref(false);
 const errorLogin = ref("");

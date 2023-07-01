@@ -1,17 +1,17 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
 
-import {
+const {
   faFacebook,
   faSquareFacebook,
   faInstagram,
   faTwitter,
   faLine,
   faFacebookMessenger,
-} from "@fortawesome/free-brands-svg-icons";
+} = await import("@fortawesome/free-brands-svg-icons");
 
-import {
+const {
   faMagnifyingGlass,
-  faCircleXmark as solidCircleXmark,
+  faCircleXmark: solidCircleXmark,
   faLocationDot,
   faClock,
   faPlane,
@@ -33,12 +33,11 @@ import {
   faExclamationCircle,
   faSignOutAlt,
   faSignOut,
-} from "@fortawesome/free-solid-svg-icons";
+} = await import("@fortawesome/free-solid-svg-icons");
 
-import {
-  faCircleXmark as regularCircleXmark,
-  faUser,
-} from "@fortawesome/free-regular-svg-icons";
+const { faCircleXmark: regularCircleXmark, faUser } = await import(
+  "@fortawesome/free-regular-svg-icons"
+);
 
 library.add(
   faFacebook,
