@@ -1,5 +1,5 @@
 <template>
-  <Carousel
+  <CarouselComp
     :isLoggedIn="isLoggedIn"
     :visible="visible"
     :loading="loading"
@@ -16,7 +16,7 @@
     :onSubmit="onSubmit"
     :onDialogUpdate="onDialogUpdate" />
   <div class="container mx-auto px-4 sm:px-8 md:px-10">
-    <div class="flex justify-center items-center py-12">
+    <div class="flex justify-center items-center py-8 sm:py-12">
       <font-awesome-icon
         :icon="['fas', 'bus']"
         size="2xl"
@@ -79,7 +79,7 @@ import {
 import store from "@/store";
 import { db, storage } from "@/firebase";
 import { data } from "@/services/ContactList";
-import Carousel from "@/components/Carousel.vue";
+import CarouselComp from "@/components/Carousel.vue";
 import TourGrid from "@/components/TourGrid.vue";
 import ContactCard from "@/components/ContactCard.vue";
 import Button from "primevue/button";
@@ -103,6 +103,7 @@ const loading = ref(false);
 
 const openEditModal = () => {
   visible.value = true;
+  fetchCarouselData();
 };
 
 const handleCancel = (value) => {
@@ -173,9 +174,7 @@ const upload = async () => {
 
   uploadedFiles.value.forEach(async (file) => {
     const fileRef = storageRef(storage, file.name);
-    await uploadBytes(fileRef, file).then((snapshot) => {
-      console.log("Uploaded a blob or file!", snapshot);
-    });
+    await uploadBytes(fileRef, file);
   });
 };
 
@@ -187,6 +186,7 @@ const onSubmit = async () => {
     itemsEdit.value.forEach(async (item, index) => {
       const submitData = { name: item.name, seq: index };
       await addDoc(collection(db, "carousel"), submitData);
+      fetchCarouselData();
     });
 
     loading.value = false;

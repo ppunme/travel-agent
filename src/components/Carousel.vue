@@ -1,14 +1,12 @@
 <template>
   <div
     v-if="isLoggedIn"
-    class="text-end pb-6 px-6">
+    class="text-end pb-3 px-4 sm:pb-6 sm:px-6">
     <Button
       rounded
       class="w-32 !bg-amber-500 !border-none"
       @click="openEditModal">
-      <font-awesome-icon
-        :icon="['fas', 'pen']"
-        size="xl" />
+      <font-awesome-icon :icon="['fas', 'pen']" />
       <span class="mx-auto">แก้ไข</span>
     </Button>
   </div>
@@ -32,6 +30,8 @@
     :numScroll="1"
     :autoplayInterval="5000"
     circular
+    :showNavigators="showIndicators"
+    :showIndicators="showIndicators"
     class="home-carousel">
     <template #item="slotProps">
       <div class="img-container w-full">
@@ -55,6 +55,7 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
 import Modal from "@/components/Modal.vue";
 import EditCarousel from "@/components/EditCarousel.vue";
 import ConfirmModal from "@/components/ConfirmModal.vue";
@@ -79,6 +80,10 @@ defineProps([
   "onSubmit",
   "onDialogUpdate",
 ]);
+
+const showIndicators = computed(() => {
+  return window.innerWidth >= 1024; // Show indicators on screen sizes greater than or equal to lg (1024px)
+});
 </script>
 
 <style lang="scss">

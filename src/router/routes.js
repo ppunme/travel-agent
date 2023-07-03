@@ -39,12 +39,6 @@ export const routes = [
           requiresAuth: true,
         },
       },
-
-      {
-        path: "/register",
-        name: "register",
-        component: () => import("@/views/Admin/Register.vue"),
-      },
       {
         path: "/:pathMatch(.*)",
         component: () => import("@/layout/NotFound.vue"),
