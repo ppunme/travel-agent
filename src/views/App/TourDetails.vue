@@ -235,10 +235,11 @@
 import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { doc, onSnapshot, deleteDoc } from "firebase/firestore";
+import { ref as storageRef, getDownloadURL } from "firebase/storage";
 import { pageview } from "vue-gtag";
 import { useHead } from "@vueuse/head";
 
-import { db } from "@/firebase";
+import { db, storage } from "@/firebase";
 import store from "@/store";
 import {
   goToMessenger,
@@ -303,94 +304,97 @@ const confirmAction = async () => {
   }
 };
 
-const base64ToBlob = async (base64String) => {
-  return await fetch(base64String).then((response) => response.blob());
-};
-
 onMounted(async () => {
-  const docRef = doc(db, "tours", route.params.tourId);
+  if (route.params.tourId !== "preview") {
+    const docRef = doc(db, "tours", route.params.tourId);
 
-  onSnapshot(docRef, async (docSnapshot) => {
-    if (docSnapshot.exists()) {
-      tour.value = await docSnapshot.data();
+    onSnapshot(docRef, async (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        tour.value = docSnapshot.data();
 
-      const image = await base64ToBlob(tour.value.image).then((blob) => {
-        return URL.createObjectURL(blob);
-      });
+        const image = await getDownloadURL(
+          storageRef(
+            storage,
+            `images/tours/${docSnapshot.id}/${tour.value.fileName}`
+          )
+        );
 
-      pageview({
-        page_title: `Tour Detail - ${tour.value.name}`,
-      });
+        tour.value.image = image;
 
-      useHead({
-        title: `${tour.value.name} ${tour.value.days} วัน ${tour.value.nights} คืน - Wellness Life Travel`,
-        meta: [
-          // default
-          {
-            name: "description",
-            content: `${tour.value.name} ${tour.value.countries.join(" ")} ${
-              tour.value.days
-            } วัน ${tour.value.nights} คืน ${tour.value.airline}`,
-          },
-          {
-            name: "keywords",
-            content: `${tour.value.name},${tour.value.countries.join(",")},${
-              tour.value.days
-            }วัน,${tour.value.nights}คืน,${tour.value.airline}`,
-          },
+        pageview({
+          page_title: `Tour Detail - ${tour.value.name}`,
+        });
 
-          // facebook
-          {
-            property: "og:title",
-            content: `${tour.value.name} ${tour.value.days} วัน ${tour.value.nights} คืน - Wellness Life Travel`,
-          },
-          {
-            property: "og:image",
-            content: image,
-          },
-          {
-            property: "og:description",
-            content: `${tour.value.name} ${tour.value.countries.join(" ")} ${
-              tour.value.days
-            } วัน ${tour.value.nights} คืน ${tour.value.airline}`,
-          },
-          {
-            property: "og:url",
-            content: `https://www.wellnesslifetravelth.com${route.path}`,
-          },
-          { property: "og:site_name", content: "wellnesslifetravelth.com" },
-          { property: "og:type", content: "product" },
+        useHead({
+          title: `${tour.value.name} ${tour.value.days} วัน ${tour.value.nights} คืน - Wellness Life Travel`,
+          meta: [
+            // default
+            {
+              name: "description",
+              content: `${tour.value.name} ${tour.value.countries.join(" ")} ${
+                tour.value.days
+              } วัน ${tour.value.nights} คืน ${tour.value.airline}`,
+            },
+            {
+              name: "keywords",
+              content: `${tour.value.name},${tour.value.countries.join(",")},${
+                tour.value.days
+              }วัน,${tour.value.nights}คืน,${tour.value.airline}`,
+            },
 
-          // twitter
-          {
-            name: "twitter:title",
-            content: `${tour.value.name} ${tour.value.days} วัน ${tour.value.nights} คืน - Wellness Life Travel`,
-          },
-          {
-            name: "twitter:image",
-            content: image,
-          },
-          {
-            name: "twitter:description",
-            content: `${tour.value.name} ${tour.value.countries.join(" ")} ${
-              tour.value.days
-            } วัน ${tour.value.nights} คืน ${tour.value.airline}`,
-          },
-          {
-            name: "twitter:domain",
-            content: `https://www.wellnesslifetravelth.com${route.path}`,
-          },
-          { name: "twitter:site", content: "wellnesslifetravelth.com" },
-          { name: "twitter:card", content: "summary_large_image" },
-        ],
-      });
-    } else {
-      store.dispatch("showToast", {
-        severity: "error",
-        summary: "ไม่พบข้อมูล",
-        detail: "กรุณาลองใหม่อีกครั้ง",
-      });
-    }
-  });
+            // facebook
+            {
+              property: "og:title",
+              content: `${tour.value.name} ${tour.value.days} วัน ${tour.value.nights} คืน - Wellness Life Travel`,
+            },
+            {
+              property: "og:image",
+              content: image,
+            },
+            {
+              property: "og:description",
+              content: `${tour.value.name} ${tour.value.countries.join(" ")} ${
+                tour.value.days
+              } วัน ${tour.value.nights} คืน ${tour.value.airline}`,
+            },
+            {
+              property: "og:url",
+              content: `https://www.wellnesslifetravelth.com${route.path}`,
+            },
+            { property: "og:site_name", content: "wellnesslifetravelth.com" },
+            { property: "og:type", content: "product" },
+
+            // twitter
+            {
+              name: "twitter:title",
+              content: `${tour.value.name} ${tour.value.days} วัน ${tour.value.nights} คืน - Wellness Life Travel`,
+            },
+            {
+              name: "twitter:image",
+              content: image,
+            },
+            {
+              name: "twitter:description",
+              content: `${tour.value.name} ${tour.value.countries.join(" ")} ${
+                tour.value.days
+              } วัน ${tour.value.nights} คืน ${tour.value.airline}`,
+            },
+            {
+              name: "twitter:domain",
+              content: `https://www.wellnesslifetravelth.com${route.path}`,
+            },
+            { name: "twitter:site", content: "wellnesslifetravelth.com" },
+            { name: "twitter:card", content: "summary_large_image" },
+          ],
+        });
+      } else {
+        store.dispatch("showToast", {
+          severity: "error",
+          summary: "ไม่พบข้อมูล",
+          detail: "กรุณาลองใหม่อีกครั้ง",
+        });
+      }
+    });
+  }
 });
 </script>
