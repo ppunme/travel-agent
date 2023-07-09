@@ -16,10 +16,10 @@
     :onSubmit="onSubmit"
     :onDialogUpdate="onDialogUpdate" />
   <div class="container mx-auto px-4 sm:px-8 md:px-10">
-    <div class="flex justify-center items-center py-8 sm:py-12">
+    <div class="flex justify-center items-center py-10 sm:py-12">
       <font-awesome-icon
         :icon="['fas', 'bus']"
-        size="2xl"
+        :size="iconSize"
         class="text-primary-blue self-center pr-2" />
       <p class="text-primary-blue">รับจัดทัวร์ในประเทศและต่างประเทศ</p>
     </div>
@@ -87,6 +87,18 @@ import Button from "primevue/button";
 const router = useRouter();
 
 const isLoggedIn = computed(() => store.state.isLoggedIn);
+
+const iconSize = computed(() => {
+  {
+    if (window.innerWidth < 1024) {
+      return "xl";
+    } else if (window.innerWidth >= 1024) {
+      return "2xl";
+    } else {
+      return "xl"; // Set a default size or adjust as needed
+    }
+  }
+});
 
 // Carousel
 const items = ref([]);

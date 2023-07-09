@@ -82,7 +82,7 @@ defineProps([
 ]);
 
 const showIndicators = computed(() => {
-  return window.innerWidth >= 1024; // Show indicators on screen sizes greater than or equal to lg (1024px)
+  return window.innerWidth >= 1024;
 });
 </script>
 

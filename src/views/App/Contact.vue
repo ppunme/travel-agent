@@ -10,45 +10,45 @@
 
         <div class="pt-12">
           <Button
-            class="w-48 !bg-green-line-app"
+            class="w-40 lg:w-48 !bg-green-line-app"
             rounded
             @click="handleLine">
             <font-awesome-icon
               :icon="['fab', 'line']"
-              size="2xl" /><span class="mx-auto">แอดไลน์</span>
+              :size="iconSize" /><span class="mx-auto">แอดไลน์</span>
           </Button>
         </div>
         <div class="pt-3">
           <Button
-            class="w-48 !bg-[#1492DE]"
+            class="w-40 lg:w-48 !bg-[#1492DE]"
             rounded
             target="_blank"
             @click="handleMessenger">
             <font-awesome-icon
               :icon="['fab', 'facebook-messenger']"
-              size="2xl" /><span class="mx-auto">ส่งข้อความ</span>
+              :size="iconSize" /><span class="mx-auto">ส่งข้อความ</span>
           </Button>
         </div>
         <div class="pt-3 xl:hidden">
           <Button
-            class="w-48 !bg-[#F77174] !mr-8"
+            class="w-40 lg:w-48 !bg-[#F77174] !mr-8"
             rounded
             @click="handlePhone">
             <font-awesome-icon
               :icon="['fas', 'phone']"
-              size="2xl" />
+              :size="iconSize" />
             <span class="mx-auto">โทรจอง</span>
           </Button>
         </div>
         <div class="pt-3">
           <Button
-            class="w-48 !bg-[#D42E35]"
+            class="w-40 lg:w-48 !bg-[#D42E35]"
             rounded
             target="_blank"
             @click="handleEmail">
             <font-awesome-icon
               :icon="['fas', 'envelope']"
-              size="2xl" /><span class="mx-auto">ส่งอีเมล</span>
+              :size="iconSize" /><span class="mx-auto">ส่งอีเมล</span>
           </Button>
         </div>
       </div>
@@ -78,7 +78,7 @@
 </template>
 
 <script setup>
-import { onMounted, nextTick } from "vue";
+import { onMounted, nextTick, computed } from "vue";
 import { pageview } from "vue-gtag";
 import { useHead } from "@vueuse/head";
 
@@ -142,6 +142,18 @@ const handleEmail = () => {
   email("contact");
   sendEmail();
 };
+
+const iconSize = computed(() => {
+  {
+    if (window.innerWidth < 1024) {
+      return "xl";
+    } else if (window.innerWidth >= 1024) {
+      return "2xl";
+    } else {
+      return "xl"; // Set a default size or adjust as needed
+    }
+  }
+});
 
 pageview({
   page_title: "Contact",
