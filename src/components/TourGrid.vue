@@ -35,7 +35,7 @@
         class="flex justify-center cursor-pointer hover:opacity-80 rounded-xl shadow-md square-image"
         @click="viewPackage(item.id)">
         <img
-          :src="item.image"
+          :src="item.imgUrl"
           :alt="item.name"
           class="rounded-xl shadow-md" />
       </div>

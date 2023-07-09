@@ -147,7 +147,9 @@ const onDelete = (index, item) => {
 
 onMounted(() => {
   props.items.forEach((item) => {
-    getDownloadURL(storageRef(storage, item.name))
+    getDownloadURL(
+      storageRef(storage, `images/carousel/${item.id}/${item.name}`)
+    )
       .then((url) => {
         const img = document.getElementById(item.name);
         img.setAttribute("src", url);

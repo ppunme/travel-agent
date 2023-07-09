@@ -15,8 +15,8 @@
           @drop="handleDrop($event, index)">
           <div class="square-image">
             <img
-              v-if="item.image"
-              :src="item.image"
+              v-if="item.imgUrl"
+              :src="item.imgUrl"
               :alt="item.name"
               class="rounded-xl" />
             <img

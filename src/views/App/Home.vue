@@ -74,6 +74,7 @@ import {
   ref as storageRef,
   uploadBytes,
   getDownloadURL,
+  deleteObject,
 } from "firebase/storage";
 
 import store from "@/store";
@@ -178,27 +179,33 @@ const clearCollection = async () => {
   });
 };
 
-// Upload file to Firebase Storage
-const upload = async () => {
-  if (!uploadedFiles.value) {
-    return;
-  }
-
-  uploadedFiles.value.forEach(async (file) => {
-    console.log(file);
-    const fileRef = storageRef(storage, file.name);
-    await uploadBytes(fileRef, file);
+const clearStorage = async () => {
+  items.value.forEach(async (item) => {
+    console.log("item", item);
+    await deleteObject(
+      storageRef(storage, `images/carousel/${item.id}/${item.name}`)
+    ).then(() => {
+      console.log("File deleted successfully");
+    });
   });
+};
+
+// Upload file to Firebase Storage
+const upload = async (id, name) => {
+  const file = uploadedFiles.value.find((f) => f.name === name);
+  const fileRef = storageRef(storage, `images/carousel/${id}/${file.name}`);
+  await uploadBytes(fileRef, file);
 };
 
 const onSubmit = async () => {
   loading.value = true;
   try {
-    upload();
     await clearCollection();
+    await clearStorage();
     itemsEdit.value.forEach(async (item, index) => {
       const submitData = { name: item.name, seq: index };
-      await addDoc(collection(db, "carousel"), submitData);
+      const docRef = await addDoc(collection(db, "carousel"), submitData);
+      upload(docRef.id, item.name);
       fetchCarouselData();
     });
 
@@ -361,8 +368,13 @@ const fetchCarouselData = () => {
         carouselList.push(list);
       });
 
-      const promises = carouselList.map((carouselItem) => {
-        return getDownloadURL(storageRef(storage, carouselItem.name))
+      const promises = carouselList.map(async (carouselItem) => {
+        return getDownloadURL(
+          storageRef(
+            storage,
+            `images/carousel/${carouselItem.id}/${carouselItem.name}`
+          )
+        )
           .then((url) => {
             carouselItem.imgUrl = url;
           })
@@ -384,7 +396,7 @@ const fetchCarouselData = () => {
 
 const fetchTourData = () => {
   return new Promise((resolve) => {
-    onSnapshot(collection(db, "tours"), (querySnapshot) => {
+    onSnapshot(collection(db, "tours"), async (querySnapshot) => {
       const tourData = [];
 
       querySnapshot.forEach((doc) => {
@@ -400,6 +412,21 @@ const fetchTourData = () => {
 
         tourData.push(tour);
       });
+
+      const promises = tourData.map(async (tour) => {
+        return getDownloadURL(
+          storageRef(storage, `images/tours/${tour.id}/${tour.name}`)
+        )
+          .then((url) => {
+            tour.imgUrl = url;
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+      });
+
+      await Promise.all(promises);
+
       tours.value = tourData;
 
       const selected = tourData.filter((tour) => tour.selected);

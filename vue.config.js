@@ -21,15 +21,15 @@ module.exports = defineConfig({
     };
   },
   chainWebpack: async (config) => {
-    config.plugin("prerender").use(PrerendererWebpackPlugin, [
-      {
-        routes: ["/", "/contact", "/tours"],
-        renderer: "@prerenderer/renderer-puppeteer",
-        rendererOptions: {
-          renderAfterDocumentEvent: "render-complete",
-        },
-      },
-    ]);
+    // config.plugin("prerender").use(PrerendererWebpackPlugin, [
+    //   {
+    //     routes: ["/", "/contact", "/tours"],
+    //     renderer: "@prerenderer/renderer-puppeteer",
+    //     rendererOptions: {
+    //       renderAfterDocumentEvent: "render-complete",
+    //     },
+    //   },
+    // ]);
     config.plugin("html").tap((args) => {
       args[0].title = "Wellness Life Travel";
       return args;
