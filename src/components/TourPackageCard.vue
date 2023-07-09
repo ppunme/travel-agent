@@ -1,10 +1,9 @@
 <template>
   <div class="tour-card rounded-[20px] shadow-lg">
     <img
-      v-if="item.image"
-      :src="item.image"
-      alt=""
-      class="w-full h-[21rem] object-cover" />
+      :src="!props.management ? item.image : image"
+      alt="" />
+
     <div class="px-6 py-4 font-medium">
       <h3
         v-if="item.name"
@@ -43,7 +42,7 @@ const props = defineProps([
   "countriesValidate",
   "detailsValidate",
   "fileNameValidate",
-  "imageObjectURL",
+  "image",
 ]);
 
 const router = useRouter();
@@ -81,7 +80,7 @@ const openNewRoute = async (id) => {
       countries: countries.join(", "),
       days: props.item.days,
       details: props.item.details,
-      image: props.imageObjectURL,
+      image: props.image,
       name: props.item.name,
       nights: props.item.nights,
       price: props.item.price,

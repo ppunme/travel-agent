@@ -17,7 +17,7 @@
           :countriesValidate="countriesValidate"
           :detailsValidate="detailsValidate"
           :fileNameValidate="fileNameValidate"
-          :imageObjectURL="imageObjectURL" />
+          :image="uploadedFile?.objectURL" />
       </div>
       <div class="lg:col-span-3 xl:col-span-6 2xl:col-span-5">
         <form @submit="onSubmit">
@@ -203,7 +203,8 @@ import { watch, ref, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 import { useField, useForm } from "vee-validate";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "@/firebase";
+import { ref as storageRef, uploadBytes } from "firebase/storage";
+import { db, storage } from "@/firebase";
 import store from "@/store";
 
 import { data } from "@/services/CountryList";
@@ -225,10 +226,9 @@ const { handleSubmit, resetForm } = useForm();
 
 const fileUpload = ref(null);
 const clearButton = ref(false);
-const imageObjectURL = ref();
+const uploadedFile = ref(null);
 
 const tour = ref({
-  image: null,
   name: null,
   countries: null,
   days: null,
@@ -271,23 +271,21 @@ const onSelectedFiles = async (event) => {
   reader.readAsDataURL(blob);
 
   reader.onloadend = function () {
-    const base64data = reader.result;
-    tour.value.image = base64data;
+    uploadedFile.value = file;
     tour.value.fileName = file.name;
     fileName.value = file.name;
-    imageObjectURL.value = file.objectURL;
   };
 };
 
 const clearFile = async () => {
   fileUpload.value.clear();
-  tour.value.image = null;
+  uploadedFile.value = null;
   tour.value.fileName = null;
   fileName.value = null;
 };
 
 watchEffect(() => {
-  if (tour.value.image) {
+  if (uploadedFile.value) {
     clearButton.value = true;
   } else {
     clearButton.value = false;
@@ -427,13 +425,19 @@ watch(fileName, (newValue) => {
 const onSubmit = handleSubmit(async (values) => {
   try {
     values.countries = values.countries.map((item) => item.name);
-    values.image = tour.value.image;
     values.createdAt = serverTimestamp();
 
-    await addDoc(collection(db, "tours"), values);
+    const docRef = await addDoc(collection(db, "tours"), values);
+
+    await uploadBytes(
+      storageRef(
+        storage,
+        `images/tours/${docRef.id}/${fileUpload.value.files[0].name}`
+      ),
+      fileUpload.value.files[0]
+    );
 
     tour.value = {
-      image: null,
       name: null,
       countries: null,
       days: null,
@@ -444,7 +448,7 @@ const onSubmit = handleSubmit(async (values) => {
     };
 
     fileUpload.value.clear();
-    tour.value.image = null;
+    uploadedFile.value = null;
     tour.value.fileName = null;
 
     resetForm();
@@ -466,7 +470,6 @@ const onSubmit = handleSubmit(async (values) => {
 
 const onCancel = () => {
   tour.value = {
-    image: null,
     name: null,
     countries: null,
     days: null,

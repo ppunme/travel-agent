@@ -185,6 +185,7 @@ const upload = async () => {
   }
 
   uploadedFiles.value.forEach(async (file) => {
+    console.log(file);
     const fileRef = storageRef(storage, file.name);
     await uploadBytes(fileRef, file);
   });
@@ -360,25 +361,21 @@ const fetchCarouselData = () => {
         carouselList.push(list);
       });
 
-      try {
-        const promises = carouselList.map((carouselItem) => {
-          return getDownloadURL(storageRef(storage, carouselItem.name))
-            .then((url) => {
-              carouselItem.imgUrl = url;
-            })
-            .catch((error) => {
-              console.log(error.message);
-            });
-        });
+      const promises = carouselList.map((carouselItem) => {
+        return getDownloadURL(storageRef(storage, carouselItem.name))
+          .then((url) => {
+            carouselItem.imgUrl = url;
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+      });
 
-        await Promise.all(promises);
+      await Promise.all(promises);
 
-        const sortedList = carouselList.sort((a, b) => a.seq - b.seq);
-        items.value = sortedList;
-        itemsEdit.value = sortedList;
-      } catch (error) {
-        console.log(error.message);
-      }
+      const sortedList = carouselList.sort((a, b) => a.seq - b.seq);
+      items.value = sortedList;
+      itemsEdit.value = sortedList;
 
       resolve();
     });

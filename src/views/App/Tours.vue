@@ -50,7 +50,8 @@ import { ref, watch, onMounted, computed, nextTick } from "vue";
 import { useRoute } from "vue-router";
 
 import { collection, onSnapshot, query } from "firebase/firestore";
-import { db } from "@/firebase";
+import { ref as storageRef, getDownloadURL } from "firebase/storage";
+import { db, storage } from "@/firebase";
 import { pageview } from "vue-gtag";
 import { useHead } from "@vueuse/head";
 
@@ -156,7 +157,7 @@ const loadData = () => {
 
   let q = query(collectionRef);
 
-  onSnapshot(q, (querySnapshot) => {
+  onSnapshot(q, async (querySnapshot) => {
     const tourData = [];
 
     querySnapshot.forEach((doc) => {
@@ -166,6 +167,15 @@ const loadData = () => {
       };
       tourData.push(tour);
     });
+
+    const promises = tourData.map(async (tourItem) => {
+      const url = await getDownloadURL(
+        storageRef(storage, `images/tours/${tourItem.id}/${tourItem.fileName}`)
+      );
+      tourItem.image = url;
+    });
+
+    await Promise.all(promises);
 
     tours.value = tourData.sort((a, b) => {
       const fieldA = a["createdAt"];
