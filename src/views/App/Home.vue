@@ -11,7 +11,7 @@
     :moveItemUp="moveItemUp"
     :moveItemDown="moveItemDown"
     :handleDelete="handleDelete"
-    :confirmAction="confirmAction"
+    :openDeleteModal="openDeleteModal"
     :handleAddImg="handleAddImg"
     :onSubmit="onSubmit"
     :onDialogUpdate="onDialogUpdate" />
@@ -63,7 +63,6 @@ import { useHead } from "@vueuse/head";
 import {
   collection,
   addDoc,
-  getDocs,
   deleteDoc,
   onSnapshot,
   doc,
@@ -107,44 +106,40 @@ const itemsEdit = ref([]);
 
 const visible = ref(false);
 const visibleDelete = ref(false);
-const deleteIndex = ref(null);
 const deleteItem = ref(null);
+const deleteArray = ref([]);
 
 const uploadedFiles = ref([]);
 
 const loading = ref(false);
 
-const openEditModal = () => {
+const openEditModal = async () => {
+  await fetchCarouselData();
   visible.value = true;
-  fetchCarouselData();
 };
 
-const handleCancel = (value) => {
-  visibleDelete.value = value;
-};
-
-const handleDelete = (index, item) => {
+const openDeleteModal = (index, item) => {
   if (item.id) {
     visibleDelete.value = true;
-    deleteIndex.value = index;
     deleteItem.value = item.id;
+    deleteArray.value.push(item);
   } else {
     itemsEdit.value.splice(index, 1);
   }
 };
 
-const confirmAction = () => {
-  visibleDelete.value = false;
+const handleCancel = (value) => {
+  deleteArray.value.filter((item) => item.id !== deleteItem.value);
+  visibleDelete.value = value;
+};
 
+const handleDelete = () => {
   if (deleteItem.value) {
     itemsEdit.value = itemsEdit.value.filter(
       (carousel) => carousel.id !== deleteItem.value
     );
-    store.dispatch("showToast", {
-      severity: "success",
-      summary: "ลบข้อมูลเรียบร้อยแล้ว",
-    });
   }
+  visibleDelete.value = false;
 };
 
 const onDialogUpdate = (value) => {
@@ -165,57 +160,63 @@ const moveItemDown = (index) => {
   }
 };
 
-const handleAddImg = async (file, base64data) => {
-  itemsEdit.value.push({ name: file.name, img: base64data });
+const handleAddImg = async (file) => {
+  itemsEdit.value.push({ name: file.name, img: file.objectURL });
   uploadedFiles.value.push(file);
 };
 
-const clearCollection = async () => {
-  const collectionRef = collection(db, "carousel");
-  const snapshot = await getDocs(collectionRef);
-
-  snapshot.forEach((item) => {
-    deleteDoc(item.ref);
-  });
-};
-
-const clearStorage = async () => {
-  items.value.forEach(async (item) => {
-    console.log("item", item);
-    await deleteObject(
-      storageRef(storage, `images/carousel/${item.id}/${item.name}`)
-    ).then(() => {
-      console.log("File deleted successfully");
+const clearDeleteArray = async () => {
+  if (deleteArray.value.length > 0) {
+    deleteArray.value.forEach(async (item) => {
+      await deleteObject(
+        storageRef(storage, `images/carousel/${item.id}/${item.name}`)
+      );
+      await deleteDoc(doc(db, "carousel", item.id));
     });
-  });
+  }
 };
 
 // Upload file to Firebase Storage
 const upload = async (id, name) => {
   const file = uploadedFiles.value.find((f) => f.name === name);
   const fileRef = storageRef(storage, `images/carousel/${id}/${file.name}`);
-  await uploadBytes(fileRef, file);
+  await uploadBytes(fileRef, file).then(() => {
+    fetchCarouselData();
+  });
 };
 
 const onSubmit = async () => {
   loading.value = true;
   try {
-    await clearCollection();
-    await clearStorage();
-    itemsEdit.value.forEach(async (item, index) => {
-      const submitData = { name: item.name, seq: index };
-      const docRef = await addDoc(collection(db, "carousel"), submitData);
-      upload(docRef.id, item.name);
-      fetchCarouselData();
-    });
+    await clearDeleteArray();
+    await Promise.all(
+      itemsEdit.value.map(async (item, index) => {
+        if (item.id) {
+          // Handle case where item has an ID
+          const docRef = doc(db, "carousel", item.id);
+          await updateDoc(docRef, { seq: index });
+        } else {
+          const submitData = { name: item.name, seq: index };
+          const docRef = await addDoc(collection(db, "carousel"), submitData);
+          await upload(docRef.id, item.name);
+        }
+      })
+    );
 
     loading.value = false;
     visible.value = false;
+    await fetchCarouselData();
+
+    store.dispatch("showToast", {
+      severity: "success",
+      summary: "บันทึกข้อมูลเรียบร้อยแล้ว",
+    });
   } catch (e) {
     store.dispatch("showToast", {
       severity: "error",
       summary: e.message,
     });
+    loading.value = false;
   }
 };
 // Carousel
@@ -386,8 +387,8 @@ const fetchCarouselData = () => {
       await Promise.all(promises);
 
       const sortedList = carouselList.sort((a, b) => a.seq - b.seq);
-      items.value = sortedList;
-      itemsEdit.value = sortedList;
+      items.value = [...sortedList];
+      itemsEdit.value = [...sortedList];
 
       resolve();
     });

@@ -2,8 +2,8 @@
   <div class="flex justify-end pt-2">
     <FileUpload
       chooseLabel="เพิ่มรูป"
-      mode="basic"
       name="image[]"
+      mode="basic"
       accept="image/*"
       @select="onSelectedFiles" />
   </div>
@@ -75,7 +75,7 @@ import {
 } from "@/utils/GlobalFunction";
 import store from "@/store";
 import ConfirmDialog from "primevue/confirmdialog";
-import FileUpload from "primevue/fileupload";
+//import FileUpload from "primevue/fileupload";
 import { ref as storageRef, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebase";
 
@@ -90,6 +90,7 @@ const emit = defineEmits([
 // const uploadedFile = ref([]);
 
 const onSelectedFiles = async (event) => {
+  console.log("onSelectedFiles");
   const file = event.files[0];
 
   if (!isValidImageFileType(file)) {
@@ -116,17 +117,7 @@ const onSelectedFiles = async (event) => {
     return;
   }
 
-  const reader = new FileReader();
-  let blob = await fetch(file.objectURL).then((r) => r.blob()); //blob:url
-
-  //uploadedFile.value.push(file);
-
-  reader.readAsDataURL(blob);
-  reader.onloadend = function () {
-    const base64data = reader.result;
-
-    emit("handleAddImg", file, base64data);
-  };
+  emit("handleAddImg", file);
 };
 
 const moveItemUp = (index) => {
@@ -161,5 +152,3 @@ onMounted(() => {
   });
 });
 </script>
-
-<style></style>

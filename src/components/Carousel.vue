@@ -19,7 +19,7 @@
     <EditCarousel
       :items="itemsEdit"
       @handleAddImg="handleAddImg"
-      @handleDelete="handleDelete"
+      @handleDelete="openDeleteModal"
       @moveItemUp="moveItemUp"
       @moveItemDown="moveItemDown" />
   </Modal>
@@ -51,7 +51,7 @@
     header="Delete"
     :visible="visibleDelete"
     @handleCancel="handleCancel"
-    @confirmAction="confirmAction" />
+    @confirmAction="handleDelete" />
 </template>
 
 <script setup>
@@ -75,7 +75,7 @@ defineProps([
   "moveItemUp",
   "moveItemDown",
   "handleDelete",
-  "confirmAction",
+  "openDeleteModal",
   "handleAddImg",
   "onSubmit",
   "onDialogUpdate",
