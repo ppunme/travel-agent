@@ -1,15 +1,20 @@
 <template>
-  <div class="tour-card rounded-[20px] shadow-lg">
+  <div
+    class="tour-card rounded-[20px] shadow-lg flex flex-col"
+    :class="!props.management && 'h-full'">
     <img
+      v-if="(!props.management && item.image) || (props.management && image)"
       :src="!props.management ? item.image : image"
-      alt="" />
-
-    <div class="px-6 py-4 font-medium">
+      alt=""
+      class="object-cover h-[335px] w-full" />
+    <div class="px-6 pt-4 font-medium">
       <h3
         v-if="item.name"
         class="pb-3">
         {{ item.name }}
       </h3>
+    </div>
+    <div class="px-6 pb-4 mt-auto font-medium">
       <h6 v-if="item.days && item.nights">
         {{ item.days }} วัน {{ item.nights }} คืน
       </h6>

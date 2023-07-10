@@ -68,6 +68,7 @@ import {
   doc,
   updateDoc,
   deleteField,
+  getDocs,
 } from "firebase/firestore";
 import {
   ref as storageRef,
@@ -114,9 +115,8 @@ const uploadedFiles = ref([]);
 const loading = ref(false);
 
 const openEditModal = async () => {
-  await fetchCarouselData();
+  fetchCarouselData();
   visible.value = true;
-  deleteArray.value = [];
 };
 
 const openDeleteModal = (index, item) => {
@@ -206,7 +206,7 @@ const onSubmit = async () => {
 
     loading.value = false;
     visible.value = false;
-    await fetchCarouselData();
+    fetchCarouselData();
 
     store.dispatch("showToast", {
       severity: "success",
@@ -253,8 +253,8 @@ const selectedToursEdit = ref([
   },
 ]);
 
-const openEditTourModal = async () => {
-  await fetchTourData();
+const openEditTourModal = () => {
+  fetchTourData();
   visibleTour.value = true;
   deleteTourItem.value = [];
 };
@@ -281,6 +281,11 @@ const confirmTourAction = async () => {
 
   if (deleteTourItem.value.length > 0) {
     selectedToursEdit.value.splice(deleteTourIndex.value, 1);
+
+    store.dispatch("showToast", {
+      severity: "success",
+      summary: "ลบข้อมูลเรียบร้อยแล้ว",
+    });
   }
 };
 
@@ -348,94 +353,101 @@ const onTourSubmit = () => {
     });
     tourLoading.value = false;
     visibleTour.value = false;
+    fetchTourData();
+
+    store.dispatch("showToast", {
+      severity: "success",
+      summary: "บันทึกข้อมูลเรียบร้อยแล้ว",
+    });
   });
 };
 // Tour
 
 const fetchCarouselData = () => {
-  return new Promise((resolve) => {
-    onSnapshot(collection(db, "carousel"), async (querySnapshot) => {
-      let carouselList = [];
+  // return new Promise((resolve) => {
+  onSnapshot(collection(db, "carousel"), async (querySnapshot) => {
+    let carouselList = [];
 
-      querySnapshot.forEach((doc) => {
-        const list = {
-          id: doc.id,
-          name: doc.data().name,
-          seq: doc.data().seq,
-        };
-        carouselList.push(list);
-      });
-
-      const promises = carouselList.map(async (carouselItem) => {
-        return getDownloadURL(
-          storageRef(
-            storage,
-            `images/carousel/${carouselItem.id}/${carouselItem.name}`
-          )
-        )
-          .then((url) => {
-            carouselItem.imgUrl = url;
-          })
-          .catch((error) => {
-            console.log(error.message);
-          });
-      });
-
-      await Promise.all(promises);
-
-      const sortedList = carouselList.sort((a, b) => a.seq - b.seq);
-      items.value = [...sortedList];
-      itemsEdit.value = [...sortedList];
-
-      resolve();
+    querySnapshot.forEach((doc) => {
+      const list = {
+        id: doc.id,
+        name: doc.data().name,
+        seq: doc.data().seq,
+      };
+      carouselList.push(list);
     });
+
+    const promises = carouselList.map(async (carouselItem) => {
+      return getDownloadURL(
+        storageRef(
+          storage,
+          `images/carousel/${carouselItem.id}/${carouselItem.name}`
+        )
+      )
+        .then((url) => {
+          carouselItem.imgUrl = url;
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    });
+
+    await Promise.all(promises);
+
+    const sortedList = carouselList.sort((a, b) => a.seq - b.seq);
+    items.value = [...sortedList];
+    itemsEdit.value = [...sortedList];
+
+    // resolve();
   });
+  // });
 };
 
-const fetchTourData = () => {
-  return new Promise((resolve) => {
-    onSnapshot(collection(db, "tours"), async (querySnapshot) => {
-      const tourData = [];
+const fetchTourData = async () => {
+  // return new Promise((resolve) => {
+  // const fetchTour = async () => {
+  const querySnapshot = await getDocs(collection(db, "tours"));
+  const tourData = [];
 
-      querySnapshot.forEach((doc) => {
-        const tour = {
-          id: doc.id,
-          name: doc.data().fileName,
-          image: doc.data().image,
-          label: doc.data().fileName,
-          selected: doc.data().selected,
-          seq: doc.data().seq,
-          value: doc.id,
-        };
-
-        tourData.push(tour);
-      });
-
-      const promises = tourData.map(async (tour) => {
-        return getDownloadURL(
-          storageRef(storage, `images/tours/${tour.id}/${tour.name}`)
-        )
-          .then((url) => {
-            tour.imgUrl = url;
-          })
-          .catch((error) => {
-            console.log(error.message);
-          });
-      });
-
-      await Promise.all(promises);
-
-      tours.value = tourData;
-
-      const selected = tourData.filter((tour) => tour.selected);
-      const sortedSelected = selected.sort((a, b) => a.seq - b.seq);
-
-      selectedTours.value = [...sortedSelected];
-      selectedToursEdit.value = [...sortedSelected];
-      dataLength.value = sortedSelected.length;
-      resolve();
+  querySnapshot.forEach((doc) => {
+    tourData.push({
+      id: doc.id,
+      name: doc.data().fileName,
+      image: doc.data().image,
+      label: doc.data().fileName,
+      selected: doc.data().selected,
+      seq: doc.data().seq,
+      value: doc.id,
     });
   });
+
+  await Promise.all(
+    tourData.map(async (tour) => {
+      return getDownloadURL(
+        storageRef(storage, `images/tours/${tour.id}/${tour.name}`)
+      )
+        .then((url) => {
+          tour.imgUrl = url;
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    })
+  );
+
+  tours.value = tourData;
+
+  const selected = tourData.filter((tour) => tour.selected);
+  const sortedSelected = selected.sort((a, b) => a.seq - b.seq);
+
+  selectedTours.value = [...sortedSelected];
+  selectedToursEdit.value = [...sortedSelected];
+  dataLength.value = sortedSelected.length;
+  // resolve();
+  // };
+
+  // fetchTour();
+  // });
 };
 
 pageview({
@@ -490,18 +502,24 @@ useHead({
 });
 
 onMounted(() => {
-  Promise.all([fetchCarouselData(), fetchTourData()])
-    .then(() => {
-      nextTick(() => {
-        document.dispatchEvent(new Event("render-complete"));
-      });
-    })
-    .catch(() => {
-      store.dispatch("showToast", {
-        severity: "error",
-        summary: "พบข้อผิดพลาดในการแสดงข้อมูล",
-        detail: "กรุณาลองใหม่อีกครั้ง",
-      });
-    });
+  fetchCarouselData();
+  fetchTourData();
+  nextTick(() => {
+    document.dispatchEvent(new Event("render-complete"));
+  });
+
+  // Promise.all([fetchCarouselData(), fetchTourData()])
+  //   .then(() => {
+  //     nextTick(() => {
+  //       document.dispatchEvent(new Event("render-complete"));
+  //     });
+  //   })
+  //   .catch(() => {
+  //     store.dispatch("showToast", {
+  //       severity: "error",
+  //       summary: "พบข้อผิดพลาดในการแสดงข้อมูล",
+  //       detail: "กรุณาลองใหม่อีกครั้ง",
+  //     });
+  //   });
 });
 </script>

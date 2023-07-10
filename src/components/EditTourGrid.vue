@@ -91,7 +91,6 @@ const emit = defineEmits([
 
 const filteredOptions = computed(() => {
   return (item) => {
-    console.log("item", item);
     if (item.name !== null) {
       const filteredItems = props.tours.filter(
         (tour) =>

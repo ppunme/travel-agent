@@ -90,7 +90,6 @@ const emit = defineEmits([
 // const uploadedFile = ref([]);
 
 const onSelectedFiles = async (event) => {
-  console.log("onSelectedFiles");
   const file = event.files[0];
 
   if (!isValidImageFileType(file)) {
