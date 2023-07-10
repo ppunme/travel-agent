@@ -116,6 +116,7 @@ const loading = ref(false);
 const openEditModal = async () => {
   await fetchCarouselData();
   visible.value = true;
+  deleteArray.value = [];
 };
 
 const openDeleteModal = (index, item) => {
@@ -252,7 +253,8 @@ const selectedToursEdit = ref([
   },
 ]);
 
-const openEditTourModal = () => {
+const openEditTourModal = async () => {
+  await fetchTourData();
   visibleTour.value = true;
   deleteTourItem.value = [];
 };
@@ -279,11 +281,6 @@ const confirmTourAction = async () => {
 
   if (deleteTourItem.value.length > 0) {
     selectedToursEdit.value.splice(deleteTourIndex.value, 1);
-
-    store.dispatch("showToast", {
-      severity: "success",
-      summary: "ลบข้อมูลเรียบร้อยแล้ว",
-    });
   }
 };
 
