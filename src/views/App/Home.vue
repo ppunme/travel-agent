@@ -281,11 +281,6 @@ const confirmTourAction = async () => {
 
   if (deleteTourItem.value.length > 0) {
     selectedToursEdit.value.splice(deleteTourIndex.value, 1);
-
-    store.dispatch("showToast", {
-      severity: "success",
-      summary: "ลบข้อมูลเรียบร้อยแล้ว",
-    });
   }
 };
 
@@ -319,10 +314,6 @@ const handleDrop = (e, newIndex) => {
   const oldIndex = e.dataTransfer.getData("text/plain");
   const item = selectedToursEdit.value.splice(oldIndex, 1)[0];
   selectedToursEdit.value.splice(newIndex, 0, item);
-  store.dispatch("showToast", {
-    severity: "success",
-    summary: "จัดเรียงข้อมูลใหม่เรียบร้อยแล้ว",
-  });
 };
 
 const onTourSubmit = () => {
@@ -351,14 +342,15 @@ const onTourSubmit = () => {
       selected: true,
       seq: index,
     });
-    tourLoading.value = false;
-    visibleTour.value = false;
-    fetchTourData();
+  });
 
-    store.dispatch("showToast", {
-      severity: "success",
-      summary: "บันทึกข้อมูลเรียบร้อยแล้ว",
-    });
+  tourLoading.value = false;
+  visibleTour.value = false;
+  fetchTourData();
+
+  store.dispatch("showToast", {
+    severity: "success",
+    summary: "บันทึกข้อมูลเรียบร้อยแล้ว",
   });
 };
 // Tour

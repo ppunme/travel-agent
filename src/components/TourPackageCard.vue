@@ -14,7 +14,7 @@
         {{ item.name }}
       </h3>
     </div>
-    <div class="px-6 pb-4 mt-auto font-medium">
+    <div class="px-6 pb-6 mt-auto font-medium">
       <h6 v-if="item.days && item.nights">
         {{ item.days }} วัน {{ item.nights }} คืน
       </h6>
