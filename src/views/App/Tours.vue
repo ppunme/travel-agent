@@ -168,14 +168,17 @@ const loadData = () => {
       tourData.push(tour);
     });
 
-    const promises = tourData.map(async (tourItem) => {
-      const url = await getDownloadURL(
-        storageRef(storage, `images/tours/${tourItem.id}/${tourItem.fileName}`)
-      );
-      tourItem.image = url;
-    });
-
-    await Promise.all(promises);
+    await Promise.all(
+      tourData.map(async (tourItem) => {
+        const url = await getDownloadURL(
+          storageRef(
+            storage,
+            `images/tours/${tourItem.id}/${tourItem.fileName}`
+          )
+        );
+        tourItem.image = url;
+      })
+    );
 
     tours.value = tourData.sort((a, b) => {
       const fieldA = a["createdAt"];

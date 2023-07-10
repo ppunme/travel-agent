@@ -235,7 +235,11 @@
 import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { doc, onSnapshot, deleteDoc } from "firebase/firestore";
-import { ref as storageRef, getDownloadURL } from "firebase/storage";
+import {
+  ref as storageRef,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { pageview } from "vue-gtag";
 import { useHead } from "@vueuse/head";
 
@@ -284,6 +288,13 @@ const handleDelete = () => {
 
 const confirmAction = async () => {
   try {
+    await deleteObject(
+      storageRef(
+        storage,
+        `images/tours/${route.params.tourId}/${tour.value.fileName}`
+      )
+    );
+
     await deleteDoc(doc(db, "tours", route.params.tourId));
     visibleDelete.value = false;
 
@@ -387,13 +398,14 @@ onMounted(async () => {
             { name: "twitter:card", content: "summary_large_image" },
           ],
         });
-      } else {
-        store.dispatch("showToast", {
-          severity: "error",
-          summary: "ไม่พบข้อมูล",
-          detail: "กรุณาลองใหม่อีกครั้ง",
-        });
       }
+      // else {
+      //   store.dispatch("showToast", {
+      //     severity: "error",
+      //     summary: "ไม่พบข้อมูล",
+      //     detail: "กรุณาลองใหม่อีกครั้ง",
+      //   });
+      // }
     });
   }
 });
