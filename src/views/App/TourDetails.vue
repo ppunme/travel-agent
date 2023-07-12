@@ -228,6 +228,7 @@
   <ConfirmModal
     header="Delete"
     :visible="visibleDelete"
+    :confirmLoading="confirmLoading"
     @handleCancel="handleCancel"
     @confirmAction="confirmAction" />
 </template>
@@ -260,6 +261,7 @@ const router = useRouter();
 
 const tour = ref();
 const visibleDelete = ref(false);
+const confirmLoading = ref(false);
 
 const isLoggedIn = computed(() => store.state.isLoggedIn);
 
@@ -287,6 +289,8 @@ const handleDelete = () => {
 };
 
 const confirmAction = async () => {
+  confirmLoading.value = true;
+
   try {
     await deleteObject(
       storageRef(
@@ -303,6 +307,8 @@ const confirmAction = async () => {
       summary: "ลบข้อมูลเรียบร้อยแล้ว",
     });
 
+    confirmLoading.value = false;
+
     router.push("/tours");
   } catch (error) {
     if (error) {
@@ -312,6 +318,8 @@ const confirmAction = async () => {
         detail: "กรุณาลองใหม่อีกครั้ง",
       });
     }
+
+    confirmLoading.value = false;
   }
 };
 

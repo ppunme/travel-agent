@@ -64,7 +64,7 @@
       </div>
     </div>
   </div>
-  <ConfirmDialog />
+  <!-- <ConfirmDialog /> -->
 </template>
 
 <script setup>
@@ -74,8 +74,8 @@ import {
   isValidImageFileSize,
 } from "@/utils/GlobalFunction";
 import store from "@/store";
-import ConfirmDialog from "primevue/confirmdialog";
-//import FileUpload from "primevue/fileupload";
+// import ConfirmDialog from "primevue/confirmdialog";
+import FileUpload from "primevue/fileupload";
 import { ref as storageRef, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebase";
 

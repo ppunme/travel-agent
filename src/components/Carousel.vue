@@ -50,6 +50,7 @@
   <ConfirmModal
     header="Delete"
     :visible="visibleDelete"
+    :confirmLoading="confirmLoading"
     @handleCancel="handleCancel"
     @confirmAction="handleDelete" />
 </template>
@@ -79,6 +80,7 @@ defineProps([
   "handleAddImg",
   "onSubmit",
   "onDialogUpdate",
+  "confirmLoading",
 ]);
 
 const showIndicators = computed(() => {

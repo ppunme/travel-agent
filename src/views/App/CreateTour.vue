@@ -37,6 +37,7 @@
                   :class="fileName && '!hidden'"
                   mode="basic"
                   name="image[]"
+                  accept="image/*"
                   @select="onSelectedFiles" />
 
                 <button
@@ -187,10 +188,13 @@
             <Button
               type="submit"
               class="w-36 !bg-green-add !border-green-add"
+              :loading="loading"
               rounded>
               <font-awesome-icon
+                v-if="!loading"
                 :icon="['fas', 'check']"
-                size="xl" /><span class="mx-auto">บันทึก</span>
+                size="xl" />
+              <span class="mx-auto">บันทึก</span>
             </Button>
           </div>
         </form>
@@ -227,6 +231,7 @@ const { handleSubmit, resetForm } = useForm();
 const fileUpload = ref(null);
 const clearButton = ref(false);
 const uploadedFile = ref(null);
+const loading = ref(false);
 
 const tour = ref({
   name: null,
@@ -423,6 +428,8 @@ watch(fileName, (newValue) => {
 });
 
 const onSubmit = handleSubmit(async (values) => {
+  loading.value = true;
+
   try {
     values.countries = values.countries.map((item) => item.name);
     values.createdAt = serverTimestamp();
@@ -458,6 +465,8 @@ const onSubmit = handleSubmit(async (values) => {
       summary: "บันทึกข้อมูลเรียบร้อยแล้ว",
     });
 
+    loading.value = false;
+
     router.push("/tours");
   } catch (error) {
     store.dispatch("showToast", {
@@ -465,6 +474,8 @@ const onSubmit = handleSubmit(async (values) => {
       summary: "เกิดข้อผิดพลาดระหว่างการบันทึกข้อมูล",
       detail: "กรุณาลองใหม่อีกครั้ง",
     });
+
+    loading.value = false;
   }
 });
 

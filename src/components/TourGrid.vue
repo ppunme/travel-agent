@@ -55,6 +55,7 @@
   <ConfirmModal
     header="Delete"
     :visible="visibleTourDelete"
+    :confirmLoading="confirmTourLoading"
     @handleCancel="handleTourCancel"
     @confirmAction="confirmTourAction" />
   <Toast />
@@ -87,6 +88,7 @@ defineProps([
   "visibleTourDelete",
   "handleTourCancel",
   "confirmTourAction",
+  "confirmTourLoading",
 ]);
 </script>
 

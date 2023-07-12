@@ -37,6 +37,7 @@
                   :class="fileName && '!hidden'"
                   mode="basic"
                   name="image[]"
+                  accept="image/*"
                   @select="onSelectedFiles" />
                 <button
                   v-if="clearButton"
@@ -194,6 +195,7 @@
           <ConfirmModal
             header="Edit"
             :visible="visibleEdit"
+            :confirmLoading="confirmLoading"
             @handleCancel="handleCancel"
             @confirmAction="onSubmit" />
         </form>
@@ -205,12 +207,7 @@
 import { watch, ref, watchEffect, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useField, useForm } from "vee-validate";
-import {
-  doc,
-  onSnapshot,
-  updateDoc,
-  serverTimestamp,
-} from "firebase/firestore";
+import { doc, updateDoc, getDoc, serverTimestamp } from "firebase/firestore";
 import {
   ref as storageRef,
   getDownloadURL,
@@ -245,7 +242,7 @@ const visibleEdit = ref(false);
 const uploadedFile = ref({ objectURL: null });
 const oldImage = ref({ objectURL: null });
 const oldFileName = ref();
-
+const confirmLoading = ref(false);
 const tour = ref({
   image: null,
   name: null,
@@ -450,6 +447,8 @@ watch(fileName, (newValue) => {
 });
 
 const onSubmit = handleSubmit(async (values) => {
+  confirmLoading.value = true;
+
   try {
     values.countries = values.countries.map((item) => item.name);
     values.updatedAt = serverTimestamp();
@@ -490,6 +489,8 @@ const onSubmit = handleSubmit(async (values) => {
       summary: "บันทึกข้อมูลเรียบร้อยแล้ว",
     });
 
+    confirmLoading.value = false;
+
     router.push(`/tours/${route.params.tourId}`);
   } catch (error) {
     if (error) {
@@ -499,6 +500,8 @@ const onSubmit = handleSubmit(async (values) => {
         detail: "กรุณาลองใหม่อีกครั้ง",
       });
     }
+
+    confirmLoading.value = false;
   }
 });
 
@@ -508,41 +511,37 @@ const onCancel = () => {
 
 onMounted(async () => {
   const docRef = doc(db, "tours", route.params.tourId);
+  const docSnap = await getDoc(docRef);
 
-  onSnapshot(docRef, async (docSnapshot) => {
-    if (docSnapshot.exists()) {
-      const tourData = docSnapshot.data();
-      tourData.countries = tourData.countries.map((item) => {
-        return { name: item };
-      });
+  if (docSnap.exists()) {
+    const tourData = docSnap.data();
+    tourData.countries = tourData.countries.map((item) => {
+      return { name: item };
+    });
 
-      tour.value = tourData;
-      name.value = tourData.name;
-      countries.value = tourData.countries;
-      days.value = tourData.days;
-      nights.value = tourData.nights;
-      price.value = tourData.price;
-      airline.value = tourData.airline;
-      details.value = tourData.details;
-      fileName.value = tourData.fileName;
+    tour.value = tourData;
+    name.value = tourData.name;
+    countries.value = tourData.countries;
+    days.value = tourData.days;
+    nights.value = tourData.nights;
+    price.value = tourData.price;
+    airline.value = tourData.airline;
+    details.value = tourData.details;
+    fileName.value = tourData.fileName;
 
-      const image = await getDownloadURL(
-        storageRef(
-          storage,
-          `images/tours/${docSnapshot.id}/${tour.value.fileName}`
-        )
-      );
+    const image = await getDownloadURL(
+      storageRef(storage, `images/tours/${docSnap.id}/${tour.value.fileName}`)
+    );
 
-      oldFileName.value = tourData.fileName;
-      oldImage.value.objectURL = image;
-      uploadedFile.value.objectURL = image;
-    } else {
-      store.dispatch("showToast", {
-        severity: "error",
-        summary: "ไม่พบข้อมูล",
-        detail: "กรุณาลองใหม่อีกครั้ง",
-      });
-    }
-  });
+    oldFileName.value = tourData.fileName;
+    oldImage.value.objectURL = image;
+    uploadedFile.value.objectURL = image;
+  } else {
+    store.dispatch("showToast", {
+      severity: "error",
+      summary: "ไม่พบข้อมูล",
+      detail: "กรุณาลองใหม่อีกครั้ง",
+    });
+  }
 });
 </script>
