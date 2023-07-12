@@ -7,9 +7,7 @@
         rounded
         class="w-32 !bg-amber-500 !border-none"
         @click="openEditTourModal">
-        <font-awesome-icon
-          :icon="['fas', 'pen']"
-          size="xl" />
+        <font-awesome-icon :icon="['fas', 'pen']" />
         <span class="mx-auto">แก้ไข</span>
       </Button>
     </div>
@@ -30,21 +28,21 @@
     </Modal>
     <div
       v-if="dataLength > 0"
-      class="grid grid-cols-2 md:grid-cols-3 gap-12">
+      class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-12">
       <div
         v-for="(item, index) in selectedTours"
         :key="index"
         class="flex justify-center cursor-pointer hover:opacity-80 rounded-xl shadow-md square-image"
         @click="viewPackage(item.id)">
         <img
-          :src="item.image"
+          :src="item.imgUrl"
           :alt="item.name"
           class="rounded-xl shadow-md" />
       </div>
     </div>
     <div
       v-if="dataLength === 0"
-      class="grid grid-cols-2 md:grid-cols-3 gap-12">
+      class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-12">
       <div
         v-for="index in 3"
         :key="index"

@@ -49,8 +49,9 @@
 import { ref, watch, onMounted, computed, nextTick } from "vue";
 import { useRoute } from "vue-router";
 
-import { collection, onSnapshot, query } from "firebase/firestore";
-import { db } from "@/firebase";
+import { collection, getDocs } from "firebase/firestore";
+import { ref as storageRef, getDownloadURL } from "firebase/storage";
+import { db, storage } from "@/firebase";
 import { pageview } from "vue-gtag";
 import { useHead } from "@vueuse/head";
 
@@ -150,60 +151,61 @@ const paginatedTours = computed(() => {
   return sortedTours.value.slice(startIndex, endIndex);
 });
 
-const loadData = () => {
+const loadData = async () => {
   loading.value = true;
-  const collectionRef = collection(db, "tours");
 
-  let q = query(collectionRef);
+  const querySnapshot = await getDocs(collection(db, "tours"));
+  const tourData = [];
 
-  onSnapshot(q, (querySnapshot) => {
-    const tourData = [];
+  querySnapshot.forEach((doc) => {
+    tourData.push({ id: doc.id, ...doc.data() });
+  });
 
-    querySnapshot.forEach((doc) => {
-      const tour = {
-        id: doc.id,
-        ...doc.data(),
-      };
-      tourData.push(tour);
-    });
+  await Promise.all(
+    tourData.map(async (tourItem) => {
+      const url = await getDownloadURL(
+        storageRef(storage, `images/tours/${tourItem.id}/${tourItem.fileName}`)
+      );
+      tourItem.image = url;
+    })
+  );
 
-    tours.value = tourData.sort((a, b) => {
-      const fieldA = a["createdAt"];
-      const fieldB = b["createdAt"];
+  tours.value = tourData.sort((a, b) => {
+    const fieldA = a["createdAt"];
+    const fieldB = b["createdAt"];
 
-      if (fieldA < fieldB) {
-        return -1;
+    if (fieldA < fieldB) {
+      return -1;
+    }
+
+    if (fieldA > fieldB) {
+      return 1;
+    }
+    return 0;
+  });
+
+  dataLength.value = tourData.length;
+
+  let options = [];
+  let filerOptions = [{ name: "ทั้งหมด", country: null }];
+
+  tourData.forEach((item) => {
+    item.countries.forEach((country) => {
+      if (!options.includes(country)) {
+        options.push(country);
       }
-
-      if (fieldA > fieldB) {
-        return 1;
-      }
-      return 0;
     });
+  });
 
-    dataLength.value = tourData.length;
+  options.forEach((opt) => {
+    filerOptions.push({ name: opt, country: opt });
+  });
 
-    let options = [];
-    let filerOptions = [{ name: "ทั้งหมด", country: null }];
+  countries.value = filerOptions;
+  loading.value = false;
 
-    tourData.forEach((item) => {
-      item.countries.forEach((country) => {
-        if (!options.includes(country)) {
-          options.push(country);
-        }
-      });
-    });
-
-    options.forEach((opt) => {
-      filerOptions.push({ name: opt, country: opt });
-    });
-
-    countries.value = filerOptions;
-    loading.value = false;
-
-    nextTick(() => {
-      document.dispatchEvent(new Event("render-complete"));
-    });
+  nextTick(() => {
+    document.dispatchEvent(new Event("render-complete"));
   });
 };
 

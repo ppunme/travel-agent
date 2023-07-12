@@ -1,7 +1,8 @@
 <template>
   <div class="tool-bar">
-    <div class="py-12 text-center container mx-auto px-4 sm:px-8 md:px-10">
-      <h2 class="mb-8">แพ็คเกจทัวร์</h2>
+    <div
+      class="py-6 sm:py-12 text-center container mx-auto px-4 sm:px-8 md:px-10">
+      <p class="text-xl md:text-3xl mb-4 md:mb-8">แพ็คเกจทัวร์</p>
       <div class="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-0">
         <div class="lg:justify-self-end lg:order-1 order-2 lg:pr-4 xl:pr-8">
           <Dropdown

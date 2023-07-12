@@ -17,7 +17,7 @@
           :countriesValidate="countriesValidate"
           :detailsValidate="detailsValidate"
           :fileNameValidate="fileNameValidate"
-          :imageObjectURL="imageObjectURL" />
+          :image="uploadedFile?.objectURL" />
       </div>
       <div class="lg:col-span-3 xl:col-span-6 2xl:col-span-5">
         <form @submit="onSubmit">
@@ -211,7 +211,13 @@ import {
   updateDoc,
   serverTimestamp,
 } from "firebase/firestore";
-import { db } from "@/firebase";
+import {
+  ref as storageRef,
+  getDownloadURL,
+  uploadBytes,
+  deleteObject,
+} from "firebase/storage";
+import { db, storage } from "@/firebase";
 import store from "@/store";
 
 import { data } from "@/services/CountryList";
@@ -236,7 +242,9 @@ const { handleSubmit, resetForm } = useForm();
 const fileUpload = ref(null);
 const clearButton = ref(false);
 const visibleEdit = ref(false);
-const imageObjectURL = ref();
+const uploadedFile = ref({ objectURL: null });
+const oldImage = ref({ objectURL: null });
+const oldFileName = ref();
 
 const tour = ref({
   image: null,
@@ -259,6 +267,7 @@ const handleEdit = () => {
 
 const onSelectedFiles = async (event) => {
   const file = event.files[0];
+
   if (!isValidImageFileType(file)) {
     store.dispatch("showToast", {
       severity: "error",
@@ -289,23 +298,21 @@ const onSelectedFiles = async (event) => {
   reader.readAsDataURL(blob);
 
   reader.onloadend = function () {
-    const base64data = reader.result;
-    tour.value.image = base64data;
+    uploadedFile.value = file;
     tour.value.fileName = file.name;
     fileName.value = file.name;
-    imageObjectURL.value = file.objectURL;
   };
 };
 
 const clearFile = () => {
   fileUpload.value.clear();
-  tour.value.image = null;
+  uploadedFile.value = null;
   tour.value.fileName = null;
   fileName.value = null;
 };
 
 watchEffect(() => {
-  if (tour.value.image) {
+  if (uploadedFile.value) {
     clearButton.value = true;
   } else {
     clearButton.value = false;
@@ -445,8 +452,24 @@ watch(fileName, (newValue) => {
 const onSubmit = handleSubmit(async (values) => {
   try {
     values.countries = values.countries.map((item) => item.name);
-    values.image = tour.value.image;
     values.updatedAt = serverTimestamp();
+
+    if (uploadedFile.value.objectURL !== oldImage.value.objectURL) {
+      await deleteObject(
+        storageRef(
+          storage,
+          `images/tours/${route.params.tourId}/${oldFileName.value}`
+        )
+      );
+
+      await uploadBytes(
+        storageRef(
+          storage,
+          `images/tours/${route.params.tourId}/${fileUpload.value.files[0].name}`
+        ),
+        fileUpload.value.files[0]
+      );
+    }
 
     await updateDoc(doc(db, "tours", route.params.tourId), values);
 
@@ -483,14 +506,10 @@ const onCancel = () => {
   router.push(`/tours/${route.params.tourId}`);
 };
 
-const base64ToBlob = async (base64String) => {
-  return await fetch(base64String).then((response) => response.blob());
-};
-
 onMounted(async () => {
   const docRef = doc(db, "tours", route.params.tourId);
 
-  onSnapshot(docRef, (docSnapshot) => {
+  onSnapshot(docRef, async (docSnapshot) => {
     if (docSnapshot.exists()) {
       const tourData = docSnapshot.data();
       tourData.countries = tourData.countries.map((item) => {
@@ -507,10 +526,16 @@ onMounted(async () => {
       details.value = tourData.details;
       fileName.value = tourData.fileName;
 
-      base64ToBlob(tourData.image).then((blob) => {
-        const objectURL = URL.createObjectURL(blob);
-        imageObjectURL.value = objectURL;
-      });
+      const image = await getDownloadURL(
+        storageRef(
+          storage,
+          `images/tours/${docSnapshot.id}/${tour.value.fileName}`
+        )
+      );
+
+      oldFileName.value = tourData.fileName;
+      oldImage.value.objectURL = image;
+      uploadedFile.value.objectURL = image;
     } else {
       store.dispatch("showToast", {
         severity: "error",

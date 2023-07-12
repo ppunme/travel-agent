@@ -2,8 +2,8 @@
   <div class="flex justify-end pt-2">
     <FileUpload
       chooseLabel="เพิ่มรูป"
-      mode="basic"
       name="image[]"
+      mode="basic"
       accept="image/*"
       @select="onSelectedFiles" />
   </div>
@@ -75,7 +75,7 @@ import {
 } from "@/utils/GlobalFunction";
 import store from "@/store";
 import ConfirmDialog from "primevue/confirmdialog";
-import FileUpload from "primevue/fileupload";
+//import FileUpload from "primevue/fileupload";
 import { ref as storageRef, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebase";
 
@@ -116,17 +116,7 @@ const onSelectedFiles = async (event) => {
     return;
   }
 
-  const reader = new FileReader();
-  let blob = await fetch(file.objectURL).then((r) => r.blob()); //blob:url
-
-  //uploadedFile.value.push(file);
-
-  reader.readAsDataURL(blob);
-  reader.onloadend = function () {
-    const base64data = reader.result;
-
-    emit("handleAddImg", file, base64data);
-  };
+  emit("handleAddImg", file);
 };
 
 const moveItemUp = (index) => {
@@ -147,7 +137,9 @@ const onDelete = (index, item) => {
 
 onMounted(() => {
   props.items.forEach((item) => {
-    getDownloadURL(storageRef(storage, item.name))
+    getDownloadURL(
+      storageRef(storage, `images/carousel/${item.id}/${item.name}`)
+    )
       .then((url) => {
         const img = document.getElementById(item.name);
         img.setAttribute("src", url);
@@ -159,5 +151,3 @@ onMounted(() => {
   });
 });
 </script>
-
-<style></style>

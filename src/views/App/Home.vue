@@ -1,5 +1,5 @@
 <template>
-  <Carousel
+  <CarouselComp
     :isLoggedIn="isLoggedIn"
     :visible="visible"
     :loading="loading"
@@ -11,15 +11,15 @@
     :moveItemUp="moveItemUp"
     :moveItemDown="moveItemDown"
     :handleDelete="handleDelete"
-    :confirmAction="confirmAction"
+    :openDeleteModal="openDeleteModal"
     :handleAddImg="handleAddImg"
     :onSubmit="onSubmit"
     :onDialogUpdate="onDialogUpdate" />
   <div class="container mx-auto px-4 sm:px-8 md:px-10">
-    <div class="flex justify-center items-center py-12">
+    <div class="flex justify-center items-center py-10 sm:py-12">
       <font-awesome-icon
         :icon="['fas', 'bus']"
-        size="2xl"
+        :size="iconSize"
         class="text-primary-blue self-center pr-2" />
       <p class="text-primary-blue">รับจัดทัวร์ในประเทศและต่างประเทศ</p>
     </div>
@@ -63,23 +63,24 @@ import { useHead } from "@vueuse/head";
 import {
   collection,
   addDoc,
-  getDocs,
   deleteDoc,
   onSnapshot,
   doc,
   updateDoc,
   deleteField,
+  getDocs,
 } from "firebase/firestore";
 import {
   ref as storageRef,
   uploadBytes,
   getDownloadURL,
+  deleteObject,
 } from "firebase/storage";
 
 import store from "@/store";
 import { db, storage } from "@/firebase";
 import { data } from "@/services/ContactList";
-import Carousel from "@/components/Carousel.vue";
+import CarouselComp from "@/components/Carousel.vue";
 import TourGrid from "@/components/TourGrid.vue";
 import ContactCard from "@/components/ContactCard.vue";
 import Button from "primevue/button";
@@ -88,49 +89,58 @@ const router = useRouter();
 
 const isLoggedIn = computed(() => store.state.isLoggedIn);
 
+const iconSize = computed(() => {
+  {
+    if (window.innerWidth < 1024) {
+      return "xl";
+    } else if (window.innerWidth >= 1024) {
+      return "2xl";
+    } else {
+      return "xl"; // Set a default size or adjust as needed
+    }
+  }
+});
+
 // Carousel
 const items = ref([]);
 const itemsEdit = ref([]);
 
 const visible = ref(false);
 const visibleDelete = ref(false);
-const deleteIndex = ref(null);
 const deleteItem = ref(null);
+const deleteArray = ref([]);
 
 const uploadedFiles = ref([]);
 
 const loading = ref(false);
 
-const openEditModal = () => {
+const openEditModal = async () => {
+  fetchCarouselData();
   visible.value = true;
 };
 
-const handleCancel = (value) => {
-  visibleDelete.value = value;
-};
-
-const handleDelete = (index, item) => {
+const openDeleteModal = (index, item) => {
   if (item.id) {
     visibleDelete.value = true;
-    deleteIndex.value = index;
     deleteItem.value = item.id;
+    deleteArray.value.push(item);
   } else {
     itemsEdit.value.splice(index, 1);
   }
 };
 
-const confirmAction = () => {
-  visibleDelete.value = false;
+const handleCancel = (value) => {
+  deleteArray.value.filter((item) => item.id !== deleteItem.value);
+  visibleDelete.value = value;
+};
 
+const handleDelete = () => {
   if (deleteItem.value) {
     itemsEdit.value = itemsEdit.value.filter(
       (carousel) => carousel.id !== deleteItem.value
     );
-    store.dispatch("showToast", {
-      severity: "success",
-      summary: "ลบข้อมูลเรียบร้อยแล้ว",
-    });
   }
+  visibleDelete.value = false;
 };
 
 const onDialogUpdate = (value) => {
@@ -151,51 +161,63 @@ const moveItemDown = (index) => {
   }
 };
 
-const handleAddImg = async (file, base64data) => {
-  itemsEdit.value.push({ name: file.name, img: base64data });
+const handleAddImg = async (file) => {
+  itemsEdit.value.push({ name: file.name, img: file.objectURL });
   uploadedFiles.value.push(file);
 };
 
-const clearCollection = async () => {
-  const collectionRef = collection(db, "carousel");
-  const snapshot = await getDocs(collectionRef);
-
-  snapshot.forEach((item) => {
-    deleteDoc(item.ref);
-  });
+const clearDeleteArray = async () => {
+  if (deleteArray.value.length > 0) {
+    deleteArray.value.forEach(async (item) => {
+      await deleteObject(
+        storageRef(storage, `images/carousel/${item.id}/${item.name}`)
+      );
+      await deleteDoc(doc(db, "carousel", item.id));
+    });
+  }
 };
 
 // Upload file to Firebase Storage
-const upload = async () => {
-  if (!uploadedFiles.value) {
-    return;
-  }
-
-  uploadedFiles.value.forEach(async (file) => {
-    const fileRef = storageRef(storage, file.name);
-    await uploadBytes(fileRef, file).then((snapshot) => {
-      console.log("Uploaded a blob or file!", snapshot);
-    });
+const upload = async (id, name) => {
+  const file = uploadedFiles.value.find((f) => f.name === name);
+  const fileRef = storageRef(storage, `images/carousel/${id}/${file.name}`);
+  await uploadBytes(fileRef, file).then(() => {
+    fetchCarouselData();
   });
 };
 
 const onSubmit = async () => {
   loading.value = true;
   try {
-    upload();
-    await clearCollection();
-    itemsEdit.value.forEach(async (item, index) => {
-      const submitData = { name: item.name, seq: index };
-      await addDoc(collection(db, "carousel"), submitData);
-    });
+    await clearDeleteArray();
+    await Promise.all(
+      itemsEdit.value.map(async (item, index) => {
+        if (item.id) {
+          // Handle case where item has an ID
+          const docRef = doc(db, "carousel", item.id);
+          await updateDoc(docRef, { seq: index });
+        } else {
+          const submitData = { name: item.name, seq: index };
+          const docRef = await addDoc(collection(db, "carousel"), submitData);
+          await upload(docRef.id, item.name);
+        }
+      })
+    );
 
     loading.value = false;
     visible.value = false;
+    fetchCarouselData();
+
+    store.dispatch("showToast", {
+      severity: "success",
+      summary: "บันทึกข้อมูลเรียบร้อยแล้ว",
+    });
   } catch (e) {
     store.dispatch("showToast", {
       severity: "error",
       summary: e.message,
     });
+    loading.value = false;
   }
 };
 // Carousel
@@ -232,6 +254,7 @@ const selectedToursEdit = ref([
 ]);
 
 const openEditTourModal = () => {
+  fetchTourData();
   visibleTour.value = true;
   deleteTourItem.value = [];
 };
@@ -258,11 +281,6 @@ const confirmTourAction = async () => {
 
   if (deleteTourItem.value.length > 0) {
     selectedToursEdit.value.splice(deleteTourIndex.value, 1);
-
-    store.dispatch("showToast", {
-      severity: "success",
-      summary: "ลบข้อมูลเรียบร้อยแล้ว",
-    });
   }
 };
 
@@ -296,10 +314,6 @@ const handleDrop = (e, newIndex) => {
   const oldIndex = e.dataTransfer.getData("text/plain");
   const item = selectedToursEdit.value.splice(oldIndex, 1)[0];
   selectedToursEdit.value.splice(newIndex, 0, item);
-  store.dispatch("showToast", {
-    severity: "success",
-    summary: "จัดเรียงข้อมูลใหม่เรียบร้อยแล้ว",
-  });
 };
 
 const onTourSubmit = () => {
@@ -328,80 +342,104 @@ const onTourSubmit = () => {
       selected: true,
       seq: index,
     });
-    tourLoading.value = false;
-    visibleTour.value = false;
+  });
+
+  tourLoading.value = false;
+  visibleTour.value = false;
+  fetchTourData();
+
+  store.dispatch("showToast", {
+    severity: "success",
+    summary: "บันทึกข้อมูลเรียบร้อยแล้ว",
   });
 };
 // Tour
 
 const fetchCarouselData = () => {
-  return new Promise((resolve) => {
-    onSnapshot(collection(db, "carousel"), async (querySnapshot) => {
-      let carouselList = [];
+  // return new Promise((resolve) => {
+  onSnapshot(collection(db, "carousel"), async (querySnapshot) => {
+    let carouselList = [];
 
-      querySnapshot.forEach((doc) => {
-        const list = {
-          id: doc.id,
-          name: doc.data().name,
-          seq: doc.data().seq,
-        };
-        carouselList.push(list);
-      });
-
-      try {
-        const promises = carouselList.map((carouselItem) => {
-          return getDownloadURL(storageRef(storage, carouselItem.name))
-            .then((url) => {
-              carouselItem.imgUrl = url;
-            })
-            .catch((error) => {
-              console.log(error.message);
-            });
-        });
-
-        await Promise.all(promises);
-
-        const sortedList = carouselList.sort((a, b) => a.seq - b.seq);
-        items.value = sortedList;
-        itemsEdit.value = sortedList;
-      } catch (error) {
-        console.log(error.message);
-      }
-
-      resolve();
+    querySnapshot.forEach((doc) => {
+      const list = {
+        id: doc.id,
+        name: doc.data().name,
+        seq: doc.data().seq,
+      };
+      carouselList.push(list);
     });
+
+    const promises = carouselList.map(async (carouselItem) => {
+      return getDownloadURL(
+        storageRef(
+          storage,
+          `images/carousel/${carouselItem.id}/${carouselItem.name}`
+        )
+      )
+        .then((url) => {
+          carouselItem.imgUrl = url;
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    });
+
+    await Promise.all(promises);
+
+    const sortedList = carouselList.sort((a, b) => a.seq - b.seq);
+    items.value = [...sortedList];
+    itemsEdit.value = [...sortedList];
+
+    // resolve();
   });
+  // });
 };
 
-const fetchTourData = () => {
-  return new Promise((resolve) => {
-    onSnapshot(collection(db, "tours"), (querySnapshot) => {
-      const tourData = [];
+const fetchTourData = async () => {
+  // return new Promise((resolve) => {
+  // const fetchTour = async () => {
+  const querySnapshot = await getDocs(collection(db, "tours"));
+  const tourData = [];
 
-      querySnapshot.forEach((doc) => {
-        const tour = {
-          id: doc.id,
-          name: doc.data().fileName,
-          image: doc.data().image,
-          label: doc.data().fileName,
-          selected: doc.data().selected,
-          seq: doc.data().seq,
-          value: doc.id,
-        };
-
-        tourData.push(tour);
-      });
-      tours.value = tourData;
-
-      const selected = tourData.filter((tour) => tour.selected);
-      const sortedSelected = selected.sort((a, b) => a.seq - b.seq);
-
-      selectedTours.value = [...sortedSelected];
-      selectedToursEdit.value = [...sortedSelected];
-      dataLength.value = sortedSelected.length;
-      resolve();
+  querySnapshot.forEach((doc) => {
+    tourData.push({
+      id: doc.id,
+      name: doc.data().fileName,
+      image: doc.data().image,
+      label: doc.data().fileName,
+      selected: doc.data().selected,
+      seq: doc.data().seq,
+      value: doc.id,
     });
   });
+
+  await Promise.all(
+    tourData.map(async (tour) => {
+      return getDownloadURL(
+        storageRef(storage, `images/tours/${tour.id}/${tour.name}`)
+      )
+        .then((url) => {
+          tour.imgUrl = url;
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    })
+  );
+
+  tours.value = tourData;
+
+  const selected = tourData.filter((tour) => tour.selected);
+  const sortedSelected = selected.sort((a, b) => a.seq - b.seq);
+
+  selectedTours.value = [...sortedSelected];
+  selectedToursEdit.value = [...sortedSelected];
+  dataLength.value = sortedSelected.length;
+  // resolve();
+  // };
+
+  // fetchTour();
+  // });
 };
 
 pageview({
@@ -456,18 +494,24 @@ useHead({
 });
 
 onMounted(() => {
-  Promise.all([fetchCarouselData(), fetchTourData()])
-    .then(() => {
-      nextTick(() => {
-        document.dispatchEvent(new Event("render-complete"));
-      });
-    })
-    .catch(() => {
-      store.dispatch("showToast", {
-        severity: "error",
-        summary: "พบข้อผิดพลาดในการแสดงข้อมูล",
-        detail: "กรุณาลองใหม่อีกครั้ง",
-      });
-    });
+  fetchCarouselData();
+  fetchTourData();
+  nextTick(() => {
+    document.dispatchEvent(new Event("render-complete"));
+  });
+
+  // Promise.all([fetchCarouselData(), fetchTourData()])
+  //   .then(() => {
+  //     nextTick(() => {
+  //       document.dispatchEvent(new Event("render-complete"));
+  //     });
+  //   })
+  //   .catch(() => {
+  //     store.dispatch("showToast", {
+  //       severity: "error",
+  //       summary: "พบข้อผิดพลาดในการแสดงข้อมูล",
+  //       detail: "กรุณาลองใหม่อีกครั้ง",
+  //     });
+  //   });
 });
 </script>

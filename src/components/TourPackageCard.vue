@@ -1,16 +1,20 @@
 <template>
-  <div class="tour-card rounded-[20px] shadow-lg">
+  <div
+    class="tour-card rounded-[20px] shadow-lg flex flex-col"
+    :class="!props.management && 'h-full'">
     <img
-      v-if="item.image"
-      :src="item.image"
+      v-if="(!props.management && item.image) || (props.management && image)"
+      :src="!props.management ? item.image : image"
       alt=""
-      class="w-full h-[21rem] object-cover" />
-    <div class="px-6 py-4 font-medium">
+      class="object-cover h-[335px] w-full" />
+    <div class="px-6 pt-4 font-medium">
       <h3
         v-if="item.name"
         class="pb-3">
         {{ item.name }}
       </h3>
+    </div>
+    <div class="px-6 pb-6 mt-auto font-medium">
       <h6 v-if="item.days && item.nights">
         {{ item.days }} วัน {{ item.nights }} คืน
       </h6>
@@ -43,7 +47,7 @@ const props = defineProps([
   "countriesValidate",
   "detailsValidate",
   "fileNameValidate",
-  "imageObjectURL",
+  "image",
 ]);
 
 const router = useRouter();
@@ -81,7 +85,7 @@ const openNewRoute = async (id) => {
       countries: countries.join(", "),
       days: props.item.days,
       details: props.item.details,
-      image: props.imageObjectURL,
+      image: props.image,
       name: props.item.name,
       nights: props.item.nights,
       price: props.item.price,

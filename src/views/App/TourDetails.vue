@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto px-4 sm:px-8 md:px-10 py-12">
+  <div class="container mx-auto px-4 sm:px-8 md:px-10 py-6 md:py-12">
     <div
       v-if="isLoggedIn"
       class="flex justify-end">
@@ -43,15 +43,15 @@
         class="lg:col-span-2 !h-[85vw] sm:!h-[75vw] md:!h-[70vw] lg:!h-full !rounded-[20px]"></Skeleton>
 
       <div class="col-span-3 flex flex-col font-medium">
-        <h1
+        <p
           v-if="(route.params.tourId !== 'preview' && tour) || route.query.name"
-          class="pb-8 mt-8 lg:mt-0">
+          class="text-2xl md:text-4xl pb-8 mt-8 lg:mt-0">
           {{
             route.params.tourId !== "preview" && tour
               ? tour.name
               : route.query.name
           }}
-        </h1>
+        </p>
         <Skeleton
           v-if="route.params.tourId !== 'preview' && !tour"
           class="!rounded-[20px] mb-8 mt-8 lg:mt-0"
@@ -61,17 +61,17 @@
         <div
           class="h-full border border-y-primary-border-color border-x-0 py-10 flex flex-col justify-between">
           <div>
-            <h2
+            <p
               v-if="
                 (route.params.tourId !== 'preview' && tour) || route.query.name
               "
-              class="text-primary-blue mb-10">
+              class="text-xl md:text-3xl text-primary-blue mb-10">
               ฿{{
                 route.params.tourId !== "preview" && tour
                   ? parseFloat(tour.price).toLocaleString()
                   : parseFloat(route.query.price).toLocaleString()
               }}
-            </h2>
+            </p>
             <Skeleton
               v-if="route.params.tourId !== 'preview' && !tour"
               class="!rounded-[20px] mb-10 !w-[85%] sm:!w-[80%] lg:!w-[75%] ]"
@@ -86,17 +86,18 @@
                     class="text-primary-icon-color" />
                 </div>
               </div>
-              <h5
+              <p
                 v-if="
                   (route.params.tourId !== 'preview' && tour) ||
                   route.query.name
-                ">
+                "
+                class="text-lg md:text-xl">
                 {{
                   route.params.tourId !== "preview" && tour
                     ? tour.countries.join(", ")
                     : route.query.countries
                 }}
-              </h5>
+              </p>
               <Skeleton
                 v-if="route.params.tourId !== 'preview' && !tour"
                 class="!rounded-[20px] !w-[60%] sm:!w-[45%] md:!w-[50%] lg:!w-[45%] xl:!w-[40%]"
@@ -115,7 +116,8 @@
                 v-if="
                   (route.params.tourId !== 'preview' && tour) ||
                   route.query.name
-                ">
+                "
+                class="text-lg md:text-xl">
                 {{
                   route.params.tourId !== "preview" && tour
                     ? tour.days
@@ -143,17 +145,18 @@
                     class="text-primary-icon-color" />
                 </div>
               </div>
-              <h5
+              <p
                 v-if="
                   (route.params.tourId !== 'preview' && tour) ||
                   route.query.name
-                ">
+                "
+                class="text-lg md:text-xl">
                 {{
                   route.params.tourId !== "preview" && tour
                     ? tour.airline
                     : route.query.airline
                 }}
-              </h5>
+              </p>
               <Skeleton
                 v-if="route.params.tourId !== 'preview' && !tour"
                 class="!rounded-[20px] !w-[60%] sm:!w-[45%] md:!w-[50%] lg:!w-[45%] xl:!w-[40%]"
@@ -168,7 +171,7 @@
               @click="handleMessenger">
               <font-awesome-icon
                 :icon="['fab', 'facebook-messenger']"
-                size="2xl" />
+                size="xl" />
               <span class="mx-auto">ส่งข้อความ</span>
             </Button>
             <Button
@@ -177,7 +180,7 @@
               @click="handleLine">
               <font-awesome-icon
                 :icon="['fab', 'line']"
-                size="2xl" />
+                size="xl" />
               <span class="mx-auto">แอดไลน์</span>
             </Button>
             <Button
@@ -186,7 +189,7 @@
               @click="handlePhone">
               <font-awesome-icon
                 :icon="['fas', 'phone']"
-                size="2xl" />
+                size="xl" />
               <span class="mx-auto">โทรจอง</span>
             </Button>
           </di>
@@ -194,10 +197,10 @@
       </div>
     </div>
     <div
-      class="py-6 lg:py-14 border border-y-primary-border-color border-x-0 border-t-0 font-medium">
+      class="py-6 lg:py-14 border border-y-primary-border-color border-x-0 border-t-0 md:font-medium">
       <h1
         v-if="(route.params.tourId !== 'preview' && tour) || route.query.name"
-        class="mb-8 text-[1.75rem] sm:text-[2.5rem]">
+        class="mb-8 font-medium text-lg md:text-xl">
         รายละเอียดการเดินทาง
       </h1>
       <Skeleton
@@ -206,6 +209,7 @@
         height="2.75rem"></Skeleton>
       <div
         v-if="(route.params.tourId !== 'preview' && tour) || route.query.name"
+        class="text-primary-gray"
         v-html="
           route.params.tourId !== 'preview' && tour
             ? tour.details
@@ -231,10 +235,15 @@
 import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { doc, onSnapshot, deleteDoc } from "firebase/firestore";
+import {
+  ref as storageRef,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { pageview } from "vue-gtag";
 import { useHead } from "@vueuse/head";
 
-import { db } from "@/firebase";
+import { db, storage } from "@/firebase";
 import store from "@/store";
 import {
   goToMessenger,
@@ -279,6 +288,13 @@ const handleDelete = () => {
 
 const confirmAction = async () => {
   try {
+    await deleteObject(
+      storageRef(
+        storage,
+        `images/tours/${route.params.tourId}/${tour.value.fileName}`
+      )
+    );
+
     await deleteDoc(doc(db, "tours", route.params.tourId));
     visibleDelete.value = false;
 
@@ -299,94 +315,98 @@ const confirmAction = async () => {
   }
 };
 
-const base64ToBlob = async (base64String) => {
-  return await fetch(base64String).then((response) => response.blob());
-};
-
 onMounted(async () => {
-  const docRef = doc(db, "tours", route.params.tourId);
+  if (route.params.tourId !== "preview") {
+    const docRef = doc(db, "tours", route.params.tourId);
 
-  onSnapshot(docRef, async (docSnapshot) => {
-    if (docSnapshot.exists()) {
-      tour.value = await docSnapshot.data();
+    onSnapshot(docRef, async (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        tour.value = docSnapshot.data();
 
-      const image = await base64ToBlob(tour.value.image).then((blob) => {
-        return URL.createObjectURL(blob);
-      });
+        const image = await getDownloadURL(
+          storageRef(
+            storage,
+            `images/tours/${docSnapshot.id}/${tour.value.fileName}`
+          )
+        );
 
-      pageview({
-        page_title: `Tour Detail - ${tour.value.name}`,
-      });
+        tour.value.image = image;
 
-      useHead({
-        title: `${tour.value.name} ${tour.value.days} วัน ${tour.value.nights} คืน - Wellness Life Travel`,
-        meta: [
-          // default
-          {
-            name: "description",
-            content: `${tour.value.name} ${tour.value.countries.join(" ")} ${
-              tour.value.days
-            } วัน ${tour.value.nights} คืน ${tour.value.airline}`,
-          },
-          {
-            name: "keywords",
-            content: `${tour.value.name},${tour.value.countries.join(",")},${
-              tour.value.days
-            }วัน,${tour.value.nights}คืน,${tour.value.airline}`,
-          },
+        pageview({
+          page_title: `Tour Detail - ${tour.value.name}`,
+        });
 
-          // facebook
-          {
-            property: "og:title",
-            content: `${tour.value.name} ${tour.value.days} วัน ${tour.value.nights} คืน - Wellness Life Travel`,
-          },
-          {
-            property: "og:image",
-            content: image,
-          },
-          {
-            property: "og:description",
-            content: `${tour.value.name} ${tour.value.countries.join(" ")} ${
-              tour.value.days
-            } วัน ${tour.value.nights} คืน ${tour.value.airline}`,
-          },
-          {
-            property: "og:url",
-            content: `https://www.wellnesslifetravelth.com${route.path}`,
-          },
-          { property: "og:site_name", content: "wellnesslifetravelth.com" },
-          { property: "og:type", content: "product" },
+        useHead({
+          title: `${tour.value.name} ${tour.value.days} วัน ${tour.value.nights} คืน - Wellness Life Travel`,
+          meta: [
+            // default
+            {
+              name: "description",
+              content: `${tour.value.name} ${tour.value.countries.join(" ")} ${
+                tour.value.days
+              } วัน ${tour.value.nights} คืน ${tour.value.airline}`,
+            },
+            {
+              name: "keywords",
+              content: `${tour.value.name},${tour.value.countries.join(",")},${
+                tour.value.days
+              }วัน,${tour.value.nights}คืน,${tour.value.airline}`,
+            },
 
-          // twitter
-          {
-            name: "twitter:title",
-            content: `${tour.value.name} ${tour.value.days} วัน ${tour.value.nights} คืน - Wellness Life Travel`,
-          },
-          {
-            name: "twitter:image",
-            content: image,
-          },
-          {
-            name: "twitter:description",
-            content: `${tour.value.name} ${tour.value.countries.join(" ")} ${
-              tour.value.days
-            } วัน ${tour.value.nights} คืน ${tour.value.airline}`,
-          },
-          {
-            name: "twitter:domain",
-            content: `https://www.wellnesslifetravelth.com${route.path}`,
-          },
-          { name: "twitter:site", content: "wellnesslifetravelth.com" },
-          { name: "twitter:card", content: "summary_large_image" },
-        ],
-      });
-    } else {
-      store.dispatch("showToast", {
-        severity: "error",
-        summary: "ไม่พบข้อมูล",
-        detail: "กรุณาลองใหม่อีกครั้ง",
-      });
-    }
-  });
+            // facebook
+            {
+              property: "og:title",
+              content: `${tour.value.name} ${tour.value.days} วัน ${tour.value.nights} คืน - Wellness Life Travel`,
+            },
+            {
+              property: "og:image",
+              content: image,
+            },
+            {
+              property: "og:description",
+              content: `${tour.value.name} ${tour.value.countries.join(" ")} ${
+                tour.value.days
+              } วัน ${tour.value.nights} คืน ${tour.value.airline}`,
+            },
+            {
+              property: "og:url",
+              content: `https://www.wellnesslifetravelth.com${route.path}`,
+            },
+            { property: "og:site_name", content: "wellnesslifetravelth.com" },
+            { property: "og:type", content: "product" },
+
+            // twitter
+            {
+              name: "twitter:title",
+              content: `${tour.value.name} ${tour.value.days} วัน ${tour.value.nights} คืน - Wellness Life Travel`,
+            },
+            {
+              name: "twitter:image",
+              content: image,
+            },
+            {
+              name: "twitter:description",
+              content: `${tour.value.name} ${tour.value.countries.join(" ")} ${
+                tour.value.days
+              } วัน ${tour.value.nights} คืน ${tour.value.airline}`,
+            },
+            {
+              name: "twitter:domain",
+              content: `https://www.wellnesslifetravelth.com${route.path}`,
+            },
+            { name: "twitter:site", content: "wellnesslifetravelth.com" },
+            { name: "twitter:card", content: "summary_large_image" },
+          ],
+        });
+      }
+      // else {
+      //   store.dispatch("showToast", {
+      //     severity: "error",
+      //     summary: "ไม่พบข้อมูล",
+      //     detail: "กรุณาลองใหม่อีกครั้ง",
+      //   });
+      // }
+    });
+  }
 });
 </script>

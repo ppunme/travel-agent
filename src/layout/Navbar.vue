@@ -1,17 +1,18 @@
 <template>
   <nav
     class="navbar text-primary-blue relative z-10 md:h-28 md:flex md:items-center">
-    <div class="flex justify-between items-center px-3 md:px-0 md:w-full">
+    <div
+      class="flex justify-between items-center py-4 sm:py-0 px-4 md:px-0 md:w-full">
       <div
         class="flex items-center lg:ml-20 cursor-pointer"
         @click="$router.push('/')">
         <img
           src="@/assets/images/logo.png"
           alt="logo"
-          class="w-16 sm:w-20" />
+          class="w-12 sm:w-20" />
         <div>
           <h4
-            class="text-lg sm:text-2xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl ml-4 self-center font-semibold w-[11rem] sm:w-[15rem] lg:w-[12rem] xl:w-[15rem] 2xl:w-[18rem] text-primary-blue">
+            class="text-lg sm:text-2xl md:text-2xl lg:text-xl xl:text-2xl ml-4 self-center font-semibold w-[12rem] sm:w-[15rem] lg:w-[12rem] xl:w-[15rem] 2xl:w-[18rem] text-primary-blue">
             Wellness Life Travel
           </h4>
           <h5
@@ -81,17 +82,23 @@
           class="flex items-center space-x-2 focus:outline-none"
           aria-label="Open Menu"
           @click="showMenu = !showMenu">
-          <div class="w-9 h-9 flex items-center justify-center relative">
+          <div class="w-7 h-7 flex items-center justify-center relative">
             <span
-              :class="showMenu ? 'translate-y-0 rotate-45' : '-translate-y-3'"
+              :class="
+                showMenu ? 'translate-y-0 rotate-45' : '-translate-y-[0.65rem]'
+              "
               class="hamburger-bar" />
 
             <span
-              :class="showMenu ? 'opacity-0 translate-x-3' : 'opacity-100'"
+              :class="
+                showMenu ? 'opacity-0 translate-x-[0.65rem]' : 'opacity-100'
+              "
               class="hamburger-bar" />
 
             <span
-              :class="showMenu ? 'translate-y-0 -rotate-45' : 'translate-y-3'"
+              :class="
+                showMenu ? 'translate-y-0 -rotate-45' : 'translate-y-[0.65rem]'
+              "
               class="hamburger-bar" />
           </div>
         </button>
@@ -100,7 +107,7 @@
     <Transition name="slide-fade">
       <div
         v-if="showMenu"
-        class="md:hidden absolute inset-x-0 top-[119px] bg-[#333] z-20"
+        class="md:hidden absolute inset-x-0 top-[83px] bg-[#333] z-20"
         style="height: calc(100vh - 50px)">
         <div class="flex flex-col px-6">
           <router-link
