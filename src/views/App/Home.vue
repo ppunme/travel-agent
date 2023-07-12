@@ -117,10 +117,6 @@ const confirmLoading = ref(false);
 const openEditModal = async () => {
   fetchCarouselData();
   visible.value = true;
-
-  console.log(deleteItem.value);
-  console.log(deleteArray.value);
-  console.log(itemsEdit.value);
 };
 
 const openDeleteModal = (index, item) => {
@@ -131,27 +127,10 @@ const openDeleteModal = (index, item) => {
   } else {
     itemsEdit.value.splice(index, 1);
   }
-
-  console.log(deleteItem.value);
-  console.log(deleteArray.value);
-  console.log(itemsEdit.value);
-};
-
-const handleCancel = (value) => {
-  deleteArray.value.filter((item) => item.id !== deleteItem.value);
-  visibleDelete.value = value;
-
-  console.log(deleteItem.value);
-  console.log(deleteArray.value);
-  console.log(itemsEdit.value);
 };
 
 const handleDelete = () => {
   confirmLoading.value = true;
-
-  console.log(deleteItem.value);
-  console.log(deleteArray.value);
-  console.log(itemsEdit.value);
 
   if (deleteItem.value) {
     itemsEdit.value = itemsEdit.value.filter(
@@ -164,8 +143,17 @@ const handleDelete = () => {
   visibleDelete.value = false;
 };
 
+const handleCancel = (value) => {
+  // Cancel delete modal
+  deleteArray.value.filter((item) => item.id !== deleteItem.value);
+  visibleDelete.value = value;
+};
+
 const onDialogUpdate = (value) => {
+  // Cancel whole modal
   visible.value = value;
+  deleteItem.value = null;
+  deleteArray.value = [];
 };
 
 const moveItemUp = (index) => {
@@ -208,10 +196,6 @@ const upload = async (id, name) => {
 };
 
 const onSubmit = async () => {
-  console.log(deleteItem.value);
-  console.log(deleteArray.value);
-  console.log(itemsEdit.value);
-
   loading.value = true;
 
   try {
@@ -284,18 +268,6 @@ const openEditTourModal = () => {
   fetchTourData();
   visibleTour.value = true;
   deleteTourItem.value = [];
-
-  console.log(deleteTourIndex.value);
-  console.log(deleteTourItem.value);
-  console.log(selectedToursEdit.value);
-};
-
-const handleTourCancel = (value) => {
-  visibleTourDelete.value = value;
-
-  console.log(deleteTourIndex.value);
-  console.log(deleteTourItem.value);
-  console.log(selectedToursEdit.value);
 };
 
 const handleTourDelete = (index, item) => {
@@ -309,28 +281,26 @@ const handleTourDelete = (index, item) => {
   } else {
     selectedToursEdit.value.splice(index, 1);
   }
-  console.log(deleteTourIndex.value);
-  console.log(deleteTourItem.value);
-  console.log(selectedToursEdit.value);
 };
 
 const confirmTourAction = async () => {
   confirmTourLoading.value = true;
-
-  console.log(deleteTourIndex.value);
-  console.log(deleteTourItem.value);
-  console.log(selectedToursEdit.value);
 
   if (deleteTourItem.value.length > 0) {
     selectedToursEdit.value.splice(deleteTourIndex.value, 1);
   }
 
   visibleTourDelete.value = false;
-
   confirmTourLoading.value = false;
 };
 
+const handleTourCancel = (value) => {
+  //Cancel delete modal
+  visibleTourDelete.value = value;
+};
+
 const onTourDialogUpdate = (value) => {
+  //Cancel whole modal
   visibleTour.value = value;
 };
 
@@ -363,10 +333,6 @@ const handleDrop = (e, newIndex) => {
 };
 
 const onTourSubmit = async () => {
-  console.log(deleteTourIndex.value);
-  console.log(deleteTourItem.value);
-  console.log(selectedToursEdit.value);
-
   tourLoading.value = true;
 
   if (deleteTourItem.value.length > 0) {
