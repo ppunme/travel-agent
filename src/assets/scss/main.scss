@@ -323,7 +323,7 @@ body,
 }
 
 .ellipsis {
-  @apply w-[300px] overflow-hidden whitespace-nowrap overflow-ellipsis;
+  @apply w-full overflow-hidden whitespace-nowrap overflow-ellipsis;
 }
 
 .hamburger-bar {

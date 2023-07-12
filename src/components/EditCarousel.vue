@@ -1,23 +1,82 @@
 <template>
   <div class="flex justify-end pt-2">
-    <FileUpload
+    <!-- <FileUpload
       chooseLabel="เพิ่มรูป"
       name="image[]"
       mode="basic"
       accept="image/*"
       @select="onSelectedFiles" />
+  </div> -->
+
+    <FileUpload
+      mode="basic"
+      name="demo[]"
+      accept="image/*"
+      :auto="true"
+      chooseLabel="เพิ่มรูป"
+      @select="onSelectedFiles" />
   </div>
 
   <div class="bg-neutral-100 rounded-lg p-2 mt-2 min-h-[220px]">
-    <img
-      id="myimg"
-      class="w-48" />
     <div
       v-for="(item, idx) in items"
       :key="item.id"
       :class="['file-item', { 'mb-2': idx !== items.length - 1 }]">
-      <div class="flex flex-col md:flex-row gap-2 lg:gap-6">
-        <div class="md:basis-1/5">
+      <div class="grid grid-cols-10 sm:grid-rows-3 md:grid-rows-1 gap-4">
+        <div
+          class="col-span-10 sm:col-span-5 sm:row-span-3 md:col-span-2 md:row-span-1">
+          <div class="img-container md:w-full">
+            <img
+              v-if="item.id"
+              :id="item.name"
+              :alt="item.name" />
+            <img
+              v-if="!item.id"
+              :src="item.img"
+              :alt="item.name" />
+          </div>
+        </div>
+        <div
+          class="col-span-5 sm:col-span-5 sm:row-span-2 md:col-span-6 md:row-span-1">
+          <div class="flex xl:items-center h-full">
+            <span class="ellipsis">{{ item.name }}</span>
+          </div>
+        </div>
+        <div
+          class="col-span-5 sm:col-span-5 sm:row-span-1 md:col-span-2 md:row-span-1">
+          <div class="flex justify-end items-center h-full">
+            <button
+              type="button"
+              class="hover:opacity-90 pr-2"
+              @click="moveItemUp(idx)">
+              <font-awesome-icon
+                :icon="['fas', 'chevron-circle-up']"
+                size="xl"
+                class="text-primary-blue" />
+            </button>
+            <button
+              type="button"
+              class="hover:opacity-90 pr-6"
+              @click="moveItemDown(idx)">
+              <font-awesome-icon
+                :icon="['fas', 'chevron-circle-down']"
+                size="xl"
+                class="text-primary-blue" />
+            </button>
+            <button
+              type="button"
+              class="btn-delete"
+              @click="onDelete(idx, item)">
+              <font-awesome-icon
+                :icon="['fas', 'xmark']"
+                size="lg"
+                class="text-red-500" />
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="flex flex-col md:flex-row gap-2 lg:gap-6">
+        <div class="md:w-1/5">
           <div class="img-container w-1/2 md:w-full">
             <img
               v-if="item.id"
@@ -25,14 +84,14 @@
               :alt="item.name" />
             <img
               v-if="!item.id"
-              :src="item.objectURL || item.img"
+              :src="item.img"
               :alt="item.name" />
           </div>
         </div>
-        <div class="md:basis-3/5 flex items-center">
+        <div class="md:w-3/5 flex items-center">
           <span class="ellipsis">{{ item.name }}</span>
         </div>
-        <div class="md:basis-1/5 flex items-center justify-end">
+        <div class="md:w-1/5 flex items-center justify-end">
           <button
             type="button"
             class="hover:opacity-90 pr-2"
@@ -61,13 +120,14 @@
               class="text-red-500" />
           </button>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
   <!-- <ConfirmDialog /> -->
 </template>
 
 <script setup>
+/* eslint-disable */ 
 import { onMounted } from "vue";
 import {
   isValidImageFileType,
