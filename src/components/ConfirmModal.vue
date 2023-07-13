@@ -44,7 +44,7 @@
           label="ยืนยัน"
           rounded
           class="!w-28 !bg-primary-blue !border-primary-blue"
-          :loading="loading"
+          :loading="confirmLoading"
           @click="onSave" />
       </div>
     </template>
@@ -56,18 +56,16 @@ import { ref, watch } from "vue";
 import Button from "primevue/button";
 import Dialog from "primevue/dialog";
 
-const props = defineProps(["visible", "header"]);
+const props = defineProps(["visible", "header", "confirmLoading"]);
 const emit = defineEmits(["handleCancel", "confirmAction"]);
 
 const visibleValue = ref(props.visible);
-const loading = ref(false);
+// const loading = ref(false);
 
 const onSave = () => {
-  loading.value = true;
-  setTimeout(() => {
-    loading.value = false;
-    emit("confirmAction");
-  }, 600);
+  // loading.value = true;
+  // loading.value = false;
+  emit("confirmAction");
 };
 
 const onCancel = () => {
