@@ -203,10 +203,6 @@ const loadData = async () => {
 
   countries.value = filerOptions;
   loading.value = false;
-
-  nextTick(() => {
-    document.dispatchEvent(new Event("render-complete"));
-  });
 };
 
 pageview({
@@ -266,6 +262,10 @@ useHead({
 });
 
 onMounted(() => {
+  nextTick(() => {
+    document.dispatchEvent(new Event("render-complete"));
+  });
+
   loadData();
 });
 </script>

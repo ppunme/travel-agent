@@ -23,7 +23,7 @@ module.exports = defineConfig({
   chainWebpack: async (config) => {
     config.plugin("prerender").use(PrerendererWebpackPlugin, [
       {
-        routes: ["/", "/contact"],
+        routes: ["/", "/tours", "/contact"],
         renderer: "@prerenderer/renderer-puppeteer",
         rendererOptions: {
           renderAfterDocumentEvent: "render-complete",

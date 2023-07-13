@@ -13,6 +13,7 @@ const { gconfig } = await import("./utils/VueGtag");
 const { primeVueServices } = await import("./utils/PrimeVue");
 const { FontAwesomeIcon } = await import("@fortawesome/vue-fontawesome");
 
+import "default-passive-events";
 import "./assets/scss/main.scss";
 import "primevue/resources/themes/lara-light-blue/theme.css";
 import "primevue/resources/primevue.min.css";

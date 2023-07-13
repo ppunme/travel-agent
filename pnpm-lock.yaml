@@ -35,6 +35,9 @@ dependencies:
   core-js:
     specifier: ^3.30.1
     version: 3.30.1
+  default-passive-events:
+    specifier: ^2.0.0
+    version: 2.0.0
   eslint:
     specifier: ^7.32.0
     version: 7.32.0
@@ -4342,6 +4345,10 @@ packages:
     dependencies:
       execa: 5.1.1
     dev: true
+
+  /default-passive-events@2.0.0:
+    resolution: {integrity: sha512-eMtt76GpDVngZQ3ocgvRcNCklUMwID1PaNbCNxfpDXuiOXttSh0HzBbda1HU9SIUsDc02vb7g9+3I5tlqe/qMQ==}
+    dev: false
 
   /defaults@1.0.4:
     resolution: {integrity: sha512-eFuaLoy/Rxalv2kr+lqMlUnrDWV+3j4pljOIJgLIhI058IQfWJ7vXhyEIHu+HtC738klGALYxOKDO0bQP3tg8A==}
@@ -8753,6 +8760,7 @@ packages:
   /vm2@3.9.19:
     resolution: {integrity: sha512-J637XF0DHDMV57R6JyVsTak7nIL8gy5KH4r1HiwWLf/4GBbb5MKL5y7LpmF4A8E2nR6XmzpmMFQ7V7ppPTmUQg==}
     engines: {node: '>=6.0'}
+    deprecated: The library contains critical security issues and should not be used for production! The maintenance of the project has been discontinued. Consider migrating your code to isolated-vm.
     hasBin: true
     dependencies:
       acorn: 8.8.2

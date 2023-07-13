@@ -102,10 +102,10 @@ const iconSize = computed(() => {
   }
 });
 
-// Carousel
 const items = ref([]);
-const itemsEdit = ref([]);
 
+// Carousel
+const itemsEdit = ref([]);
 const visible = ref(false);
 const visibleDelete = ref(false);
 const deleteItem = ref(null);
@@ -498,11 +498,12 @@ useHead({
   ],
 });
 
-onMounted(async () => {
-  await fetchCarouselData();
-  await fetchTourData();
+onMounted(() => {
   nextTick(() => {
     document.dispatchEvent(new Event("render-complete"));
   });
+
+  fetchCarouselData();
+  fetchTourData();
 });
 </script>
